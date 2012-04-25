@@ -1,0 +1,16 @@
+INCLUDES=-I../../.. -I. -I../../ -I../../linux -I../../../guilib -I.
+SRCS=	AddonUtils.cpp Player.cpp ListItem.cpp Exception.cpp \
+	AddonClass.cpp LanguageHook.cpp PlayList.cpp InfoTagVideo.cpp String.cpp \
+	InfoTagMusic.cpp Keyboard.cpp AddonCallback.cpp ModuleXbmc.cpp ModuleXbmcgui.cpp \
+	ModuleXbmcvfs.cpp \
+	CallbackHandler.cpp CallbackFunction.cpp \
+	Window.cpp WindowDialog.cpp WindowXML.cpp \
+	Dialog.cpp Control.cpp ModuleXbmcplugin.cpp Addon.cpp
+
+LIB=native.a
+
+CXXFLAGS+= -DSWIGRUNTIME_DEBUG -DSTATIC_LINKED
+
+include ../../../Makefile.include
+-include $(patsubst %.cpp,%.P,$(patsubst %.c,%.P,$(SRCS)))
+
