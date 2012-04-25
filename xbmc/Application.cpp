@@ -62,7 +62,11 @@
 #include "guilib/GUITextLayout.h"
 #include "addons/Skin.h"
 #ifdef HAS_PYTHON
+#ifdef USE_SWIGADDON
+#include "interfaces/swig/python/XBPython.h"
+#else
 #include "interfaces/python/XBPython.h"
+#endif
 #endif
 #include "input/ButtonTranslator.h"
 #include "guilib/GUIAudioManager.h"

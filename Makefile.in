@@ -50,8 +50,6 @@ DIRECTORY_ARCHIVES=$(DVDPLAYER_ARCHIVES) \
                    xbmc/interfaces/info/info.a \
                    xbmc/interfaces/interfaces.a \
                    xbmc/interfaces/json-rpc/json-rpc.a \
-                   xbmc/interfaces/python/python.a \
-                   xbmc/interfaces/python/xbmcmodule/xbmcmodule.a \
                    xbmc/linux/linux.a \
                    xbmc/music/dialogs/musicdialogs.a \
                    xbmc/music/infoscanner/musicscanner.a \
@@ -88,6 +86,13 @@ NWAOBJSXBMC=	xbmc/commons/commons.a \
 
 ifeq (@USE_WEB_SERVER@,1)
 DIRECTORY_ARCHIVES += xbmc/network/httprequesthandler/httprequesthandlers.a
+endif
+ifeq (@USE_SWIGADDON@,1)
+DIRECTORY_ARCHIVES += xbmc/interfaces/native/native.a
+DIRECTORY_ARCHIVES += xbmc/interfaces/swig/swig.a
+else
+DIRECTORY_ARCHIVES += xbmc/interfaces/python/xbmcmodule/xbmcmodule.a
+DIRECTORY_ARCHIVES += xbmc/interfaces/python/python.a
 endif
 
 ifeq (@USE_OPENGL@,1)

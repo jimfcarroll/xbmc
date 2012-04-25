@@ -492,6 +492,12 @@ AC_ARG_ENABLE([external-ffmpeg],
   [use_external_ffmpeg=$enableval],
   [use_external_ffmpeg=$use_external_libraries])
 
+AC_ARG_ENABLE([swigaddons],
+  [AS_HELP_STRING([--enable-swigaddons],
+  [enable use of swig based addons (default is no)])],
+  [use_swigaddons=$enableval],
+  [use_swigaddons=no])
+
 ### End of external library options
 
 if test "x$host_vendor" != "xapple"; then
@@ -1487,6 +1493,33 @@ else
   AC_DEFINE([PIX_FMT_VDPAU_MPEG4_IN_AVUTIL], [1], [Whether AVUtil defines PIX_FMT_VDPAU_MPEG4.])
 fi
 
+# Python
+if test -z "$PYTHON_NOVERSIONCHECK"; then
+  AX_PYTHON_DEVEL([>= 2.4])
+  PYTHON_VERSION=$ac_python_version
+fi
+
+if test -z "$PYTHON_VERSION"; then
+  AC_MSG_ERROR([Can't find a Python version.])
+else
+  AC_MSG_NOTICE([Using Python $PYTHON_VERSION])
+fi
+
+# SWIG
+if test "$use_swigaddons" = "yes"; then
+  echo "Using SWIG"
+  AC_PATH_PROG(SWIG_EXE, swig, "none")
+  if test "$SWIG_EXE" = "none"; then
+    AC_MSG_ERROR($missing_program)
+  fi
+  final_message="$final_message\n  SWIG Addons:\tYes"
+  USE_SWIGADDON=1
+  AC_DEFINE([USE_SWIGADDON], [1], [Whether to use SWIG based addons.])
+else
+  USE_SWIGADDON=0
+  final_message="$final_message\n  SWIG Addons:\tNo"
+fi
+
 # VDPAU
 if test "x$use_vdpau" != "xno"; then
   if test "$host_vendor" = "apple" ; then
@@ -2146,8 +2179,6 @@ OUTPUT_FILES="Makefile \
     lib/libid3tag/Makefile \
     lib/cximage-6.0/Makefile \
     lib/addons/script.module.pil/Makefile \
-    xbmc/interfaces/python/Makefile \
-    xbmc/interfaces/python/xbmcmodule/Makefile \
     lib/libUPnP/Makefile \
     xbmc/DllPaths_generated.h \
     xbmc/DllPaths_generated_android.h \
@@ -2174,6 +2205,16 @@ if test "$use_skin_touched" = "yes"; then
 OUTPUT_FILES="$OUTPUT_FILES addons/skin.touched/media/Makefile"
 fi
 
+if test "$use_swigaddons" = "yes"; then
+  OUTPUT_FILES="$OUTPUT_FILES \
+    xbmc/interfaces/swig/Makefile \
+    xbmc/interfaces/native/Makefile"
+else
+  OUTPUT_FILES="$OUTPUT_FILES \
+    xbmc/interfaces/python/Makefile \
+    xbmc/interfaces/python/xbmcmodule/Makefile"
+fi
+
 # Line below is used so we can use AM_INIT_AUTOMAKE. The corresponding
 # .dummy.am does nothing.
 AC_CONFIG_FILES([.dummy])
@@ -2192,6 +2233,7 @@ AC_SUBST(DISABLE_RSXS)
 AC_SUBST(DISABLE_PROJECTM)
 AC_SUBST(USE_SKIN_TOUCHED)
 AC_SUBST(USE_EXTERNAL_FFMPEG)
+AC_SUBST(USE_SWIGADDON)
 AC_SUBST(PYTHON_VERSION)
 AC_SUBST(OUTPUT_FILES)
 AC_SUBST(HAVE_XBMC_NONFREE)

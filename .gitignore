@@ -7,6 +7,7 @@ testMain
 # Eclipse
 *.project
 *.cproject
+.classpath
 
 # generated files etc
 config.cache
@@ -28,6 +29,7 @@ config.log
 *.orig
 *.bak
 *.apk
+*.class
 
 # Windows specific generated files
 *.exp
@@ -1093,32 +1095,17 @@ lib/cmyth/Makefile
 
 # /xbmc/interfaces/
 /xbmc/interfaces/Makefile
+/xbmc/interfaces/native/Makefile
 /xbmc/interfaces/python/Makefile
 /xbmc/interfaces/python/xbmcmodule/Makefile
 /xbmc/interfaces/python/linux/Makefile
 /xbmc/interfaces/python/linux/wrapper_python.def
+/xbmc/interfaces/python/module/generatedSWIGBindings/
+/xbmc/interfaces/swig/Makefile
+/xbmc/interfaces/swig/generatedSWIGBindings
 
 # /xbmc/network/
 /xbmc/network/Makefile
-
-/lib/python/Makefile
-/lib/python/Include/pyconfig.h
-/lib/python/Makefile.pre
-/lib/python/Modules/Setup
-/lib/python/Modules/Setup.config
-/lib/python/Modules/Setup.local
-/lib/python/Modules/config.c
-/lib/python/Parser/pgen
-/lib/python/Parser/pgen.exe
-/lib/python/PC/pythonnt_rc.h
-/lib/python/build/
-/lib/python/buildno
-/lib/python/pyconfig.h
-/lib/python/pyconfig.hbak
-/lib/python/python
-/lib/python/python.exe
-/lib/python/Mac/Python/
-/lib/python/PC/pythonnt_rc_d.h
 
 # /lib/libRTV/
 /lib/libRTV/Makefile

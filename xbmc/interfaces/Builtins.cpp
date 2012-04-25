@@ -75,7 +75,11 @@
 #endif
 
 #ifdef HAS_PYTHON
+#ifdef USE_SWIGADDON
+#include "interfaces/swig/python/XBPython.h"
+#else
 #include "interfaces/python/XBPython.h"
+#endif
 #endif
 
 #if defined(TARGET_DARWIN)

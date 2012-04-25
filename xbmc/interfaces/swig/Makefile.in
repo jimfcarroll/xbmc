@@ -1,0 +1,51 @@
+INCLUDES=-I../../.. -I. -I../../ -I../../linux -I../../../guilib -I.
+SRCS=	python/CallbackHandler.cpp python/LanguageHook.cpp \
+	python/XBPyThread.cpp python/XBPython.cpp python/swig.cpp \
+	generatedSWIGBindings/AddonModuleXbmc.cpp \
+	generatedSWIGBindings/AddonModuleXbmcgui.cpp \
+	generatedSWIGBindings/AddonModuleXbmcplugin.cpp \
+	generatedSWIGBindings/AddonModuleXbmcaddon.cpp \
+	generatedSWIGBindings/AddonModuleXbmcvfs.cpp
+
+SWIG_INC += -I@abs_top_srcdir@/xbmc/interfaces
+INCLUDES += @PYTHON_CPPFLAGS@ $(SWIG_INC)
+
+CLEAN_FILES=generatedSWIGBindings generator/*.class generator/bindings/*.class
+
+LIB=swig.a
+
+GENERATORDEP=generatedSWIGBindings 
+
+CXXFLAGS+= -DSWIGRUNTIME_DEBUG -DSTATIC_LINKED
+
+include ../../../Makefile.include
+-include $(patsubst %.cpp,%.P,$(patsubst %.c,%.P,$(SRCS)))
+
+generatedSWIGBindings:	AddonModuleXbmc.i AddonModuleXbmcgui.i AddonModuleXbmcplugin.i AddonModuleXbmcaddon.i
+	rm -rf generatedSWIGBindings
+	mkdir generatedSWIGBindings
+
+generatedSWIGBindings/AddonModuleXbmc.cpp: $(GENERATORDEP) AddonModuleXbmc.i
+#	swig -c++ -outdir generatedSWIGBindings -o generatedSWIGBindings/AddonModuleXbmc_wrap.cpp -python -keyword $(SWIG_INC) AddonModuleXbmc.i
+	swig -w401 -c++ -outdir generatedSWIGBindings -o generatedSWIGBindings/AddonModuleXbmc.xml -xml $(SWIG_INC) -xmllang python AddonModuleXbmc.i
+	java -cp "../../../lib/groovy/groovy-all-1.8.4.jar:../../../lib/groovy/commons-lang-2.6.jar:./generator" groovy.ui.GroovyMain generator/Generator.groovy generatedSWIGBindings/AddonModuleXbmc.xml generator/bindings/PythonSwig.cpp.template generatedSWIGBindings/AddonModuleXbmc.cpp
+
+generatedSWIGBindings/AddonModuleXbmcgui.cpp: $(GENERATORDEP) AddonModuleXbmcgui.i
+#	swig -c++ -outdir generatedSWIGBindings -o generatedSWIGBindings/AddonModuleXbmcgui_wrap.cpp -python -keyword $(SWIG_INC) AddonModuleXbmcgui.i
+	swig -w401 -c++ -outdir generatedSWIGBindings -o generatedSWIGBindings/AddonModuleXbmcgui.xml -xml $(SWIG_INC) -xmllang python AddonModuleXbmcgui.i
+	java -cp "../../../lib/groovy/groovy-all-1.8.4.jar:../../../lib/groovy/commons-lang-2.6.jar:./generator" groovy.ui.GroovyMain generator/Generator.groovy generatedSWIGBindings/AddonModuleXbmcgui.xml generator/bindings/PythonSwig.cpp.template generatedSWIGBindings/AddonModuleXbmcgui.cpp
+
+generatedSWIGBindings/AddonModuleXbmcplugin.cpp: $(GENERATORDEP) AddonModuleXbmcplugin.i
+#	swig -c++ -outdir generatedSWIGBindings -o generatedSWIGBindings/AddonModuleXbmcplugin_wrap.cpp -python -keyword $(SWIG_INC) AddonModuleXbmcplugin.i
+	swig -w401 -c++ -outdir generatedSWIGBindings -o generatedSWIGBindings/AddonModuleXbmcplugin.xml -xml $(SWIG_INC) -xmllang python AddonModuleXbmcplugin.i
+	java -cp "../../../lib/groovy/groovy-all-1.8.4.jar:../../../lib/groovy/commons-lang-2.6.jar:./generator" groovy.ui.GroovyMain generator/Generator.groovy generatedSWIGBindings/AddonModuleXbmcplugin.xml generator/bindings/PythonSwig.cpp.template generatedSWIGBindings/AddonModuleXbmcplugin.cpp
+
+generatedSWIGBindings/AddonModuleXbmcaddon.cpp: $(GENERATORDEP) AddonModuleXbmcaddon.i
+#	swig -c++ -outdir generatedSWIGBindings -o generatedSWIGBindings/AddonModuleXbmcaddon_wrap.cpp -python -keyword $(SWIG_INC) AddonModuleXbmcaddon.i
+	swig -w401 -c++ -outdir generatedSWIGBindings -o generatedSWIGBindings/AddonModuleXbmcaddon.xml -xml $(SWIG_INC) -xmllang python AddonModuleXbmcaddon.i
+	java -cp "../../../lib/groovy/groovy-all-1.8.4.jar:../../../lib/groovy/commons-lang-2.6.jar:./generator" groovy.ui.GroovyMain generator/Generator.groovy generatedSWIGBindings/AddonModuleXbmcaddon.xml generator/bindings/PythonSwig.cpp.template generatedSWIGBindings/AddonModuleXbmcaddon.cpp
+
+generatedSWIGBindings/AddonModuleXbmcvfs.cpp: $(GENERATORDEP) AddonModuleXbmcvfs.i
+#	swig -c++ -outdir generatedSWIGBindings -o generatedSWIGBindings/AddonModuleXbmcvfs_wrap.cpp -python -keyword $(SWIG_INC) AddonModuleXbmcvfs.i
+	swig -w401 -c++ -outdir generatedSWIGBindings -o generatedSWIGBindings/AddonModuleXbmcvfs.xml -xml $(SWIG_INC) -xmllang python AddonModuleXbmcvfs.i
+	java -cp "../../../lib/groovy/groovy-all-1.8.4.jar:../../../lib/groovy/commons-lang-2.6.jar:./generator" groovy.ui.GroovyMain generator/Generator.groovy generatedSWIGBindings/AddonModuleXbmcvfs.xml generator/bindings/PythonSwig.cpp.template generatedSWIGBindings/AddonModuleXbmcvfs.cpp
