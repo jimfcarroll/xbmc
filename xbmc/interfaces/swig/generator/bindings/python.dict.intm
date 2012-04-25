@@ -1,0 +1,13 @@
+
+    {
+      PyObject *pykey, *pyvalue;
+      Py_ssize_t pos = 0;
+      while(PyDict_Next(${pyarg}, &pos, &pykey, &pyvalue))
+      {
+        CStdString key;
+        CStdString value;
+        PyXBMCGetUnicodeString(key,pykey,false,"${api}","${method.@name}");
+        PyXBMCGetUnicodeString(value,pykey,true,"${api}","${method.@name}");
+        ${api}[key] = value;
+      }
+    }

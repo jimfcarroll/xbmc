@@ -28,7 +28,11 @@
 #include "addons/AddonInstaller.h"
 #include "addons/IAddon.h"
 #ifdef HAS_PYTHON
+#ifdef USE_SWIGADDON
+#include "interfaces/swig/python/XBPython.h"
+#else
 #include "interfaces/python/XBPython.h"
+#endif
 #endif
 #include "threads/SingleLock.h"
 #include "guilib/GUIWindowManager.h"
