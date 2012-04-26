@@ -43,7 +43,7 @@ namespace XBMCAddon
 
   /**
    * This class is the superclass for all reference counted classes in the api.
-   * It provides a means for the binginds to handle all api objects generically.
+   * It provides a means for the bindings to handle all api objects generically.
    *
    * It also provides some means for debugging "lifecycle" events (see the above
    *  description of LOG_LIFECYCLE_EVENTS).
@@ -84,7 +84,7 @@ namespace XBMCAddon
 
     /**
      * This method should be called while holding a Synchronize
-     *  on the object. It will prevent the deallocation durring
+     *  on the object. It will prevent the deallocation during
      *  the time it's held.
      */
     bool isDeallocating() { TRACE; return m_isDeallocating; }
@@ -132,13 +132,13 @@ namespace XBMCAddon
        * operator= should work with either another smart pointer or a pointer since it will
        * be able to convert a pointer to a smart pointer using one of the above constuctors.
        *
-       * Note: There is a trick here. The temporary varialbe is necessary because otherwise the
+       * Note: There is a trick here. The temporary variable is necessary because otherwise the
        * following code will fail:
        *
        * Ref<T> ptr = new T;
        * ptr = ptr;
        *
-       * What happens without the tmp is the derefernce is called first so the object ends up
+       * What happens without the tmp is the dereference is called first so the object ends up
        * deleted and then the reference happens on a deleted object. The order is reversed
        * in the following.
        *
@@ -177,7 +177,7 @@ namespace XBMCAddon
      *
      * Keep in mind that this DOES NOT use 'monitor' semantics, but 
      *  uses MUTEX semantics. That means that using this class, a thread
-     *  can deadlock itself, while in java a synchronize keyword wont.
+     *  can deadlock itself, while in java a synchronize keyword won't.
      */
     class Synchronize : public CSingleLock
     {

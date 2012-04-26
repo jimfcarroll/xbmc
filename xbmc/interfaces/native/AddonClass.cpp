@@ -55,7 +55,7 @@ namespace XBMCAddon
       languageHook->Acquire();
 
       // here we assume the language hook was set for the single instantiation of
-      //  this AddonClass (actually - it's subclass - but whatever). So we
+      //  this AddonClass (actually - its subclass - but whatever). So we
       //  will now reset the Tls. This avoids issues if the constructor of the
       //  subclass throws an exception.
       LanguageHook::clearLanguageHook();

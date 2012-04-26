@@ -109,7 +109,7 @@ namespace XBMCAddon
 #define DECL_UNIMP2(classname,otherexception) throw(UnimplementedException,otherexception) { throw UnimplementedException(classname, __FUNCTION__); }
 
 /**
- * The DECLARE_EXCEPTION macro will create a specific Excpetion
+ * The DECLARE_EXCEPTION macro will create a specific Exception
  *   type that can be used in the API and incorporates the appropriate
  *   SWIG handling for when that exception is thrown.
  *

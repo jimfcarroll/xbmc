@@ -28,8 +28,8 @@
  * This is to provide finer grain control over which methods are callbackable 
  *  (is that a word? ...)
  *  into the scripting language, and which ones are not. True polymorphic
- *  behavior accross the scripting language boundary will ONLY occurr where
- *  they keyword 'virtual' is used. In other words, you can use the macro
+ *  behavior across the scripting language boundary will ONLY occur where
+ *  the keyword 'virtual' is used. In other words, you can use the macro
  *  SWIGHIDDENVIRTUAL to 'hide' the polymorphic behavior from the scripting
  *  language using the macro instead.
  *
