@@ -58,6 +58,8 @@
 
 #include "cores/VideoRenderers/RenderCapture.h"
 
+#include "threads/SystemClock.h"
+
 namespace XBMCAddon
 {
 
@@ -252,22 +254,14 @@ namespace XBMCAddon
     {
       TRACE;
 
-      // TODO:
-      // This is a sloppy way to do this. Ideally we'd figure out
-      //  what micro/nanosecond we're supposed to end the sleep on
-      //  and loop until that time was reached. What we're doing 
-      //  below makes the really bad assumption that the code
-      //  executed between mini-sleeps takes no time at all to
-      //  execute.
-      long totalSleep = 0;
-      while (totalSleep < timemillis)
+      XbmcThreads::EndTime endTime(timemillis);
+      while (!endTime.IsTimePast())
       {
         DelayedCallGuard dcguard;
-        long nextSleep = timemillis - totalSleep;
+        long nextSleep = endTime.MillisLeft();
         if (nextSleep > 100)
           nextSleep = 100; // only sleep for 100 millis
         ::Sleep(nextSleep);
-        totalSleep += nextSleep;
       }
     }
 
