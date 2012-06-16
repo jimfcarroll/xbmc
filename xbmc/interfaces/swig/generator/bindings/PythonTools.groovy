@@ -12,7 +12,7 @@ public class PythonTools
    private static Map ltypeToFormatChar = [
       'p.char':"s", bool:"b",
       int:"i", 'unsigned int' : 'I',
-      long:"i", 'unsigned long' : 'k',
+      long:"l", 'unsigned long' : 'k',
       'double':"d", 'float':"f"
    ]
 

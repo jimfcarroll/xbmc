@@ -141,6 +141,13 @@ namespace XBMCAddon
       if (languageHook) languageHook->delayedCallClose();
     }
   };
+
+  class SetLanguageHookGuard
+  {
+  public:
+    inline SetLanguageHookGuard(LanguageHook* languageHook) { LanguageHook::setLanguageHook(languageHook); }
+    inline ~SetLanguageHookGuard() { LanguageHook::clearLanguageHook(); }
+  };
   
 }
 
