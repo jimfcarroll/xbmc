@@ -120,10 +120,10 @@ void doMethod(method, MethodType methodType)
 <%
     // now do the method call itself
     if (!destructor) {
-    if (constructor) {  %>      XBMCAddon::LanguageHook::setLanguageHook(XBMCAddon::Python::LanguageHook::getInstance());<% println() }
+    if (constructor || !clazz) {  %>      XBMCAddon::SetLanguageHookGuard slhg(XBMCAddon::Python::LanguageHook::getInstance());<% println() }
 %>      <%
     if (returns != "void") { %>apiResult = <% }
-    if (clazz && !constructor && !destructor) {
+    if (clazz && !constructor) {
 %>((${clazz}*)retrieveApiInstance((PyObject*)self,&Py${classNameAsVariable}_Type,"${Helper.callingName(method)}","${clazz}"))-> <%
     }
     if (constructor && classnode.@feature_director) { 

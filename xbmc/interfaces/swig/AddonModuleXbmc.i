@@ -38,6 +38,7 @@ using namespace xbmc;
 
 %include "native/ModuleXbmc.h"
 
+%feature("director") Player;
 %feature("ref") Player "${ths}->Acquire();"
 %feature("unref") Player "${ths}->Release();"
 
