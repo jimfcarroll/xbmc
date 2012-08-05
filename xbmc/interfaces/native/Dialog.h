@@ -26,8 +26,7 @@
 #include "WindowException.h"
 #include "AddonClass.h"
 #include "String.h"
-#include "Application.h"
-
+#include "ApplicationMessenger.h"
 #include "dialogs/GUIDialogProgress.h"
 
 namespace XBMCAddon

@@ -75,7 +75,7 @@ namespace XBMCAddon
 
       virtual void registerPlayerCallback(IPlayerCallback* player);
       virtual void unregisterPlayerCallback(IPlayerCallback* player);
-      virtual void waitForEvent(CEvent& hEvent, unsigned int timeout);
+      virtual void waitForEvent(CEvent& hEvent);
 
       static LanguageHook* getInstance();
     };

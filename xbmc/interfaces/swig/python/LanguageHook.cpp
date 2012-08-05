@@ -168,7 +168,7 @@ namespace XBMCAddon
 
     void LanguageHook::registerPlayerCallback(IPlayerCallback* player) { g_pythonParser.RegisterPythonPlayerCallBack(player); }
     void LanguageHook::unregisterPlayerCallback(IPlayerCallback* player) { g_pythonParser.UnregisterPythonPlayerCallBack(player); }
-    void LanguageHook::waitForEvent(CEvent& hEvent, unsigned int timeout) { g_pythonParser.WaitForEvent(hEvent,timeout); }
+    void LanguageHook::waitForEvent(CEvent& hEvent) { g_pythonParser.WaitForEvent(hEvent); }
 
 //    void LanguageHook::constructing(AddonClass* beingConstructed)
 //    {

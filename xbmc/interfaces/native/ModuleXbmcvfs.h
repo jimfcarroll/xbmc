@@ -85,6 +85,17 @@ namespace XBMCAddon
     bool mkdir(const String& path);
 
     /**
+     * mkdirs(path) -- Create folder(s) - it will create all folders in the path.
+     * 
+     * path        : folder
+     * 
+     * example:
+     *  - success = xbmcvfs.mkdirs(path)
+     */
+    // make all directories along the path
+    bool mkdirs(const String& path);
+
+    /**
      * rmdir(path) -- Remove a folder.
      * 
      * path        : folder
@@ -92,7 +103,18 @@ namespace XBMCAddon
      * example:
      *  - success = xbmcvfs.rmdir(path)\n
      */
-    bool rmdir(const String& path);
+    bool rmdir(const String& path, bool force = false);
+
+    // TODO: make this work.
+    /**
+     * listdir(path) -- lists content of a folder.
+     * 
+     * path        : folder
+     * 
+     * example:
+     *  - dirs, files = xbmcvfs.listdir(path)
+     */
+    // two, values listdir(const String& path);
   }
 }
 

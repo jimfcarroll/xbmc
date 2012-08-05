@@ -20,8 +20,11 @@
  */
 
 #include "ModuleXbmcvfs.h"
+#include "LanguageHook.h"
 #include "filesystem/File.h"
 #include "filesystem/Directory.h"
+#include "utils/FileUtils.h"
+#include "Util.h"
 
 namespace XBMCAddon
 {
@@ -39,6 +42,7 @@ namespace XBMCAddon
      */
     bool copy(const String& strSource, const String& strDestnation)
     {
+      DelayedCallGuard dg;
       return XFILE::CFile::Cache(strSource, strDestnation);
     }
 
@@ -53,6 +57,7 @@ namespace XBMCAddon
     // delete a file
     bool deleteFile(const String& strSource)
     {
+      DelayedCallGuard dg;
       return XFILE::CFile::Delete(strSource);
     }
 
@@ -68,6 +73,7 @@ namespace XBMCAddon
     // rename a file
     bool rename(const String& file, const String& newFile)
     {
+      DelayedCallGuard dg;
       return XFILE::CFile::Rename(file,newFile);
     }  
 
@@ -82,6 +88,7 @@ namespace XBMCAddon
     // check for a file or folder existance, mimics Pythons os.path.exists()
     bool exists(const String& path)
     {
+      DelayedCallGuard dg;
       return XFILE::CFile::Exists(path, false);
     }      
 
@@ -96,8 +103,24 @@ namespace XBMCAddon
     // make a directory
     bool mkdir(const String& path)
     {
+      DelayedCallGuard dg;
       return XFILE::CDirectory::Create(path);
     }      
+
+    /**
+     * mkdirs(path) -- Create folder(s) - it will create all folders in the path.
+     * 
+     * path        : folder
+     * 
+     * example:
+     *  - success = xbmcvfs.mkdirs(path)
+     */
+    // make all directories along the path
+    bool mkdirs(const String& path)
+    {
+      DelayedCallGuard dg;
+      return CUtil::CreateDirectoryEx(path);
+    }
 
     /**
      * rmdir(path) -- Remove a folder.
@@ -107,9 +130,64 @@ namespace XBMCAddon
      * example:
      *  - success = xbmcvfs.rmdir(path)\n
      */
-    bool rmdir(const String& path)
+    bool rmdir(const String& path, bool force)
     {
-      return XFILE::CDirectory::Remove(path);
+      DelayedCallGuard dg;
+      return CFileUtils::DeleteItem(path,force);
     }      
+
+    // TODO: make this work.
+    /**
+     * listdir(path) -- lists content of a folder.
+     * 
+     * path        : folder
+     * 
+     * example:
+     *  - dirs, files = xbmcvfs.listdir(path)
+     */
+    // lists content of a folder
+//    PyObject* vfs_listdir(File *self, PyObject *args, PyObject *kwds)
+//    {
+//      PyObject *f_line;
+//      if (!PyArg_ParseTuple(
+//                            args,
+//                            (char*)"O",
+//                            &f_line))
+//      {
+//        return NULL;
+//      }
+//      CStdString strSource;
+//      CFileItemList items;
+//      if (!PyXBMCGetUnicodeString(strSource, f_line, 1))
+//        return NULL;
+//
+//      CPyThreadState pyState;
+//      CDirectory::GetDirectory(strSource, items);
+//      pyState.Restore();
+//
+//      PyObject *fileList = PyList_New(0);
+//      PyObject *folderList = PyList_New(0);
+//      for (int i=0; i < items.Size(); i++)
+//      {
+//        CStdString itemPath = items[i]->GetPath();
+//        PyObject *obj;
+//        if (URIUtils::HasSlashAtEnd(itemPath)) // folder
+//        {
+//          URIUtils::RemoveSlashAtEnd(itemPath);
+//          CStdString strFileName = URIUtils::GetFileName(itemPath);
+//          obj = Py_BuildValue((char*)"s", strFileName.c_str());
+//          PyList_Append(folderList, obj);
+//        }
+//        else // file
+//        {
+//          CStdString strFileName = URIUtils::GetFileName(itemPath);
+//          obj = Py_BuildValue((char*)"s", strFileName.c_str());
+//          PyList_Append(fileList, obj);
+//        }
+//        Py_DECREF(obj); //we have to do this as PyList_Append is known to leak
+//      }
+//      return Py_BuildValue((char*)"O,O", folderList, fileList);
+//    }
+
   }
 }

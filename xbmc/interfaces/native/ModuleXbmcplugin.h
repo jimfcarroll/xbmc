@@ -19,6 +19,8 @@
  *
  */
 
+#include "Tuple.h"
+
 #include "String.h"
 #include "ListItem.h"
 
@@ -64,8 +66,9 @@ namespace XBMCAddon
      * example:
      *   - if not xbmcplugin.addDirectoryItems(int(sys.argv[1]), [(url, listitem, False,)]: raise
      */
-    //TODO: addDirectoryItems - no can do right now. Will need a hack like AddonPlayer.play
-    //   probably via a %extend/%pythoncode
+    bool addDirectoryItems(int handle, 
+                           const std::vector<Tuple3<String,const XBMCAddon::xbmcgui::ListItem*,bool> >& items, 
+                           int totalItems = 0);
 
     /**
      * endOfDirectory(handle[, succeeded, updateListing, cacheToDisc]) -- Callback function to tell XBMC that the end of the directory listing in a virtualPythonFolder module is reached.

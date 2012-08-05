@@ -38,6 +38,10 @@
 #include "GUIInfoManager.h"
 #include "guilib/GUIWindowManager.h"
 #include "guilib/GUIEditControl.h"
+#include "guilib/GUIControlFactory.h"
+
+#include "utils/XBMCTinyXML.h"
+#include "utils/StringUtils.h"
 
 namespace XBMCAddon
 {
@@ -929,6 +933,20 @@ namespace XBMCAddon
       throw WindowException("Object is a Control, but can't be added to a window");
     }
 
+    /**
+     * getPosition() -- Returns the control's current position as a x,y integer tuple.
+     * 
+     * example:
+     *   - pos = self.button.getPosition()
+     */
+    std::vector<int> Control::getPosition()
+    {
+      std::vector<int> ret(2);
+      ret[0] = dwPosX;
+      ret[1] = dwPosY;
+      return ret;
+    }
+
     // setEnabled() Method
     /**
      * setEnabled(enabled) -- Set's the control's enabled/disabled state.
@@ -1007,21 +1025,49 @@ namespace XBMCAddon
     }
 
 
-    // setAnimations() Method
-    /**
-     * setAnimations([(event, attr,)*]) -- Set's the control's animations.
-     * 
-     * [(event,attr,)*] : list - A list of tuples consisting of event and attributes pairs.
-     *   - event        : string - The event to animate.
-     *   - attr         : string - The whole attribute string separated by spaces.
-     * 
-     * Animating your skin - http://wiki.xbmc.org/?title=Animating_Your_Skin 
-     * 
-     * example:
-     *   - self.button.setAnimations([('focus', 'effect=zoom end=90,247,220,56 time=0',)])\n
-     */
-// TODO: Figure this one out!
-//    virtual void setAnimations(const char* event, const char* attr);
+    void Control::setAnimations(const std::vector< std::vector<String> >& eventAttr) throw (WindowException)
+    {
+      CXBMCTinyXML xmlDoc;
+      TiXmlElement xmlRootElement("control");
+      TiXmlNode *pRoot = xmlDoc.InsertEndChild(xmlRootElement);
+      if (!pRoot)
+        throw WindowException("TiXmlNode creation error");
+
+      std::vector<CAnimation> animations;
+
+      for (unsigned int anim = 0; anim < eventAttr.size(); anim++)
+      {
+        const std::vector<String>& pTuple = eventAttr[anim];
+
+        if (pTuple.size() != 2)
+          throw WindowException("Error unpacking tuple found in list");
+
+        const String& cAttr = pTuple[0];
+        const String& cEvent = pTuple[1];
+
+        TiXmlElement pNode("animation");
+        CStdStringArray attrs;
+        StringUtils::SplitString(cAttr.c_str(), " ", attrs);
+        for (unsigned int i = 0; i < attrs.size(); i++)
+        {
+          CStdStringArray attrs2;
+          StringUtils::SplitString(attrs[i], "=", attrs2);
+          if (attrs2.size() == 2)
+            pNode.SetAttribute(attrs2[0], attrs2[1]);
+        }
+        TiXmlText value(cEvent.c_str());
+        pNode.InsertEndChild(value);
+        pRoot->InsertEndChild(pNode);
+      }
+
+      const CRect animRect((float)dwPosX, (float)dwPosY, (float)dwPosX + dwWidth, (float)dwPosY + dwHeight);
+      LOCKGUI;
+      if (pGUIControl)
+      {
+        CGUIControlFactory::GetAnimations(pRoot, animRect, iParentId, animations);
+        pGUIControl->SetAnimations(animations);
+      }
+    }
 
     // setPosition() Method
     /**

@@ -70,8 +70,26 @@ namespace XBMCAddon
      * example:
      *   - if not xbmcplugin.addDirectoryItems(int(sys.argv[1]), [(url, listitem, False,)]: raise
      */
-    //TODO: addDirectoryItems - no can do right now. Will need a hack like AddonPlayer.play
-    //   probably via a %extend/%pythoncode
+    bool addDirectoryItems(int handle, 
+                           const std::vector<Tuple3<String,const XBMCAddon::xbmcgui::ListItem*,bool> >& items, 
+                           int totalItems)
+    {
+      CFileItemList fitems;
+      for (std::vector<Tuple3<String,const XBMCAddon::xbmcgui::ListItem*,bool> >::const_iterator item = items.begin();
+           item < items.end(); item++ )
+      {
+        const Tuple3<String,const XBMCAddon::xbmcgui::ListItem*,bool>* pItem = &(*item);
+        const String& url = pItem->first();
+        const XBMCAddon::xbmcgui::ListItem *pListItem = pItem->second();
+        bool bIsFolder = pItem->GetNumValuesSet() > 2 ? pItem->third() : false;
+        pListItem->item->SetPath(url);
+        pListItem->item->m_bIsFolder = bIsFolder;
+        fitems.Add(pListItem->item);
+      }
+
+      // call the directory class to add our items
+      return XFILE::CPluginDirectory::AddItems(handle, &fitems, totalItems);
+    }
 
     /**
      * endOfDirectory(handle[, succeeded, updateListing, cacheToDisc]) -- Callback function to tell XBMC that the end of the directory listing in a virtualPythonFolder module is reached.

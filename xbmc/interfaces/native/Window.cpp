@@ -28,6 +28,7 @@
 #include "guilib/GUIWindowManager.h"
 #include "settings/Settings.h"
 #include "Application.h"
+#include "ApplicationMessenger.h"
 #include "utils/Variant.h"
 
 #define ACTIVE_WINDOW g_windowManager.GetActiveWindow()
@@ -352,7 +353,7 @@ namespace XBMCAddon
       TRACE;
       DelayedCallGuard dcguard(languageHook);
       if (languageHook)
-        languageHook->waitForEvent(m_actionEvent, (unsigned int)-1);
+        languageHook->waitForEvent(m_actionEvent);
       m_actionEvent.Reset();
     }
 
@@ -482,7 +483,7 @@ namespace XBMCAddon
       popActiveWindowId();
 
       std::vector<CStdString> params;
-      g_application.getApplicationMessenger().ActivateWindow(iWindowId, params, false);
+      CApplicationMessenger::Get().ActivateWindow(iWindowId, params, false);
     }
 
     /**
@@ -578,7 +579,7 @@ namespace XBMCAddon
 
       CGUIMessage msg(GUI_MSG_REMOVE_CONTROL, 0, 0);
       msg.SetPointer(pControl->pGUIControl);
-      g_application.getApplicationMessenger().SendGUIMessage(msg, iWindowId, true);
+      CApplicationMessenger::Get().SendGUIMessage(msg, iWindowId, true);
 
       // initialize control to zero
       pControl->pGUIControl = NULL;
@@ -763,7 +764,7 @@ namespace XBMCAddon
       PulseActionEvent();
 
       std::vector<CStdString> params;
-      g_application.getApplicationMessenger().ActivateWindow(iOldWindowId, params, false);
+      CApplicationMessenger::Get().ActivateWindow(iOldWindowId, params, false);
 
       iOldWindowId = 0;
     }
@@ -779,12 +780,20 @@ namespace XBMCAddon
         bModal = true;
 
         if(iWindowId != ACTIVE_WINDOW) 
-        {
           show();
-        }
 
         while (bModal && !g_application.m_bStop)
         {
+// TODO: garbear added this code to the pythin window.cpp class and
+//  commented in XBPyThread.cpp. I'm not sure how to handle this 
+//  in this native implementation.
+//          // Check if XBPyThread::stop() raised a SystemExit exception
+//          if (PyThreadState_Get()->async_exc == PyExc_SystemExit)
+//          {
+//            CLog::Log(LOGDEBUG, "PYTHON: doModal() encountered a SystemExit exception, closing window and returning");
+//            Window_Close(self, NULL);
+//            break;
+//          }
           WaitForActionEvent();
         }
       }
@@ -845,7 +854,7 @@ namespace XBMCAddon
       // This calls the CGUIWindow parent class to do the final add
       CGUIMessage msg(GUI_MSG_ADD_CONTROL, 0, 0);
       msg.SetPointer(pControl->pGUIControl);
-      g_application.getApplicationMessenger().SendGUIMessage(msg, iWindowId, true);
+      CApplicationMessenger::Get().SendGUIMessage(msg, iWindowId, true);
     }
 
     /**

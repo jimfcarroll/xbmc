@@ -23,7 +23,7 @@
 
 #include "guilib/GUIWindow.h"
 #include "guilib/GUIWindowManager.h"
-#include "Application.h"
+#include "ApplicationMessenger.h"
 
 #define HACK_CUSTOM_ACTION_CLOSING -3
 #define HACK_CUSTOM_ACTION_OPENING -4
@@ -80,7 +80,7 @@ namespace XBMCAddon
 //      //   Window was a Python dialog:
 //      //ThreadMessage tMsg = {TMSG_GUI_PYTHON_DIALOG, 1, 1};
 //      //tMsg.lpVoid = self->pWindow;
-//      //g_application.getApplicationMessenger().SendMessage(tMsg, true);
+//      //CApplicationMessenger::Get().SendMessage(tMsg, true);
 //      //
 //      // however, the 2nd parameter to SendMessage is true, so the call
 //      //  went straight to ProcessMessage in the ApplicationMessenger
@@ -108,12 +108,12 @@ namespace XBMCAddon
 //      // Now we try this
 //      ThreadMessage tMsg = {TMSG_GUI_SHOW, 0, 0};
 //      tMsg.lpVoid = new DialogJumper(this,ref(window)->GetID() + 1,false);
-//      g_application.getApplicationMessenger().SendMessage(tMsg, true);
+//      CApplicationMessenger::Get().SendMessage(tMsg, true);
 
 // Instead of the above we are going to create a custom action and 
       ThreadMessage tMsg = {TMSG_GUI_PYTHON_DIALOG, HACK_CUSTOM_ACTION_OPENING, 0};
       tMsg.lpVoid = window->get();
-      g_application.getApplicationMessenger().SendMessage(tMsg, true);
+      CApplicationMessenger::Get().SendMessage(tMsg, true);
     }
 
     // TODO: Move this into a Mixin since it's the same code as in WindowDialog
@@ -135,12 +135,12 @@ namespace XBMCAddon
 
 //      ThreadMessage tMsg = {TMSG_GUI_DIALOG_CLOSE, 1, 0};
 //      tMsg.lpVoid = new DialogJumper(this,ref(window)->GetID() + 1,true);
-//      g_application.getApplicationMessenger().SendMessage(tMsg, true);
+//      CApplicationMessenger::Get().SendMessage(tMsg, true);
 
 // Instead of the above we are going to create a custom action and 
       ThreadMessage tMsg = {TMSG_GUI_PYTHON_DIALOG, HACK_CUSTOM_ACTION_CLOSING, 0};
       tMsg.lpVoid = window->get();
-      g_application.getApplicationMessenger().SendMessage(tMsg, true);
+      CApplicationMessenger::Get().SendMessage(tMsg, true);
 
     }
 

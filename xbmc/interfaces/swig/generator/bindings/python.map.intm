@@ -1,7 +1,7 @@
 <%
     matcher = ltype =~ /std::map<\((.*),(.*)\)>/
     keytype = matcher[0][1]
-    valtype = matcher[0][1]
+    valtype = matcher[0][2]
 %>
 
     {

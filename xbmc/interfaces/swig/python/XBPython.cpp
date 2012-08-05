@@ -454,15 +454,15 @@ void XBPython::Finalize()
     Py_Finalize();
     PyEval_ReleaseLock();
 
-#if !(defined(__APPLE__) || defined(_WIN32))
+#if !(defined(TARGET_DARWIN) || defined(_WIN32))
     UnloadExtensionLibs();
 #endif
 
     // first free all dlls loaded by python, after that python24.dll (this is done by UnloadPythonDlls
-#if !(defined(__APPLE__) || defined(_WIN32))
+#if !(defined(TARGET_DARWIN) || defined(_WIN32))
     DllLoaderContainer::UnloadPythonDlls();
 #endif
-#if defined(_LINUX) && !defined(__APPLE__)
+#if defined(_LINUX) && !defined(__APPLE__) && !defined(__FreeBSD__)
     // we can't release it on windows, as this is done in UnloadPythonDlls() for win32 (see above).
     // The implementation for linux needs looking at - UnloadPythonDlls() currently only searches for "python24.dll"
     // The implementation for osx can never unload the python dylib.
@@ -713,11 +713,11 @@ void XBPython::PulseGlobalEvent()
   m_globalEvent.Set();
 }
 
-void XBPython::WaitForEvent(CEvent& hEvent, unsigned int timeout)
+void XBPython::WaitForEvent(CEvent& hEvent)
 {
   // wait for either this event our our global event
   XbmcThreads::CEventGroup eventGroup(&hEvent, &m_globalEvent, NULL);
-  eventGroup.wait(timeout);
+  eventGroup.wait();
   m_globalEvent.Reset();
 }
 

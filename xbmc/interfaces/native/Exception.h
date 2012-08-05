@@ -24,8 +24,6 @@
 #include "AddonUtils.h"
 #include "swighelper.h"
 
-#include "XSyncUtils.h"
-
 #include "utils/log.h"
 #include "utils/StdString.h"
 

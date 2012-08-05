@@ -20,7 +20,7 @@ namespace XBMCAddon
     static void XBMCWaitForThreadMessage(int message, int param1, int param2)
     {
       ThreadMessage tMsg = {message, param1, param2};
-      g_application.getApplicationMessenger().SendMessage(tMsg, true);
+      CApplicationMessenger::Get().SendMessage(tMsg, true);
     }
 
     Dialog::~Dialog() {}

@@ -15,9 +15,10 @@
 
       <%  if (ispointer) print("${api} = new std::vector<${swigTypeParser.SwigType_str(vectype)}>();") %>
       PyObject *pyentry${seq} = NULL;
-      for(int i = 0; i < (isTuple ? PyTuple_Size(${pyarg}) : PyList_Size(${pyarg})); i++)
+      int vecSize = (isTuple ? PyTuple_Size(${pyarg}) : PyList_Size(${pyarg}));
+      for(int i = 0; i < vecSize; i++)
       {
-        pyentry${seq} = (isTuple ? PyTuple_GetItem(${pyarg}, i) : (isTuple ? PyTuple_GetItem(${pyarg}, i) : PyList_GetItem(${pyarg}, i)));
+        pyentry${seq} = (isTuple ? PyTuple_GetItem(${pyarg}, i) : PyList_GetItem(${pyarg}, i));
         ${swigTypeParser.SwigType_str(swigTypeParser.SwigType_ltype(vectype))} entry${seq};
         ${helper.getInConversion(vectype, 'entry' + seq, method,
                                  [ 'type' : vectype,

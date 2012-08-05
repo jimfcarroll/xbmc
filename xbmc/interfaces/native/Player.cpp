@@ -25,6 +25,7 @@
 #include "PlayListPlayer.h"
 #include "settings/Settings.h"
 #include "Application.h"
+#include "ApplicationMessenger.h"
 #include "GUIInfoManager.h"
 #include "AddonUtils.h"
 #include "utils/LangCodeExpander.h"
@@ -94,12 +95,12 @@ namespace XBMCAddon
           {
             // set m_strPath to the passed url
             listitem->item->SetPath(item.c_str());
-            g_application.getApplicationMessenger().PlayFile((const CFileItem)(*(listitem->item)), false);
+            CApplicationMessenger::Get().PlayFile((const CFileItem)(*(listitem->item)), false);
           }
           else
           {
             CFileItem nextitem(item, false);
-            g_application.getApplicationMessenger().MediaPlay(nextitem.GetPath());
+            CApplicationMessenger::Get().MediaPlay(nextitem.GetPath());
           }
         }
       else
@@ -126,7 +127,7 @@ namespace XBMCAddon
       // play current file in playlist
       if (g_playlistPlayer.GetCurrentPlaylist() != iPlayList)
         g_playlistPlayer.SetCurrentPlaylist(iPlayList);
-      g_application.getApplicationMessenger().PlayListPlayerPlay(g_playlistPlayer.GetCurrentSong());
+      CApplicationMessenger::Get().PlayListPlayerPlay(g_playlistPlayer.GetCurrentSong());
     }
 
     /**
@@ -157,7 +158,7 @@ namespace XBMCAddon
           // play a python playlist (a playlist from playlistplayer.cpp)
           iPlayList = playlist->getPlayListId();
           g_playlistPlayer.SetCurrentPlaylist(iPlayList);
-          g_application.getApplicationMessenger().PlayListPlayerPlay();
+          CApplicationMessenger::Get().PlayListPlayerPlay();
         }
       else
         playCurrent(windowed);
@@ -170,7 +171,7 @@ namespace XBMCAddon
     void Player::stop()
     {
       TRACE;
-      g_application.getApplicationMessenger().MediaStop();
+      CApplicationMessenger::Get().MediaStop();
     }
 
     // Player_Pause
@@ -180,7 +181,7 @@ namespace XBMCAddon
     void Player::pause()
     {
       TRACE;
-      g_application.getApplicationMessenger().MediaPause();
+      CApplicationMessenger::Get().MediaPause();
     }
 
     // Player_PlayNext
@@ -193,7 +194,7 @@ namespace XBMCAddon
       // force a playercore before playing
       g_application.m_eForcedNextPlayer = playerCore;
 
-      g_application.getApplicationMessenger().PlayListPlayerNext();
+      CApplicationMessenger::Get().PlayListPlayerNext();
     }
 
     // Player_PlayPrevious
@@ -206,7 +207,7 @@ namespace XBMCAddon
       // force a playercore before playing
       g_application.m_eForcedNextPlayer = playerCore;
 
-      g_application.getApplicationMessenger().PlayListPlayerPrevious();
+      CApplicationMessenger::Get().PlayListPlayerPrevious();
     }
 
     // Player_PlaySelected
@@ -227,7 +228,7 @@ namespace XBMCAddon
         }
       g_playlistPlayer.SetCurrentSong(selected);
 
-      g_application.getApplicationMessenger().PlayListPlayerPlay(selected);
+      CApplicationMessenger::Get().PlayListPlayerPlay(selected);
       //g_playlistPlayer.Play(selected);
       //CLog::Log(LOGNOTICE, "Current Song After Play: %i", g_playlistPlayer.GetCurrentSong());
     }

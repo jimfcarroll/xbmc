@@ -1095,7 +1095,6 @@ lib/cmyth/Makefile
 
 # /xbmc/interfaces/
 /xbmc/interfaces/Makefile
-/xbmc/interfaces/native/Makefile
 /xbmc/interfaces/python/Makefile
 /xbmc/interfaces/python/xbmcmodule/Makefile
 /xbmc/interfaces/python/linux/Makefile
