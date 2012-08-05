@@ -182,8 +182,10 @@ namespace XBMCAddon
        *     credits       : string (Andy Kaufman) - writing credits
        *     lastplayed    : string (%Y-%m-%d %h:%m:%s = 2009-04-05 23:16:04)
        *     album         : string (The Joshua Tree)
+       *     artist        : list (['U2'])
        *     votes         : string (12345 votes)
        *     trailer       : string (/home/user/trailer.avi)
+       *     dateadded     : string (%Y-%m-%d %h:%m:%s = 2009-04-05 23:16:04)
        * 
        * Music Values:
        *     tracknumber   : integer (8)

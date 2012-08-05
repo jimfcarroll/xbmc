@@ -28,6 +28,7 @@
 #include "ModuleXbmc.h"
 
 #include "Application.h"
+#include "ApplicationMessenger.h"
 #ifdef HAS_HTTPAPI
 #include "interfaces/http-api/XBMChttp.h"
 #include "interfaces/http-api/HttpApi.h"
@@ -49,6 +50,7 @@
 #include "settings/Settings.h"
 #include "guilib/TextureManager.h"
 #include "Util.h"
+#include "URL.h"
 #include "utils/FileUtils.h"
 
 #include "CallbackHandler.h"
@@ -106,7 +108,7 @@ namespace XBMCAddon
     {
       TRACE;
       ThreadMessage tMsg = {TMSG_SHUTDOWN};
-      g_application.getApplicationMessenger().SendMessage(tMsg);
+      CApplicationMessenger::Get().SendMessage(tMsg);
     }
 
 
@@ -120,7 +122,7 @@ namespace XBMCAddon
     {
       TRACE;
       ThreadMessage tMsg = {TMSG_RESTART};
-      g_application.getApplicationMessenger().SendMessage(tMsg);
+      CApplicationMessenger::Get().SendMessage(tMsg);
     }
 
     /**
@@ -140,7 +142,7 @@ namespace XBMCAddon
 
       ThreadMessage tMsg = {TMSG_EXECUTE_SCRIPT};
       tMsg.strParam = script;
-      g_application.getApplicationMessenger().SendMessage(tMsg);
+      CApplicationMessenger::Get().SendMessage(tMsg);
     }
 
     /**
@@ -158,7 +160,7 @@ namespace XBMCAddon
       TRACE;
       if (! function)
         return;
-      g_application.getApplicationMessenger().ExecBuiltIn(function,wait);
+      CApplicationMessenger::Get().ExecBuiltIn(function,wait);
     }
 
 #ifdef HAS_HTTPAPI
@@ -750,27 +752,34 @@ namespace XBMCAddon
       return g_TextureManager.HasTexture(image);
     }
 
+
     /**
-     * subHashAndFileSize(file) -- Calculate subtitle hash and size.
-     *
-     *file        : file to calculate subtitle hash and size for
-     *
-     *example:
-     * - size,hash = xbmcvfs.subHashAndFileSize(file)
+     * startServer(typ, bStart, bWait) -- start or stop a server.
+     * 
+     * typ          : integer - use SERVER_* constants
+     * 
+     * bStart       : bool - start (True) or stop (False) a server
+     * 
+     * bWait        : [opt] bool - wait on stop before returning (not supported by all servers)
+     * 
+     * returnValue  : bool - True or False
+     * example:
+     *   - xbmc.startServer(xbmc.SERVER_AIRPLAYSERVER, False)
      */
-    std::vector<String>* subHashAndFileSize(const String& strSource)
+    bool startServer(int iTyp, bool bStart, bool bWait)
     {
-      CStdString strSize;
-      CStdString strHash;
-
-      CFileUtils::SubtitleFileSizeAndHash(strSource, strSize, strHash);
-
-      std::vector<String>* ret = new std::vector<String>;
-      ret->push_back(strSize);
-      ret->push_back(strHash);
-      return ret;
+      TRACE;
+      DelayedCallGuard dg;
+      return g_application.StartServer((CApplication::ESERVERS)iTyp, bStart != 0, bWait != 0);
     }
 
+    int getSERVER_WEBSERVER() { return CApplication::ES_WEBSERVER; }
+    int getSERVER_AIRPLAYSERVER() { return CApplication::ES_AIRPLAYSERVER; }
+    int getSERVER_UPNPSERVER() { return CApplication::ES_UPNPSERVER; }
+    int getSERVER_UPNPRENDERER() { return CApplication::ES_UPNPRENDERER; }
+    int getSERVER_EVENTSERVER() { return CApplication::ES_EVENTSERVER; }
+    int getSERVER_JSONRPCSERVER() { return CApplication::ES_JSONRPCSERVER; }
+    int getSERVER_ZEROCONF() { return CApplication::ES_ZEROCONF; }
 
     int getPLAYLIST_MUSIC() { return PLAYLIST_MUSIC; }
     int getPLAYLIST_VIDEO() { return PLAYLIST_VIDEO; }

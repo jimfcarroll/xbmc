@@ -26,7 +26,7 @@
 #include "settings/GUISettings.h"
 #include "addons/Skin.h"
 #include "filesystem/File.h"
-#include "Application.h"
+#include "ApplicationMessenger.h"
 #include "utils/URIUtils.h"
 #include "addons/Addon.h"
 
@@ -489,7 +489,7 @@ namespace XBMCAddon
       }
       delete[] buffer;
 
-      TiXmlDocument xmlDoc;
+      CXBMCTinyXML xmlDoc;
       xmlDoc.Parse(xml.c_str());
 
       if (xmlDoc.Error())
@@ -503,18 +503,12 @@ namespace XBMCAddon
       TRACE;
       // Path where the language strings reside
       CStdString pathToLanguageFile = m_scriptPath;
-      CStdString pathToFallbackLanguageFile = m_scriptPath;
       URIUtils::AddFileToFolder(pathToLanguageFile, "resources", pathToLanguageFile);
-      URIUtils::AddFileToFolder(pathToFallbackLanguageFile, "resources", pathToFallbackLanguageFile);
       URIUtils::AddFileToFolder(pathToLanguageFile, "language", pathToLanguageFile);
-      URIUtils::AddFileToFolder(pathToFallbackLanguageFile, "language", pathToFallbackLanguageFile);
-      URIUtils::AddFileToFolder(pathToLanguageFile, g_guiSettings.GetString("locale.language"), pathToLanguageFile);
-      URIUtils::AddFileToFolder(pathToFallbackLanguageFile, "english", pathToFallbackLanguageFile);
-      URIUtils::AddFileToFolder(pathToLanguageFile, "strings.xml", pathToLanguageFile);
-      URIUtils::AddFileToFolder(pathToFallbackLanguageFile, "strings.xml", pathToFallbackLanguageFile);
+      URIUtils::AddSlashAtEnd(pathToLanguageFile);
 
       // allocate a bunch of strings
-      return g_localizeStrings.LoadBlock(m_scriptPath, pathToLanguageFile, pathToFallbackLanguageFile);
+      return g_localizeStrings.LoadBlock(m_scriptPath, pathToLanguageFile, g_guiSettings.GetString("locale.language"));
     }
 
     void WindowXML::ClearScriptStrings()
@@ -576,7 +570,7 @@ namespace XBMCAddon
 ////   Let's see if I can just put the "Show_Internal" code here.
 ////      ThreadMessage tMsg = {TMSG_GUI_PYTHON_DIALOG, 1, show ? 1 : 0};
 ////      tMsg.lpVoid = this;
-////      g_application.getApplicationMessenger().SendMessage(tMsg, true);
+////      CApplicationMessenger::Get().SendMessage(tMsg, true);
 ////-----------------------------------------------------
 //// 'Show_Internal' code from CGUIPythonWindowXMLDialog
 ////-----------------------------------------------------
@@ -701,7 +695,7 @@ namespace XBMCAddon
 //      //   Window was a Python dialog:
 //      //ThreadMessage tMsg = {TMSG_GUI_PYTHON_DIALOG, 1, 1};
 //      //tMsg.lpVoid = self->pWindow;
-//      //g_application.getApplicationMessenger().SendMessage(tMsg, true);
+//      //CApplicationMessenger::Get().SendMessage(tMsg, true);
 //      //
 //      // however, the 2nd parameter to SendMessage is true, so the call
 //      //  went straight to ProcessMessage in the ApplicationMessenger
@@ -729,12 +723,12 @@ namespace XBMCAddon
 //      // Now we try this
 //      ThreadMessage tMsg = {TMSG_GUI_SHOW, 0, 0};
 //      tMsg.lpVoid = new DialogJumper(this,ref(window)->GetID() + 1,false);
-//      g_application.getApplicationMessenger().SendMessage(tMsg, true);
+//      CApplicationMessenger::Get().SendMessage(tMsg, true);
 
 // Instead of the above we are going to create a custom action and 
       ThreadMessage tMsg = {TMSG_GUI_PYTHON_DIALOG, HACK_CUSTOM_ACTION_OPENING, 0};
       tMsg.lpVoid = window->get();
-      g_application.getApplicationMessenger().SendMessage(tMsg, true);
+      CApplicationMessenger::Get().SendMessage(tMsg, true);
     }
 
     // TODO: Move this into a Mixin since it's the same code as in WindowDialog
@@ -756,12 +750,12 @@ namespace XBMCAddon
 
 //      ThreadMessage tMsg = {TMSG_GUI_DIALOG_CLOSE, 1, 0};
 //      tMsg.lpVoid = new DialogJumper(this,ref(window)->GetID() + 1,true);
-//      g_application.getApplicationMessenger().SendMessage(tMsg, true);
+//      CApplicationMessenger::Get().SendMessage(tMsg, true);
 
 // Instead of the above we are going to create a custom action and 
       ThreadMessage tMsg = {TMSG_GUI_PYTHON_DIALOG, HACK_CUSTOM_ACTION_CLOSING, 0};
       tMsg.lpVoid = window->get();
-      g_application.getApplicationMessenger().SendMessage(tMsg, true);
+      CApplicationMessenger::Get().SendMessage(tMsg, true);
 
     }
 

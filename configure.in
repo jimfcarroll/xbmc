@@ -2207,8 +2207,7 @@ fi
 
 if test "$use_swigaddons" = "yes"; then
   OUTPUT_FILES="$OUTPUT_FILES \
-    xbmc/interfaces/swig/Makefile \
-    xbmc/interfaces/native/Makefile"
+    xbmc/interfaces/swig/Makefile"
 else
   OUTPUT_FILES="$OUTPUT_FILES \
     xbmc/interfaces/python/Makefile \

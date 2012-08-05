@@ -22,7 +22,7 @@
 
 #include "AddonUtils.h"
 #include "guilib/GraphicContext.h"
-#include "tinyXML/tinyxml.h"
+#include "utils/XBMCTinyXML.h"
 #include "addons/Skin.h"
 #include "utils/log.h"
 #include "threads/ThreadLocal.h"

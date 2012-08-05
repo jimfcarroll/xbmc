@@ -87,16 +87,15 @@ namespace XBMCAddon
     String getRegion(const char* id);
     String getSupportedMedia(const char* mediaType);
     bool skinHasImage(const char* image);
+    bool startServer(int iTyp, bool bStart, bool bWait = false);
 
-    /**
-     *subHashAndFileSize(file)
-     *
-     *file        : file to calculate subtitle hash and size for
-     *
-     *example:
-     * size,hash = xbmcvfs.subHashAndFileSize(file)
-     */
-    std::vector<String>* subHashAndFileSize(const String& file);
+    SWIG_CONSTANT_FROM_GETTER(int,SERVER_WEBSERVER);
+    SWIG_CONSTANT_FROM_GETTER(int,SERVER_AIRPLAYSERVER);
+    SWIG_CONSTANT_FROM_GETTER(int,SERVER_UPNPSERVER);
+    SWIG_CONSTANT_FROM_GETTER(int,SERVER_UPNPRENDERER);
+    SWIG_CONSTANT_FROM_GETTER(int,SERVER_EVENTSERVER);
+    SWIG_CONSTANT_FROM_GETTER(int,SERVER_JSONRPCSERVER);
+    SWIG_CONSTANT_FROM_GETTER(int,SERVER_ZEROCONF);
 
     SWIG_CONSTANT_FROM_GETTER(int,PLAYLIST_MUSIC);
     SWIG_CONSTANT_FROM_GETTER(int,PLAYLIST_VIDEO);

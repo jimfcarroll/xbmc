@@ -174,9 +174,9 @@ namespace XBMCAddon
       else if (lowerKey.CompareNoCase("specialsort") == 0)
       {
         if (value == "bottom")
-          item->SetSpecialSort(SORT_ON_BOTTOM);
+          item->SetSpecialSort(SortSpecialOnBottom);
         else if (value == "top")
-          item->SetSpecialSort(SORT_ON_TOP);
+          item->SetSpecialSort(SortSpecialOnTop);
       }
       else
         item->SetProperty(lowerKey.ToLower(), value.c_str());
@@ -283,8 +283,10 @@ namespace XBMCAddon
      *     credits     : string (Andy Kaufman) - writing credits
      *     lastplayed  : string (%Y-%m-%d %h:%m:%s = 2009-04-05 23:16:04)
      *     album       : string (The Joshua Tree)
+     *     artist      : list (['U2'])
      *     votes       : string (12345 votes)
      *     trailer     : string (/home/user/trailer.avi)
+     *     dateadded   : string (%Y-%m-%d %h:%m:%s = 2009-04-05 23:16:04)
      * 
      * Music Values:
      *     tracknumber : integer (8)
@@ -342,30 +344,45 @@ namespace XBMCAddon
             if (overlay >= 0 && overlay <= 8)
               item->SetOverlayImage((CGUIListItem::GUIIconOverlay)overlay);
           }
-          //        else if (key == "cast") == 0 || strcmpi(PyString_AsString(key), "castandrole")
-          //        {
-          //          if (!PyObject_TypeCheck(value, &PyList_Type)) continue;
-          //          item->GetVideoInfoTag()->m_cast.clear();
-          //          for (int i = 0; i < PyList_Size(value); i++)
-          //          {
-          //            PyObject *pTuple = NULL;
-          //            pTuple = PyList_GetItem(value, i);
-          //            if (pTuple == NULL) continue;
-          //            PyObject *pActor = NULL;
-          //            PyObject *pRole = NULL;
-          //            if (PyObject_TypeCheck(pTuple, &PyTuple_Type))
-          //            {
-          //              if (!PyArg_ParseTuple(pTuple, (char*)"O|O", &pActor, &pRole)) continue;
-          //            }
-          //            else
-          //              pActor = pTuple;
-          //            SActorInfo info;
-          //            if (!PyXBMCGetUnicodeString(info.strName, pActor, 1)) continue;
-          //            if (pRole != NULL)
-          //              PyXBMCGetUnicodeString(info.strRole, pRole, 1);
-          //            item->GetVideoInfoTag()->m_cast.push_back(info);
-          //          }
-          //        }
+// TODO: This is a dynamic type for the value where a list is expected as the 
+//   Dictionary value.
+//          else if (key == "cast" || key == "castandrole")
+//          {
+//            if (!PyObject_TypeCheck(value, &PyList_Type)) continue;
+//            item->GetVideoInfoTag()->m_cast.clear();
+//            for (int i = 0; i < PyList_Size(value); i++)
+//            {
+//              PyObject *pTuple = NULL;
+//              pTuple = PyList_GetItem(value, i);
+//              if (pTuple == NULL) continue;
+//              PyObject *pActor = NULL;
+//              PyObject *pRole = NULL;
+//              if (PyObject_TypeCheck(pTuple, &PyTuple_Type))
+//              {
+//                if (!PyArg_ParseTuple(pTuple, (char*)"O|O", &pActor, &pRole)) continue;
+//              }
+//              else
+//                pActor = pTuple;
+//              SActorInfo info;
+//              if (!PyXBMCGetUnicodeString(info.strName, pActor, 1)) continue;
+//              if (pRole != NULL)
+//                PyXBMCGetUnicodeString(info.strRole, pRole, 1);
+//              item->GetVideoInfoTag()->m_cast.push_back(info);
+//            }
+//          }
+//          else if (strcmpi(PyString_AsString(key), "artist") == 0)
+//          {
+//            if (!PyObject_TypeCheck(value, &PyList_Type)) continue;
+//            self->item->GetVideoInfoTag()->m_artist.clear();
+//            for (int i = 0; i < PyList_Size(value); i++)
+//            {
+//              PyObject *pActor = PyList_GetItem(value, i);
+//              if (pActor == NULL) continue;
+//              CStdString actor;
+//              if (!PyXBMCGetUnicodeString(actor, pActor, 1)) continue;
+//              self->item->GetVideoInfoTag()->m_artist.push_back(actor);
+//            }
+//          }
           else if (key == "genre")
             item->GetVideoInfoTag()->m_genre = StringUtils::Split(value, g_advancedSettings.m_videoItemSeparator);
           else if (key == "director")
@@ -415,6 +432,8 @@ namespace XBMCAddon
             else
               CLog::Log(LOGERROR,"NEWADDON Invalid Date Format \"%s\"",value.c_str());
           }
+          else if (key == "dateadded")
+            item->GetVideoInfoTag()->m_dateAdded.SetFromDBDateTime(value.c_str());
         }
       }
       else if (strcmpi(type, "music"))

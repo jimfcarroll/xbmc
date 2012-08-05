@@ -152,8 +152,7 @@ namespace XBMCAddon
        * example:
        *   - pos = self.button.getPosition()
        */
-      // hack this because it returns a tuple
-      //      virtual tupleMyAss getPosition();
+      virtual std::vector<int> getPosition();
       virtual int getX() { return dwPosX; }
       virtual int getY() { return dwPosY; }
 
@@ -238,8 +237,7 @@ namespace XBMCAddon
        * example:
        *   - self.button.setAnimations([('focus', 'effect=zoom end=90,247,220,56 time=0',)])\n
        */
-// TODO: Figure this one out!
-//      virtual void setAnimations(const char* event, const char* attr);
+      virtual void setAnimations(const std::vector< std::vector<String> >& eventAttr) throw (WindowException);
 
       // setPosition() Method
       /**
@@ -957,14 +955,13 @@ namespace XBMCAddon
     /**
      * ControlImage class.
      * 
-     * ControlImage(x, y, width, height, filename[, colorKey, aspectRatio, colorDiffuse])
+     * ControlImage(x, y, width, height, filename[, aspectRatio, colorDiffuse])
      * 
      * x              : integer - x coordinate of control.
      * y              : integer - y coordinate of control.
      * width          : integer - width of control.
      * height         : integer - height of control.
      * filename       : string - image filename.
-     * colorKey       : [opt] hexString - (example, '0xFFFF3300')
      * aspectRatio    : [opt] integer - (values 0 = stretch (default), 1 = scale up (crops), 2 = scale down (black bar
      * colorDiffuse   : hexString - (example, '0xC0FF0000' (red tint))
      * 

@@ -1,5 +1,5 @@
 /*
- *      Copyright (C) 2005-2010 Team XBMC
+ *      Copyright (C) 2005-2011 Team XBMC
  *      http://www.xbmc.org
  *
  *  This Program is free software; you can redistribute it and/or modify
@@ -19,24 +19,34 @@
  *
  */
 
-%module xbmcvfs
+#include "File.h"
 
-%{
-#include "native/ModuleXbmcvfs.h"
-#include "native/File.h"
-#include "utils/log.h"
+namespace XBMCAddon
+{
 
-using namespace XBMCAddon;
-using namespace xbmcvfs;
+  namespace xbmcvfs
+  {
+//    void* File::read(unsigned long numBytes)
+//    {
+//      DelayedCallGuard dg;
+//      int64_t size = file->GetLength();
+//      int64_t readBytes = numBytes;
+//      if (!numBytes || readBytes > size)
+//        readBytes = size;
+//      char* buffer = new char[readBytes + 1];
+//      if (buffer)
+//      {
+//        int64_t bytesRead = file->Read(buffer, readBytes);
+//        buffer[std::min(bytesRead, readBytes)] = 0;
+//      }
+//      return buffer;
+//    }
 
-#if defined(__GNUG__) && (__GNUC__>4) || (__GNUC__==4 && __GNUC_MINOR__>=2)
-#pragma GCC diagnostic ignored "-Wstrict-aliasing"
-#endif
+    bool File::write(const char* pBuffer)
+    {
+      DelayedCallGuard dg;
+      return file->Write( (void*) pBuffer, strlen( pBuffer ) + 1 );
+    }
 
-%}
-
-%include "native/File.h"
-
-%rename ("delete") XBMCAddon::xbmcvfs::deleteFile;
-%include "native/ModuleXbmcvfs.h"
-
+  }
+}

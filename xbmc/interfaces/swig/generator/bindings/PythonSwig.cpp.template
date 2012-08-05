@@ -28,12 +28,14 @@ Helper.setup(classes,
       'long': '${result} = PyInt_FromLong(${api});',
       'unsigned long': '${result} = PyInt_FromLong(${api});',
       'bool': '${result} = Py_BuildValue((char*)"b", ${api});',
+      'long long': '${result} = Py_BuildValue((char*)"L", ${api});',
       'int': '${result} = Py_BuildValue((char*)"i", ${api});',
       'double': '${result} = PyFloat_FromDouble(${api});',
       'float': '${result} = Py_BuildValue((char*)"f", ${api});',
       'CStdString' : new File('generator/bindings/python.string.outtm'),
       'String' : new File('generator/bindings/python.string.outtm'),
       'p.q(const).char' : '${result} = PyString_FromString(${api});',
+//      'p.void' : '${result} = Py_BuildValue((char*)"s#",${api},readBytes);',
       (Pattern.compile('''(p.){0,1}std::vector<\\(.*\\)>''')) : new File('generator/bindings/python.vector.outtm')
     ], '${result} = makePythonInstance(${api},&Py${Helper.findFullClassName(classnode).replaceAll(\'::\',\'_\')}_Type,"${type}");',
     /**
@@ -48,11 +50,13 @@ Helper.setup(classes,
       'String' : 'if (${pyarg}) PyXBMCGetUnicodeString(${api},${pyarg},false,"${api}","${method.@name}");',
       'CStdString' : 'if (${pyarg}) PyXBMCGetUnicodeString(${api},${pyarg},false,"${api}","${method.@name}");',
       (Pattern.compile('''(p.){0,1}std::vector<\\(.*\\)>''')) : new File('generator/bindings/python.vector.intm'),
+      (Pattern.compile('''(p.){0,1}Tuple(3){0,1}<\\(.*\\)>''')) : new File('generator/bindings/python.Tuple.intm'),
       // I shouldn't need both of these but my parser doesn't resolve namespaces within
       //  parameter declarations. TODO: Maybe I should fix this.
       'r.q(const).Dictionary' : new File('generator/bindings/python.dict.intm'),
       'r.q(const).XBMCAddon::Dictionary' : new File('generator/bindings/python.dict.intm'),
-      (Pattern.compile('''(p.){0,1}std::map<\\(.*\\)>''')) : new File('generator/bindings/python.map.intm')
+      (Pattern.compile('''(p.){0,1}std::map<\\(.*\\)>''')) : new File('generator/bindings/python.map.intm'),
+      'bool' : '${api} = (PyInt_AsLong(${pyarg}) == 0L ? false : true);'
     ], '${api} = (${swigTypeParser.SwigType_str(ltype)})retrieveApiInstance(${pyarg},"${ltype}","${helper.callingName(method)}");')
 
 //println 'this: ' + this.binding.getVariables()

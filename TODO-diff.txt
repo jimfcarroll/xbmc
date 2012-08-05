@@ -1,0 +1,375 @@
+NOTE: The -/+ are reversed.
+
+jim@jim-laptop-big:~/src/xbmc$ git diff xbmc/master -- xbmc/interfaces/python | cat
+diff --git a/xbmc/interfaces/python/XBPyThread.cpp b/xbmc/interfaces/python/XBPyThread.cpp
+index 961b4b7..78b6ad5 100644
+--- a/xbmc/interfaces/python/XBPyThread.cpp
++++ b/xbmc/interfaces/python/XBPyThread.cpp
+@@ -343,7 +343,7 @@ void XBPyThread::Process()
+     Py_XDECREF(exc_traceback); // already NULL'd out
+     Py_XDECREF(pystring);
+   }
+-  
++
+   PyObject *m = PyImport_AddModule((char*)"xbmc");
+   if(!m || PyObject_SetAttrString(m, (char*)"abortRequested", PyBool_FromLong(1)))
+     CLog::Log(LOGERROR, "Scriptresult: failed to set abortRequested");
+@@ -430,10 +430,6 @@ void XBPyThread::stop()
+     PyEval_AcquireLock();
+     PyThreadState* old = PyThreadState_Swap((PyThreadState*)m_threadState);
+ 
+-    //tell xbmc.Monitor to call onAbortRequested()
+-    if (addon)
+-      g_pythonParser.OnAbortRequested(addon->ID());
+-
+     PyObject *m;
+     m = PyImport_AddModule((char*)"xbmc");
+     if(!m || PyObject_SetAttrString(m, (char*)"abortRequested", PyBool_FromLong(1)))
+@@ -452,13 +448,10 @@ void XBPyThread::stop()
+     old = PyThreadState_Swap((PyThreadState*)m_threadState);    
+     for(PyThreadState* state = ((PyThreadState*)m_threadState)->interp->tstate_head; state; state = state->next)
+     {
+-      // Raise a SystemExit exception in python threads
+       Py_XDECREF(state->async_exc);
+       state->async_exc = PyExc_SystemExit;
+       Py_XINCREF(state->async_exc);
+     }
+-    // If a dialog entered its doModal(), we need to wake it to see the exception
+-    g_pythonParser.PulseGlobalEvent();
+ 
+     PyThreadState_Swap(old);
+     PyEval_ReleaseLock();
+diff --git a/xbmc/interfaces/python/XBPython.cpp b/xbmc/interfaces/python/XBPython.cpp
+index 4469f0a..ed13b77 100644
+--- a/xbmc/interfaces/python/XBPython.cpp
++++ b/xbmc/interfaces/python/XBPython.cpp
+@@ -336,28 +336,6 @@ void XBPython::OnDatabaseUpdated(const std::string &database)
+  }  
+ } 
+ 
+-void XBPython::OnAbortRequested(const CStdString &ID)
+-{
+-  CSingleLock lock(m_critSection);
+-  if (m_bInitialized)
+-  {
+-    MonitorCallbackList::iterator it = m_vecMonitorCallbackList.begin();
+-    while (it != m_vecMonitorCallbackList.end())
+-    {
+-      if (ID.IsEmpty())
+-      {    
+-        ((CPythonMonitor*)(*it))->OnAbortRequested();
+-      }
+-      else
+-      {
+-        if (((CPythonMonitor*)(*it))->Id == ID)
+-          ((CPythonMonitor*)(*it))->OnAbortRequested();
+-      }
+-      it++;
+-    }
+-  }  
+-} 
+-
+ /**
+ * Check for file and print an error if needed
+ */
+diff --git a/xbmc/interfaces/python/XBPython.h b/xbmc/interfaces/python/XBPython.h
+index 3afa50d..5bd397a 100644
+--- a/xbmc/interfaces/python/XBPython.h
++++ b/xbmc/interfaces/python/XBPython.h
+@@ -70,7 +70,6 @@ public:
+   void OnScreensaverActivated();
+   void OnScreensaverDeactivated();
+   void OnDatabaseUpdated(const std::string &database);
+-  void OnAbortRequested(const CStdString &ID="");
+   void Initialize();
+   void Finalize();
+   void FinalizeScript();
+diff --git a/xbmc/interfaces/python/xbmcmodule/GUIPythonWindowDialog.cpp b/xbmc/interfaces/python/xbmcmodule/GUIPythonWindowDialog.cpp
+index 826a27a..1be83ab 100644
+--- a/xbmc/interfaces/python/xbmcmodule/GUIPythonWindowDialog.cpp
++++ b/xbmc/interfaces/python/xbmcmodule/GUIPythonWindowDialog.cpp
+@@ -21,6 +21,7 @@
+ 
+ #include "GUIPythonWindowDialog.h"
+ #include "guilib/GUIWindowManager.h"
++#include "Application.h"
+ #include "threads/SingleLock.h"
+ 
+ CGUIPythonWindowDialog::CGUIPythonWindowDialog(int id)
+diff --git a/xbmc/interfaces/python/xbmcmodule/GUIPythonWindowXMLDialog.cpp b/xbmc/interfaces/python/xbmcmodule/GUIPythonWindowXMLDialog.cpp
+index 88fbc12..f50c4f6 100644
+--- a/xbmc/interfaces/python/xbmcmodule/GUIPythonWindowXMLDialog.cpp
++++ b/xbmc/interfaces/python/xbmcmodule/GUIPythonWindowXMLDialog.cpp
+@@ -21,6 +21,7 @@
+ 
+ #include "GUIPythonWindowXMLDialog.h"
+ #include "guilib/GUIWindowManager.h"
++#include "Application.h"
+ #include "threads/SingleLock.h"
+ 
+ CGUIPythonWindowXMLDialog::CGUIPythonWindowXMLDialog(int id, CStdString strXML, CStdString strFallBackPath)
+diff --git a/xbmc/interfaces/python/xbmcmodule/PythonMonitor.cpp b/xbmc/interfaces/python/xbmcmodule/PythonMonitor.cpp
+index 9fc9a20..3f9ceb8 100644
+--- a/xbmc/interfaces/python/xbmcmodule/PythonMonitor.cpp
++++ b/xbmc/interfaces/python/xbmcmodule/PythonMonitor.cpp
+@@ -123,12 +123,6 @@ void CPythonMonitor::OnDatabaseUpdated(const std::string &database)
+  g_pythonParser.PulseGlobalEvent();
+ }
+ 
+-void CPythonMonitor::OnAbortRequested()
+-{
+-  PyXBMC_AddPendingCall(m_state, SPyMonitor_Function, new SPyMonitor(this, "onAbortRequested"));
+-  g_pythonParser.PulseGlobalEvent();
+-}
+-
+ void CPythonMonitor::SetCallback(PyThreadState *state, PyObject *object)
+ {
+   /* python lock should be held */
+diff --git a/xbmc/interfaces/python/xbmcmodule/PythonMonitor.h b/xbmc/interfaces/python/xbmcmodule/PythonMonitor.h
+index ed46b70..38d45b5 100644
+--- a/xbmc/interfaces/python/xbmcmodule/PythonMonitor.h
++++ b/xbmc/interfaces/python/xbmcmodule/PythonMonitor.h
+@@ -38,7 +38,6 @@ public:
+   void    OnScreensaverActivated();
+   void    OnScreensaverDeactivated();
+   void    OnDatabaseUpdated(const std::string &database);
+-  void    OnAbortRequested();
+   
+   void    Acquire();
+   void    Release();
+diff --git a/xbmc/interfaces/python/xbmcmodule/dialog.cpp b/xbmc/interfaces/python/xbmcmodule/dialog.cpp
+index 3fc08b4..fb2aed8 100644
+--- a/xbmc/interfaces/python/xbmcmodule/dialog.cpp
++++ b/xbmc/interfaces/python/xbmcmodule/dialog.cpp
+@@ -21,12 +21,13 @@
+ 
+ #include "dialog.h"
+ 
+-#include "ApplicationMessenger.h"
++#include "Application.h"
+ #include "settings/Settings.h"
+ #include "pyutil.h"
+ #include "pythreadstate.h"
+ #include "dialogs/GUIDialogFileBrowser.h"
+ #include "dialogs/GUIDialogNumeric.h"
++#include "dialogs/GUIDialogGamepad.h"
+ #include "guilib/GUIWindowManager.h"
+ #include "dialogs/GUIDialogOK.h"
+ #include "dialogs/GUIDialogProgress.h"
+diff --git a/xbmc/interfaces/python/xbmcmodule/keyboard.cpp b/xbmc/interfaces/python/xbmcmodule/keyboard.cpp
+index 83b3c1e..5597f6b 100644
+--- a/xbmc/interfaces/python/xbmcmodule/keyboard.cpp
++++ b/xbmc/interfaces/python/xbmcmodule/keyboard.cpp
+@@ -23,8 +23,8 @@
+ #include "pythreadstate.h"
+ #include "pyutil.h"
+ #include "guilib/GUIWindowManager.h"
+-#include "dialogs/GUIDialogKeyboardGeneric.h"
+-#include "ApplicationMessenger.h"
++#include "dialogs/GUIDialogKeyboard.h"
++#include "Application.h"
+ 
+ using namespace std;
+ 
+@@ -58,7 +58,7 @@ namespace PYXBMC
+     self->strHeading = utf8Heading;
+     self->bHidden = (0 != bHidden);
+     PyXBMCGUILock();
+-    self->dlg = (CGUIDialogKeyboardGeneric*)g_windowManager.GetWindow(WINDOW_DIALOG_KEYBOARD);
++    self->dlg = (CGUIDialogKeyboard*)g_windowManager.GetWindow(WINDOW_DIALOG_KEYBOARD);
+     PyXBMCGUIUnlock();
+ 
+     return (PyObject*)self;
+@@ -82,7 +82,7 @@ namespace PYXBMC
+ 
+   PyObject* Keyboard_DoModal(Keyboard *self, PyObject *args)
+   {
+-    CGUIDialogKeyboardGeneric *pKeyboard = ((Keyboard*)self)->dlg;
++    CGUIDialogKeyboard *pKeyboard = ((Keyboard*)self)->dlg;
+     if(!pKeyboard)
+     {
+       PyErr_SetString(PyExc_SystemError, "Unable to load virtual keyboard");
+@@ -127,7 +127,7 @@ namespace PYXBMC
+     if (line && !PyXBMCGetUnicodeString(utf8Line, line, 1)) return NULL;
+     self->strDefault = utf8Line;
+ 
+-    CGUIDialogKeyboardGeneric *pKeyboard = ((Keyboard*)self)->dlg;
++    CGUIDialogKeyboard *pKeyboard = ((Keyboard*)self)->dlg;
+     if(!pKeyboard)
+     {
+       PyErr_SetString(PyExc_SystemError, "Unable to load keyboard");
+@@ -157,7 +157,7 @@ namespace PYXBMC
+     if (!PyArg_ParseTuple(args, (char*)"|b", &bHidden)) return NULL;
+     self->bHidden = (0 != bHidden);
+ 
+-    CGUIDialogKeyboardGeneric *pKeyboard = ((Keyboard*)self)->dlg;
++    CGUIDialogKeyboard *pKeyboard = ((Keyboard*)self)->dlg;
+     if(!pKeyboard)
+     {
+       PyErr_SetString(PyExc_SystemError, "Unable to load keyboard");
+@@ -190,7 +190,7 @@ namespace PYXBMC
+     if (line && !PyXBMCGetUnicodeString(utf8Line, line, 1)) return NULL;
+     self->strHeading = utf8Line;
+ 
+-    CGUIDialogKeyboardGeneric *pKeyboard = ((Keyboard*)self)->dlg;
++    CGUIDialogKeyboard *pKeyboard = ((Keyboard*)self)->dlg;
+     if(!pKeyboard)
+     {
+       PyErr_SetString(PyExc_SystemError, "Unable to load keyboard");
+@@ -217,7 +217,7 @@ namespace PYXBMC
+ 
+   PyObject* Keyboard_GetText(Keyboard *self, PyObject *args)
+   {
+-    CGUIDialogKeyboardGeneric *pKeyboard = ((Keyboard*)self)->dlg;
++    CGUIDialogKeyboard *pKeyboard = ((Keyboard*)self)->dlg;
+     if(!pKeyboard)
+     {
+       PyErr_SetString(PyExc_SystemError, "Unable to load keyboard");
+@@ -239,7 +239,7 @@ namespace PYXBMC
+ 
+   PyObject* Keyboard_IsConfirmed(Keyboard *self, PyObject *args)
+   {
+-    CGUIDialogKeyboardGeneric *pKeyboard = ((Keyboard*)self)->dlg;
++    CGUIDialogKeyboard *pKeyboard = ((Keyboard*)self)->dlg;
+     if(!pKeyboard)
+     {
+       PyErr_SetString(PyExc_SystemError, "Unable to load keyboard");
+diff --git a/xbmc/interfaces/python/xbmcmodule/keyboard.h b/xbmc/interfaces/python/xbmcmodule/keyboard.h
+index 4b2f40d..d164be5 100644
+--- a/xbmc/interfaces/python/xbmcmodule/keyboard.h
++++ b/xbmc/interfaces/python/xbmcmodule/keyboard.h
+@@ -24,7 +24,7 @@
+ #include <string>
+ #pragma once
+ 
+-class CGUIDialogKeyboardGeneric;
++class CGUIDialogKeyboard;
+ 
+ #ifdef __cplusplus
+ extern "C" {
+@@ -37,7 +37,7 @@ namespace PYXBMC
+     std::string strDefault;
+     std::string strHeading;
+     bool bHidden;
+-    CGUIDialogKeyboardGeneric* dlg;
++    CGUIDialogKeyboard* dlg;
+   } Keyboard;
+ 
+   extern PyTypeObject Keyboard_Type;
+diff --git a/xbmc/interfaces/python/xbmcmodule/listitem.cpp b/xbmc/interfaces/python/xbmcmodule/listitem.cpp
+index 4b66850..5898a44 100644
+--- a/xbmc/interfaces/python/xbmcmodule/listitem.cpp
++++ b/xbmc/interfaces/python/xbmcmodule/listitem.cpp
+@@ -755,13 +755,13 @@ namespace PYXBMC
+     "       You can use the above as keywords for arguments and skip certain optional arguments.\n"
+     "       Once you use a keyword, all following arguments require the keyword.\n"
+     "\n"
+-    " Some of these are treated internally by XBMC.\n"
+-    " Others may be used in the skin to add extra information, such as 'WatchedCount' for tvshow items\n"
++    " Some of these are treated internally by XBMC, such as the 'StartOffset' property, which is\n"
++    " the offset in seconds at which to start playback of an item.  Others may be used in the skin\n"
++    " to add extra information, such as 'WatchedCount' for tvshow items\n"
+     "\n"
+     "example:\n"
+     "  - self.list.getSelectedItem().setProperty('AspectRatio', '1.85 : 1')\n"
+-    "  - self.list.getSelectedItem().setProperty('TotalTime', '3668.4')\n"
+-    "  - self.list.getSelectedItem().setProperty('ResumeTime', '306.8')\n");
++    "  - self.list.getSelectedItem().setProperty('StartOffset', '256.4')\n");
+ 
+   PyObject* ListItem_SetProperty(ListItem *self, PyObject *args, PyObject *kwds)
+   {
+@@ -798,10 +798,6 @@ namespace PYXBMC
+     { // special case for mime type - don't actually stored in a property,
+       self->item->SetMimeType(uText);
+     }
+-    else if (lowerKey.CompareNoCase("totaltime") == 0)
+-      self->item->GetVideoInfoTag()->m_resumePoint.totalTimeInSeconds = (float)atof(uText.c_str());
+-    else if (lowerKey.CompareNoCase("resumetime") == 0)
+-      self->item->GetVideoInfoTag()->m_resumePoint.timeInSeconds = (float)atof(uText.c_str());
+     else if (lowerKey.CompareNoCase("specialsort") == 0)
+     {
+       if (uText == "bottom")
+@@ -855,10 +851,6 @@ namespace PYXBMC
+       // we store it in item.m_lStartOffset instead
+       value.Format("%f", self->item->m_lStartOffset / 75.0);
+     }
+-    else if (lowerKey.CompareNoCase("totaltime") == 0)
+-      value.Format("%f", self->item->GetVideoInfoTag()->m_resumePoint.totalTimeInSeconds);
+-    else if (lowerKey.CompareNoCase("resumetime") == 0)
+-      value.Format("%f", self->item->GetVideoInfoTag()->m_resumePoint.timeInSeconds);
+     else
+       value = self->item->GetProperty(lowerKey.ToLower()).asString();
+     PyXBMCGUIUnlock();
+diff --git a/xbmc/interfaces/python/xbmcmodule/monitor.cpp b/xbmc/interfaces/python/xbmcmodule/monitor.cpp
+index 1f389ef..719c1eb 100644
+--- a/xbmc/interfaces/python/xbmcmodule/monitor.cpp
++++ b/xbmc/interfaces/python/xbmcmodule/monitor.cpp
+@@ -114,24 +114,11 @@ namespace PYXBMC
+    return Py_None;
+   }  
+  
+-  // Monitor_onAbortRequested
+-  PyDoc_STRVAR(onAbortRequested__doc__,
+-               "onAbortRequested() -- onAbortRequested method.\n"
+-               "\n"
+-               "Will be called when XBMC requests Abort");
+-
+-  PyObject* Monitor_OnAbortRequested(PyObject *self, PyObject *args)
+-  {
+-    Py_INCREF(Py_None);
+-    return Py_None;
+-  }     
+-    
+   PyMethodDef Monitor_methods[] = {
+     {(char*)"onSettingsChanged", (PyCFunction)Monitor_OnSettingsChanged, METH_VARARGS, onSettingsChanged__doc__},
+     {(char*)"onScreensaverActivated", (PyCFunction)Monitor_OnScreensaverActivated, METH_VARARGS, onScreensaverActivated__doc__},
+     {(char*)"onScreensaverDeactivated", (PyCFunction)Monitor_OnScreensaverDeactivated, METH_VARARGS, onScreensaverDeactivated__doc__},
+     {(char*)"onDatabaseUpdated", (PyCFunction)Monitor_OnDatabaseUpdated, METH_VARARGS  , onDatabaseUpdated__doc__},
+-    {(char*)"onAbortRequested", (PyCFunction)Monitor_OnAbortRequested, METH_VARARGS  , onAbortRequested__doc__},
+     {NULL, NULL, 0, NULL}
+   };
+ 
+diff --git a/xbmc/interfaces/python/xbmcmodule/pyutil.cpp b/xbmc/interfaces/python/xbmcmodule/pyutil.cpp
+index 9213732..0405bd9 100644
+--- a/xbmc/interfaces/python/xbmcmodule/pyutil.cpp
++++ b/xbmc/interfaces/python/xbmcmodule/pyutil.cpp
+@@ -29,7 +29,7 @@
+ #include "utils/CharsetConverter.h"
+ #include "threads/CriticalSection.h"
+ #include "threads/SingleLock.h"
+-#include "ApplicationMessenger.h"
++#include "Application.h"
+ 
+ using namespace std;
+ 
+@@ -87,7 +87,7 @@ namespace PYXBMC
+   {
+     CPyThreadState pyState;
+     ThreadMessage tMsg = {message, param1, param2};
+-    CApplicationMessenger::Get().SendMessage(tMsg, true);
++    g_application.getApplicationMessenger().SendMessage(tMsg, true);
+   }
+ 
+   static char defaultImage[1024];
+diff --git a/xbmc/interfaces/python/xbmcmodule/xbmcvfsmodule.cpp b/xbmc/interfaces/python/xbmcmodule/xbmcvfsmodule.cpp
+index f899ccb..368daa6 100644
+--- a/xbmc/interfaces/python/xbmcmodule/xbmcvfsmodule.cpp
++++ b/xbmc/interfaces/python/xbmcmodule/xbmcvfsmodule.cpp
+@@ -421,7 +421,7 @@ extern "C" {
+         return NULL;
+       int64_t size = self->pFile->GetLength();
+       if (!readBytes || readBytes > size)
+-        readBytes = (unsigned int) size;
++        readBytes = size;
+       char* buffer = new char[readBytes + 1];
+       PyObject* ret = NULL;
+       if (buffer)
+@@ -455,7 +455,7 @@ extern "C" {
+         return NULL;
+ 
+       CPyThreadState pyState;
+-      bool bResult = self->pFile->Write( (void*) pBuffer, strlen( pBuffer ) + 1 ) > 0 ? true : false;
++      bool bResult = self->pFile->Write( (void*) pBuffer, strlen( pBuffer ) + 1 );
+       pyState.Restore();
+ 
+       return Py_BuildValue((char*)"b", bResult);

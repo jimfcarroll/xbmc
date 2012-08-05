@@ -81,7 +81,9 @@ using namespace xbmc;
     return Py_None;
   }
 
-
+%feature("python:function:addDirectoryItems") xbmc
+{
+}
 
 %include "native/Player.h"
 
