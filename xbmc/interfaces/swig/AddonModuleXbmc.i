@@ -61,21 +61,40 @@ using namespace xbmc;
       return NULL;
     }
 
-    Player* player = ((Player*)retrieveApiInstance((PyObject*)self,&PyXBMCAddon_xbmc_Player_Type,"play","XBMCAddon::xbmc::Player"));
-
-    // set fullscreen or windowed
-    bool windowed = (0 != bWindowed);
-
-    if (pObject == NULL)
-      player->playCurrent(windowed);
-    else if ((PyString_Check(pObject) || PyUnicode_Check(pObject)) && pObjectListItem != NULL)
+    try
     {
-      CStdString item;
-      PyXBMCGetUnicodeString(item,pObject,"item","Player::play");
-      player->playStream(item,(XBMCAddon::xbmcgui::ListItem *)retrieveApiInstance(pObjectListItem,"p.XBMCAddon::xbmcgui::ListItem","play"),windowed);
+      Player* player = ((Player*)retrieveApiInstance((PyObject*)self,&PyXBMCAddon_xbmc_Player_Type,"play","XBMCAddon::xbmc::Player"));
+
+      // set fullscreen or windowed
+      bool windowed = (0 != bWindowed);
+
+      if (pObject == NULL)
+        player->playCurrent(windowed);
+      else if ((PyString_Check(pObject) || PyUnicode_Check(pObject)))
+      {
+        CStdString item;
+        PyXBMCGetUnicodeString(item,pObject,"item","Player::play");
+        XBMCAddon::xbmcgui::ListItem* pListItem = 
+          (pObjectListItem ? 
+           (XBMCAddon::xbmcgui::ListItem *)retrieveApiInstance(pObjectListItem,"p.XBMCAddon::xbmcgui::ListItem","play") :
+           NULL);
+        player->playStream(item,pListItem,windowed);
+      }
+      else // pObject must be a playlist
+        player->playPlaylist((PlayList *)retrieveApiInstance(pObject,"p.PlayList","play"), windowed);
     }
-    else // pObject must be a playlist
-      player->playPlaylist((PlayList *)retrieveApiInstance(pObject,"p.PlayList","play"), windowed);
+    catch (XBMCAddon::Exception e)
+    { 
+      CLog::Log(LOGERROR,"Leaving Python method 'XBMCAddon_xbmc_Player_play'. Exception from call to 'play' '%s' ... returning NULL", e.getMessage().c_str());
+      PyErr_SetString(PyExc_RuntimeError, e.getMessage().c_str()); 
+      return NULL; 
+    }
+    catch (...)
+    {
+      CLog::Log(LOGERROR,"Unknown exception thrown from the call 'play'");
+      PyErr_SetString(PyExc_RuntimeError, "Unknown exception thrown from the call 'play'"); 
+      return NULL; 
+    }
 
     Py_INCREF(Py_None);
     return Py_None;

@@ -111,16 +111,16 @@ void doMethod(method, MethodType methodType)
       return NULL;
     }
 
-<%
-    // now do the input converstion if any are necessary
-    params.findAll({ !PythonTools.parameterCanBeUsedDirectly(it) }).each { %>    ${Helper.getInConversion(it.@type, it.@name, method)} <% println() }
-%>
 <%  }
     // now actually invoke the method
     if (returns != "void") { %>    ${SwigTypeParser.SwigType_str(returns)} apiResult;<%   }
 %>
     try
     {
+<%
+    // now do the input converstion if any are necessary
+    params.findAll({ !PythonTools.parameterCanBeUsedDirectly(it) }).each { %>      ${Helper.getInConversion(it.@type, it.@name, method)} <% println() }
+%>
 <%
     // now do the method call itself
     if (!destructor) {
