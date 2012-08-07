@@ -21,11 +21,6 @@
 
 #include <sstream>
 
-// TODO:
-// This will need to change to a different name. It's really just a hook and
-//   doesn't know anything about Python anyway. Except where it handles the
-//   unloading of the Python libraries. This should be handled in a binding
-//   specific manner.
 #include "ListItem.h"
 #include "AddonUtils.h"
 
