@@ -83,26 +83,26 @@ namespace XBMCAddon
       TRACE;
       if (item != nullString)
       {
-          // set fullscreen or windowed
-          g_settings.m_bStartVideoWindowed = windowed;
+        // set fullscreen or windowed
+        g_settings.m_bStartVideoWindowed = windowed;
 
-          // force a playercore before playing
-          g_application.m_eForcedNextPlayer = playerCore;
+        // force a playercore before playing
+        g_application.m_eForcedNextPlayer = playerCore;
 
-          const AddonClass::Ref<xbmcgui::ListItem> listitem(plistitem);
+        const AddonClass::Ref<xbmcgui::ListItem> listitem(plistitem);
 
-          if (listitem.isSet())
-          {
-            // set m_strPath to the passed url
-            listitem->item->SetPath(item.c_str());
-            CApplicationMessenger::Get().PlayFile((const CFileItem)(*(listitem->item)), false);
-          }
-          else
-          {
-            CFileItem nextitem(item, false);
-            CApplicationMessenger::Get().MediaPlay(nextitem.GetPath());
-          }
+        if (listitem.isSet())
+        {
+          // set m_strPath to the passed url
+          listitem->item->SetPath(item.c_str());
+          CApplicationMessenger::Get().PlayFile((const CFileItem)(*(listitem->item)), false);
         }
+        else
+        {
+          CFileItem nextitem(item, false);
+          CApplicationMessenger::Get().MediaPlay(nextitem.GetPath());
+        }
+      }
       else
         playCurrent(windowed);
     }
@@ -148,18 +148,18 @@ namespace XBMCAddon
     {
       TRACE;
       if (playlist != NULL)
-        {
-          // set fullscreen or windowed
-          g_settings.m_bStartVideoWindowed = windowed;
+      {
+        // set fullscreen or windowed
+        g_settings.m_bStartVideoWindowed = windowed;
 
-          // force a playercore before playing
-          g_application.m_eForcedNextPlayer = playerCore;
+        // force a playercore before playing
+        g_application.m_eForcedNextPlayer = playerCore;
 
-          // play a python playlist (a playlist from playlistplayer.cpp)
-          iPlayList = playlist->getPlayListId();
-          g_playlistPlayer.SetCurrentPlaylist(iPlayList);
-          CApplicationMessenger::Get().PlayListPlayerPlay();
-        }
+        // play a python playlist (a playlist from playlistplayer.cpp)
+        iPlayList = playlist->getPlayListId();
+        g_playlistPlayer.SetCurrentPlaylist(iPlayList);
+        CApplicationMessenger::Get().PlayListPlayerPlay();
+      }
       else
         playCurrent(windowed);
     }
@@ -223,9 +223,9 @@ namespace XBMCAddon
       g_application.m_eForcedNextPlayer = playerCore;
 
       if (g_playlistPlayer.GetCurrentPlaylist() != iPlayList)
-        {
-          g_playlistPlayer.SetCurrentPlaylist(iPlayList);
-        }
+      {
+        g_playlistPlayer.SetCurrentPlaylist(iPlayList);
+      }
       g_playlistPlayer.SetCurrentSong(selected);
 
       CApplicationMessenger::Get().PlayListPlayerPlay(selected);
