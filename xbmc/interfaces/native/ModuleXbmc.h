@@ -53,7 +53,7 @@ namespace XBMCAddon
      *           "example:\n"
      *           "  - xbmc.output(msg='This is a test string.', level=xbmc.LOGDEBUG)\n");
      */
-    void log(const char* message, int level = lLOGNOTICE);
+    void log(const char* msg, int level = lLOGNOTICE);
     void shutdown();
     void restart();
     void executescript(const char* script);
