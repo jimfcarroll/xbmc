@@ -30,7 +30,7 @@
  */
 #define LOG_LIFECYCLE_EVENTS
 
-#include "String.h"
+#include "AddonString.h"
 #include "threads/SingleLock.h"
 #include "threads/Atomics.h"
 #include "utils/log.h"

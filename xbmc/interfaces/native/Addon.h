@@ -24,7 +24,7 @@
 #include "swighelper.h"
 #include "addons/IAddon.h"
 
-#include "String.h"
+#include "AddonString.h"
 #include "AddonClass.h"
 #include "Exception.h"
 

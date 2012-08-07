@@ -19,7 +19,7 @@
  *
  */
 
-#include "String.h"
+#include "AddonString.h"
 
 namespace XBMCAddon
 {

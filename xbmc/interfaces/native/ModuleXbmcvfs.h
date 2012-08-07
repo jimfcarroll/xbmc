@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include "String.h"
+#include "AddonString.h"
 
 namespace XBMCAddon
 {

@@ -21,7 +21,7 @@
 
 #include "Tuple.h"
 
-#include "String.h"
+#include "AddonString.h"
 #include "ListItem.h"
 
 #include "utils/log.h"

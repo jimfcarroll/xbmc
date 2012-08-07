@@ -22,7 +22,7 @@
 #pragma once
 
 #include "filesystem/File.h"
-#include "String.h"
+#include "AddonString.h"
 #include "LanguageHook.h"
 
 namespace XBMCAddon

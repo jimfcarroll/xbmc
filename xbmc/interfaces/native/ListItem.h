@@ -32,7 +32,7 @@
 #include "ListItem.h"
 #include "music/tags/MusicInfoTag.h"
 #include "FileItem.h"
-#include "String.h"
+#include "AddonString.h"
 
 #include <map>
 

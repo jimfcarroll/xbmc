@@ -27,7 +27,7 @@
 #include "AddonCallback.h"
 #include "Exception.h"
 #include "Control.h"
-#include "String.h"
+#include "AddonString.h"
 
 #include "swighelper.h"
 
