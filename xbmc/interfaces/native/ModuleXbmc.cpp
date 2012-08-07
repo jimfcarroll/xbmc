@@ -88,13 +88,13 @@ namespace XBMCAddon
      *           "example:\n"
      *           "  - xbmc.output(msg='This is a test string.', level=xbmc.LOGDEBUG)\n");
      */
-    void log(const char* message, int level)
+    void log(const char* msg, int level)
     {
 //      TRACE;
       // check for a valid loglevel
       if (level < LOGDEBUG || level > LOGNONE)
         level = LOGNOTICE;
-      CLog::Log(level, "%s", message);
+      CLog::Log(level, "%s", msg);
     }
 
 
