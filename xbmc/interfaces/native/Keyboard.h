@@ -23,7 +23,7 @@
 
 #include "AddonClass.h"
 #include "Exception.h"
-#include "String.h"
+#include "AddonString.h"
 
 class CGUIDialogKeyboardGeneric;
 

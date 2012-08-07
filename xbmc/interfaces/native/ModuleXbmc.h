@@ -19,7 +19,7 @@
  *
  */
 
-#include "String.h"
+#include "AddonString.h"
 #include "utils/log.h"
 #include "utils/StdString.h"
 

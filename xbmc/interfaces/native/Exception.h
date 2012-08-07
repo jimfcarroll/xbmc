@@ -20,7 +20,7 @@
  */
 #pragma once
 
-#include "String.h"
+#include "AddonString.h"
 #include "AddonUtils.h"
 #include "swighelper.h"
 

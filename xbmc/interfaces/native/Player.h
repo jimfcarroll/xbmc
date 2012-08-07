@@ -28,7 +28,7 @@
 #include "InfoTagVideo.h"
 #include "Exception.h"
 #include "music/tags/MusicInfoTag.h"
-#include "String.h"
+#include "AddonString.h"
 #include "InfoTagMusic.h"
 #include "AddonCallback.h"
 
