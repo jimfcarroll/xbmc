@@ -29,7 +29,6 @@
 #include "native/WindowDialog.h"
 #include "native/Dialog.h"
 #include "native/WindowXML.h"
-#include "native/RenderCapture.h"
 
 using namespace XBMCAddon;
 using namespace xbmcgui;
@@ -64,5 +63,4 @@ using namespace xbmcgui;
 %include "native/WindowDialog.h"
 %include "native/Dialog.h"
 %include "native/WindowXML.h"
-%include "native/RenderCapture.h"
 
