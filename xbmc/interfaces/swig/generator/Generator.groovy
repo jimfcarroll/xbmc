@@ -7,7 +7,7 @@ import Helper
 
 def usage()
 {
-   println "java/groovy -cp [...] " + getClass().getName() + " [-verbose] moduleSpecFile tempateFile outputFile";
+   println "java/groovy -cp [...] " + getClass().getName() + " [-verbose] moduleSpecFile templateFile outputFile";
    System.exit 1
 }
 
