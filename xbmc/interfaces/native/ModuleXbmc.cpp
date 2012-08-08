@@ -800,14 +800,21 @@ namespace XBMCAddon
     int getLOGFATAL() { return LOGFATAL; }
     int getLOGNONE() { return LOGNONE; }
 
+    // render capture user states
     int getCAPTURE_STATE_WORKING() { return CAPTURESTATE_WORKING; }
     int getCAPTURE_STATE_DONE(){ return CAPTURESTATE_DONE; }
     int getCAPTURE_STATE_FAILED() { return CAPTURESTATE_FAILED; }
+
+    // render capture flags
+    int getCAPTURE_FLAG_CONTINUOUS() { return (int)CAPTUREFLAG_CONTINUOUS; }
+    int getCAPTURE_FLAG_IMMEDIATELY() { return (int)CAPTUREFLAG_IMMEDIATELY; }
 
     static bool abortRequested = false;
     bool getabortRequested() { return abortRequested; }
     void setabortRequested(bool _abortRequested) { abortRequested = _abortRequested; }
 
     const int lLOGNOTICE = LOGNOTICE;
+
+
   }
 }
