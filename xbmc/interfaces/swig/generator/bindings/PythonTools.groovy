@@ -13,7 +13,8 @@ public class PythonTools
       'p.char':"s", bool:"b",
       int:"i", 'unsigned int' : 'I',
       long:"l", 'unsigned long' : 'k',
-      'double':"d", 'float':"f"
+      'double':"d", 'float':"f",
+      'long long' : "L"
    ]
 
    /**
