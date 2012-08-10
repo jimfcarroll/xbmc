@@ -20,10 +20,10 @@
  */
 
 
-#include "swig/python/LanguageHook.h"
-#include "swig/python/XBPython.h"
+#include "LanguageHook.h"
+#include "XBPython.h"
 
-#include "native/AddonUtils.h"
+#include "interfaces/native/AddonUtils.h"
 #include "utils/GlobalsHandling.h"
 
 namespace XBMCAddon

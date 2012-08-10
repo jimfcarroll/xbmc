@@ -27,8 +27,8 @@
 
 #include <Python.h>
 
-#include "native/LanguageHook.h"
-#include "swig/python/CallbackHandler.h"
+#include "interfaces/native/LanguageHook.h"
+#include "interfaces/swig/python/CallbackHandler.h"
 #include "threads/ThreadLocal.h"
 #include "threads/Event.h"
 

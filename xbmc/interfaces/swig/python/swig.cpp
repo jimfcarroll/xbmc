@@ -19,7 +19,7 @@
  *
  */
 
-#include "swig/python/swig.h"
+#include "interfaces/swig/python/swig.h"
 
 namespace PythonBindings
 {

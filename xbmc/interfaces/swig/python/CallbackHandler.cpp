@@ -19,7 +19,7 @@
  *
  */
 
-#include "python/CallbackHandler.h"
+#include "CallbackHandler.h"
 
 namespace XBMCAddon
 {
