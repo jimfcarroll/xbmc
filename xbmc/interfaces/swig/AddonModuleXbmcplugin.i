@@ -22,7 +22,7 @@
 %module xbmcplugin
 
 %{
-#include "native/ModuleXbmcplugin.h"
+#include "interfaces/native/ModuleXbmcplugin.h"
 
 using namespace XBMCAddon;
 using namespace xbmcplugin;
@@ -33,6 +33,6 @@ using namespace xbmcplugin;
 
 %}
 
-%include "native/swighelper.h"
-%include "native/ModuleXbmcplugin.h"
+%include "interfaces/native/swighelper.h"
+%include "interfaces/native/ModuleXbmcplugin.h"
 

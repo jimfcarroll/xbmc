@@ -22,8 +22,8 @@
 %module xbmcvfs
 
 %{
-#include "native/ModuleXbmcvfs.h"
-#include "native/File.h"
+#include "interfaces/native/ModuleXbmcvfs.h"
+#include "interfaces/native/File.h"
 #include "utils/log.h"
 
 using namespace XBMCAddon;
@@ -35,8 +35,8 @@ using namespace xbmcvfs;
 
 %}
 
-%include "native/File.h"
+%include "interfaces/native/File.h"
 
 %rename ("delete") XBMCAddon::xbmcvfs::deleteFile;
-%include "native/ModuleXbmcvfs.h"
+%include "interfaces/native/ModuleXbmcvfs.h"
 

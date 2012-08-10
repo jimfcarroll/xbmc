@@ -22,10 +22,10 @@
 %module(directors="1") xbmc
 
 %{
-#include "native/Player.h"
-#include "native/RenderCapture.h"
-#include "native/Keyboard.h"
-#include "native/ModuleXbmc.h"
+#include "interfaces/native/Player.h"
+#include "interfaces/native/RenderCapture.h"
+#include "interfaces/native/Keyboard.h"
+#include "interfaces/native/ModuleXbmc.h"
 
 using namespace XBMCAddon;
 using namespace xbmc;
@@ -35,9 +35,9 @@ using namespace xbmc;
 #endif
 %}
 
-%include "native/swighelper.h"
+%include "interfaces/native/swighelper.h"
 
-%include "native/ModuleXbmc.h"
+%include "interfaces/native/ModuleXbmc.h"
 
 %feature("director") Player;
 %feature("ref") Player "${ths}->Acquire();"
@@ -101,7 +101,7 @@ using namespace xbmc;
     return Py_None;
   }
 
-%include "native/Player.h"
+%include "interfaces/native/Player.h"
 
  // TODO: This needs to be done with a class that holds the Image
  // data. A memory buffer type. Then a typemap needs to be defined
@@ -119,10 +119,10 @@ using namespace xbmc;
   return PyByteArray_FromStringAndSize((const char *)rc->GetPixels(), size);
 }
 
-%include "native/RenderCapture.h"
+%include "interfaces/native/RenderCapture.h"
 
-%include "native/InfoTagMusic.h"
-%include "native/InfoTagVideo.h"
-%include "native/Keyboard.h"
-%include "native/PlayList.h"
+%include "interfaces/native/InfoTagMusic.h"
+%include "interfaces/native/InfoTagVideo.h"
+%include "interfaces/native/Keyboard.h"
+%include "interfaces/native/PlayList.h"
 
