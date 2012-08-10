@@ -22,13 +22,13 @@
 %module(directors="1") xbmcgui
 
 %{
-#include "native/Dialog.h"
-#include "native/ModuleXbmcgui.h"
-#include "native/Control.h"
-#include "native/Window.h"
-#include "native/WindowDialog.h"
-#include "native/Dialog.h"
-#include "native/WindowXML.h"
+#include "interfaces/native/Dialog.h"
+#include "interfaces/native/ModuleXbmcgui.h"
+#include "interfaces/native/Control.h"
+#include "interfaces/native/Window.h"
+#include "interfaces/native/WindowDialog.h"
+#include "interfaces/native/Dialog.h"
+#include "interfaces/native/WindowXML.h"
 
 using namespace XBMCAddon;
 using namespace xbmcgui;
@@ -39,18 +39,18 @@ using namespace xbmcgui;
 
 %}
 
-%include "native/swighelper.h"
+%include "interfaces/native/swighelper.h"
 
-%include "native/ModuleXbmcgui.h"
+%include "interfaces/native/ModuleXbmcgui.h"
 
 %feature("ref") ListItem "${ths}->Acquire();"
 %feature("unref") ListItem "${ths}->Release();"
 
-%include "native/Exception.h"
+%include "interfaces/native/Exception.h"
 
-%include "native/ListItem.h"
-%include "native/Control.h"
-%include "native/Dialog.h"
+%include "interfaces/native/ListItem.h"
+%include "interfaces/native/Control.h"
+%include "interfaces/native/Dialog.h"
 
 %feature("director") Window;
 %feature("ref") Window "${ths}->Acquire();"
@@ -59,8 +59,8 @@ using namespace xbmcgui;
 %feature("director") WindowXML;
 %feature("director") WindowXMLDialog;
 
-%include "native/Window.h"
-%include "native/WindowDialog.h"
-%include "native/Dialog.h"
-%include "native/WindowXML.h"
+%include "interfaces/native/Window.h"
+%include "interfaces/native/WindowDialog.h"
+%include "interfaces/native/Dialog.h"
+%include "interfaces/native/WindowXML.h"
 

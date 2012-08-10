@@ -22,7 +22,7 @@
 %module xbmcaddon
 
 %{
-#include "native/Addon.h"
+#include "interfaces/native/Addon.h"
 
 using namespace XBMCAddon;
 using namespace xbmcaddon;
@@ -33,11 +33,11 @@ using namespace xbmcaddon;
 
 %}
 
-%include "native/swighelper.h"
+%include "interfaces/native/swighelper.h"
 
 %feature("ref") Addon "${ths}->Acquire();"
 %feature("unref") Addon "${ths}->Release();"
 %feature("coerceToString") XBMCAddon::xbmcaddon::Addon::getAddonInfo "true"
 
-%include "native/Addon.h"
+%include "interfaces/native/Addon.h"
 

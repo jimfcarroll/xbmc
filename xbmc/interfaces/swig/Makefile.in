@@ -7,7 +7,7 @@ SRCS=	python/CallbackHandler.cpp python/LanguageHook.cpp \
 	generatedSWIGBindings/AddonModuleXbmcaddon.cpp \
 	generatedSWIGBindings/AddonModuleXbmcvfs.cpp
 
-SWIG_INC += -I@abs_top_srcdir@/xbmc/interfaces
+SWIG_INC += -I@abs_top_srcdir@/xbmc
 INCLUDES += @PYTHON_CPPFLAGS@ $(SWIG_INC)
 
 CLEAN_FILES=generatedSWIGBindings generator/*.class generator/bindings/*.class
