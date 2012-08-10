@@ -123,6 +123,7 @@
 #define HAVE_LIBMP3LAME
 #define HAVE_LIBVORBISENC
 #define HAS_MYSQL
+#define USE_SWIGADDON
 
 #define DECLARE_UNUSED(a,b) a b;
 #endif
