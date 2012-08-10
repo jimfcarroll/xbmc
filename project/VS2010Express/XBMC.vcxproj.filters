@@ -5284,23 +5284,23 @@
     <CustomBuild Include="..\..\xbmc\win32\PlatformInclude.h">
       <Filter>win32</Filter>
     </CustomBuild>
+    <CustomBuild Include="..\..\xbmc\interfaces\swig\AddonModuleXbmcplugin.i">
+      <Filter>interfaces\swig</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\xbmc\interfaces\swig\AddonModuleXbmcgui.i">
+      <Filter>interfaces\swig</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\xbmc\interfaces\swig\AddonModuleXbmcaddon.i">
+      <Filter>interfaces\swig</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\xbmc\interfaces\swig\AddonModuleXbmcvfs.i">
+      <Filter>interfaces\swig</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\xbmc\interfaces\swig\AddonModuleXbmc.i">
+      <Filter>interfaces\swig</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\xbmc\interfaces\swig\AddonModuleXbmc.i">
-      <Filter>interfaces\swig</Filter>
-    </None>
-    <None Include="..\..\xbmc\interfaces\swig\AddonModuleXbmcaddon.i">
-      <Filter>interfaces\swig</Filter>
-    </None>
-    <None Include="..\..\xbmc\interfaces\swig\AddonModuleXbmcgui.i">
-      <Filter>interfaces\swig</Filter>
-    </None>
-    <None Include="..\..\xbmc\interfaces\swig\AddonModuleXbmcplugin.i">
-      <Filter>interfaces\swig</Filter>
-    </None>
-    <None Include="..\..\xbmc\interfaces\swig\AddonModuleXbmcvfs.i">
-      <Filter>interfaces\swig</Filter>
-    </None>
     <None Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmc.xml">
       <Filter>interfaces\swig\python\generated</Filter>
     </None>
