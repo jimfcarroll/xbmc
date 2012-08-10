@@ -1102,6 +1102,7 @@ lib/cmyth/Makefile
 /xbmc/interfaces/python/module/generatedSWIGBindings/
 /xbmc/interfaces/swig/Makefile
 /xbmc/interfaces/swig/generatedSWIGBindings
+/xbmc/interfaces/swig/python/generated
 
 # /xbmc/network/
 /xbmc/network/Makefile
