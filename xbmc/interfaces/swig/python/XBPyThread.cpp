@@ -42,15 +42,19 @@
 #include "XBPython.h"
 
 #ifdef USE_SWIGADDON
-#include "native/Exception.h"
-#include "native/CallbackHandler.h"
-#include "native/AddonUtils.h"
-#include "native/ModuleXbmc.h"
+#include "interfaces/native/Exception.h"
+#include "interfaces/native/CallbackHandler.h"
+#include "interfaces/native/AddonUtils.h"
+#include "interfaces/native/ModuleXbmc.h"
 #else
-#include "xbmcmodule/pyutil.h"
+#include "interfaces/python/xbmcmodule/pyutil.h"
 #endif
 
-#include "swig/python/pythreadstate.h"
+#include "interfaces/swig/python/pythreadstate.h"
+
+#ifdef TARGET_WINDOWS
+#include "utils/CharsetConverter.h"
+#endif
 
 #ifdef _WIN32
 extern "C" FILE *fopen_utf8(const char *_Filename, const char *_Mode);

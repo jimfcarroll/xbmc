@@ -21,7 +21,7 @@
 
 #include <Python.h>
 
-#include "native/CallbackHandler.h"
+#include "interfaces/native/CallbackHandler.h"
 
 namespace XBMCAddon
 {
