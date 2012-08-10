@@ -45,7 +45,7 @@ namespace XBMCAddon
     bool File::write(const char* pBuffer)
     {
       DelayedCallGuard dg;
-      return file->Write( (void*) pBuffer, strlen( pBuffer ) + 1 );
+      return file->Write( (void*) pBuffer, strlen( pBuffer ) + 1 ) > 0;
     }
 
   }

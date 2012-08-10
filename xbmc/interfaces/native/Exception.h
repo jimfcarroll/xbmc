@@ -29,6 +29,8 @@
 
 #define COPYVARARGS(fmt) va_list argList; va_start(argList, fmt); set(fmt, argList); va_end(argList)
 
+#define __PRETTY_FUNCTION__ __FUNCTION__
+
 #ifndef SWIG
 namespace XBMCAddon
 {

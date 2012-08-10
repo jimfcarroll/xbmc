@@ -37,6 +37,8 @@
 
 #include "AddonUtils.h"
 
+#define __PRETTY_FUNCTION__ __FUNCTION__
+
 namespace XBMCAddon
 {
   class LanguageHook;
@@ -159,8 +161,8 @@ namespace XBMCAddon
 
       inline ~Ref() { refcheck; if (ac) ac->Release(); }
       inline bool isNull() const { refcheck; return ac == NULL; }
-      inline bool isNotNull() const { refcheck; return ac; }
-      inline bool isSet() const { refcheck; return ac; }
+      inline bool isNotNull() const { refcheck; return ac != NULL; }
+      inline bool isSet() const { refcheck; return ac != NULL; }
       inline bool operator!() const { refcheck; return ac == NULL; }
 
       // This is there only for boost compatibility

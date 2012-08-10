@@ -35,7 +35,9 @@
 #endif
 #include "utils/URIUtils.h"
 #include "aojsonrpc.h"
+#ifndef TARGET_WINDOWS
 #include "XTimeUtils.h"
+#endif
 #include "guilib/LocalizeStrings.h"
 #include "settings/GUISettings.h"
 #include "GUIInfoManager.h"
