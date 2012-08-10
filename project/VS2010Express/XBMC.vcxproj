@@ -91,6 +91,8 @@
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
+    <CustomBuildBeforeTargets Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">
+    </CustomBuildBeforeTargets>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">
     <ClCompile>
@@ -185,6 +187,18 @@
       <AdditionalManifestFiles>VC90.CRT.x86.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
       <EnableDPIAwareness>true</EnableDPIAwareness>
     </Manifest>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Message>
+      </Message>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Outputs>
+      </Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">
     <ClCompile>
@@ -2217,16 +2231,111 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\xbmc\interfaces\swig\AddonModuleXbmc.i" />
-    <None Include="..\..\xbmc\interfaces\swig\AddonModuleXbmcaddon.i" />
-    <None Include="..\..\xbmc\interfaces\swig\AddonModuleXbmcgui.i" />
-    <None Include="..\..\xbmc\interfaces\swig\AddonModuleXbmcplugin.i" />
-    <None Include="..\..\xbmc\interfaces\swig\AddonModuleXbmcvfs.i" />
-    <None Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmc.xml" />
-    <None Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmcaddon.xml" />
-    <None Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmcgui.xml" />
-    <None Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmcplugin.xml" />
-    <None Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmcvfs.xml" />
+    <CustomBuild Include="..\..\xbmc\interfaces\swig\AddonModuleXbmc.i">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">cd %(RelativeDir)
+
+IF NOT EXIST python\generated md python\generated
+IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
+IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
+
+$(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
+java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
+
+cd $(SolutionDir)</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">Generating SWIG bindings</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\xbmc\interfaces\swig\AddonModuleXbmcaddon.i">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">cd %(RelativeDir)
+
+IF NOT EXIST python\generated md python\generated
+IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
+IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
+
+$(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
+java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
+
+cd $(SolutionDir)</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">Generating SWIG bindings</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\xbmc\interfaces\swig\AddonModuleXbmcgui.i">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">cd %(RelativeDir)
+
+IF NOT EXIST python\generated md python\generated
+IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
+IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
+
+$(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
+java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
+
+cd $(SolutionDir)</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">Generating SWIG bindings</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\xbmc\interfaces\swig\AddonModuleXbmcplugin.i">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">cd %(RelativeDir)
+
+IF NOT EXIST python\generated md python\generated
+IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
+IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
+
+$(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
+java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
+
+cd $(SolutionDir)</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">Generating SWIG bindings</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\xbmc\interfaces\swig\AddonModuleXbmcvfs.i">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">cd %(RelativeDir)
+
+IF NOT EXIST python\generated md python\generated
+IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
+IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
+
+$(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
+java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
+
+cd $(SolutionDir)</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">Generating SWIG bindings</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+    </CustomBuild>
+    <None Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmc.xml">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">true</ExcludedFromBuild>
+    </None>
+    <None Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmcaddon.xml">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">true</ExcludedFromBuild>
+    </None>
+    <None Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmcgui.xml">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">true</ExcludedFromBuild>
+    </None>
+    <None Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmcplugin.xml">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">true</ExcludedFromBuild>
+    </None>
+    <None Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmcvfs.xml">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">true</ExcludedFromBuild>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
