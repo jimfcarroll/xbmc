@@ -20,7 +20,7 @@
       {
         pyentry${seq} = (isTuple ? PyTuple_GetItem(${pyarg}, i) : PyList_GetItem(${pyarg}, i));
         ${swigTypeParser.SwigType_str(swigTypeParser.SwigType_ltype(vectype))} entry${seq};
-        ${helper.getInConversion(vectype, 'entry' + seq, method,
+        ${helper.getInConversion(vectype, 'entry' + seq, 'pyentry' + seq, method,
                                  [ 'type' : vectype,
                                    'ltype' : swigTypeParser.SwigType_ltype(vectype),
                                    'sequence' : sequence

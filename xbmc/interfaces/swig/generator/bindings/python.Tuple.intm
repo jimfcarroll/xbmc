@@ -23,7 +23,7 @@ matcher = ltype =~ /Tuple(3){0,1}<\((.*)\)>/
         PyObject *pyentry${entryIndex}_${seq} = NULL;
         pyentry${entryIndex}_${seq} = (isTuple ? PyTuple_GetItem(${pyarg}, ${entryIndex}) : PyList_GetItem(${pyarg}, ${entryIndex}));
         ${swigTypeParser.SwigType_str(swigTypeParser.SwigType_ltype(curType))} entry${entryIndex}_${seq};
-        ${helper.getInConversion(curType, 'entry' + entryIndex + '_' + seq, method,
+        ${helper.getInConversion(curType, 'entry' + entryIndex + '_' + seq, 'pyentry' + entryIndex + '_' + seq, method,
                                  [ 'type' : vectype,
                                    'ltype' : swigTypeParser.SwigType_ltype(curType),
                                    'sequence' : sequence

@@ -21,7 +21,7 @@ public class SwigTypeParser
     */
    public static String convertTypeToLTypeForParam(String ty)
    {
-      // in the case were we're converting from a type to an ltype for a parameter,
+      // in the case where we're converting from a type to an ltype for a parameter,
       //  and the type is a r.q(const).*, we are going to assume the ltype is
       //  a "pass-by-value" on the stack.
       return (ty.trim().startsWith('r.q(const).') ? SwigTypeParser.SwigType_ltype(ty.trim().substring(11)) : SwigTypeParser.SwigType_ltype(ty.trim()))
@@ -218,7 +218,7 @@ public class SwigTypeParser
    /**
    * This creates the C++ declaration for a valid ltype for the type string
    * given. For example, if the type is a "const char*" which is equivalent
-   * the the type string 'p.q(const).char', the return value from this method
+   * to the type string 'p.q(const).char', the return value from this method
    * will be "char *".
    */
    public static String SwigType_lstr(String type)

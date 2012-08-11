@@ -119,7 +119,7 @@ void doMethod(method, MethodType methodType)
     {
 <%
     // now do the input converstion if any are necessary
-    params.findAll({ !PythonTools.parameterCanBeUsedDirectly(it) }).each { %>      ${Helper.getInConversion(it.@type, it.@name, method)} <% println() }
+    params.findAll({ !PythonTools.parameterCanBeUsedDirectly(it) }).each { %>      ${Helper.getInConversion(it.@type, it.@name, "py${it.@name}", method)} <% println() }
 %>
 <%
     // now do the method call itself
@@ -177,7 +177,7 @@ void doMethod(method, MethodType methodType)
 %>    result = makePythonInstance(apiResult,pytype,"${returns}");<%
     }
     else { 
-%>    ${Helper.getOutConversion(returns,method)}<%
+%>    ${Helper.getOutConversion(returns,'result',method)}<%
     }
     if (constructor && method.@feature_director) { %>
     if (&Py${classNameAsVariable}_Type != pytype) 
@@ -376,7 +376,7 @@ namespace PythonBindings
         { param ->
           %>
         PyObject* py${param.@name} = NULL;
-        ${Helper.getOutConversion(param.@type,it,['result' : 'py' + param.@name, 'api' : param.@name])}<%
+        ${Helper.getOutConversion(param.@type,'result',it,['result' : 'py' + param.@name, 'api' : param.@name])}<%
         }
 %>
         PyObject_CallMethod(self,(char*)"${Helper.callingName(it)}",(char*)"(${paramFormatStr})"<%
