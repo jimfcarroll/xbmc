@@ -17,7 +17,7 @@
       {
         const ${swigTypeParser.SwigType_str(swigTypeParser.SwigType_ltype(vectype))}& entry = *iter;
         PyObject* pyentry;
-        ${helper.getOutConversion(vectype,method,[ 'result' : 'pyentry', 'api' : 'entry' ])}
+        ${helper.getOutConversion(vectype,'result',method,[ 'result' : 'pyentry', 'api' : 'entry' ])}
         PyList_Append(${result}, pyentry);
       }
 <%

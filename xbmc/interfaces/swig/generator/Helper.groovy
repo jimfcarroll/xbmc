@@ -32,11 +32,11 @@ public class Helper
    public static void setup(List pclasses, Map poutTypemap, def defaultOutTypemap,
    Map pinTypemap, def defaultInTypemap)
    {
-      classes = pclasses
-      outTypemap.putAll(poutTypemap)
-      defaultOutTypeConversion = defaultOutTypemap
-      inTypemap.putAll(pinTypemap)
-      defaultInTypeConversion = defaultInTypemap
+      classes = pclasses ? pclasses : []
+      if (poutTypemap) outTypemap.putAll(poutTypemap)
+      if (defaultOutTypemap) defaultOutTypeConversion = defaultOutTypemap
+      if (pinTypemap) inTypemap.putAll(pinTypemap)
+      if (defaultInTypemap) defaultInTypeConversion = defaultInTypemap
    }
 
    public static class Sequence
@@ -63,7 +63,7 @@ public class Helper
     * @param method - is the node from the module xml that contains the method description
     * @return the code chunk as a string ready to be placed into the generated code.
     */
-   public static String getOutConversion(String apiType, Node method, Map overrideBindings = null)
+   public static String getOutConversion(String apiType, String apiName, Node method, Map overrideBindings = null)
    {
       def convertTemplate = outTypemap[apiType]
 
@@ -90,13 +90,13 @@ public class Helper
       boolean seqSetHere = false
       Sequence seq = curSequence.get()
       if (seq == null)
-        {
-          seqSetHere = true
-          seq = new Sequence()
-          curSequence.set(seq)
-        }
+      {
+        seqSetHere = true
+        seq = new Sequence()
+        curSequence.set(seq)
+      }
 
-      Map bindings = ['result' : 'result', 'api' : 'apiResult', 'type' : "${apiType}",
+      Map bindings = ['result' : apiName, 'api' : 'apiResult', 'type' : "${apiType}",
                       'method' : method, 'helper' : Helper.class, 
                       'swigTypeParser' : SwigTypeParser.class,
                       'sequence' : seq ]
@@ -105,11 +105,11 @@ public class Helper
       if (overrideBindings) bindings.putAll(overrideBindings)
 
       if (convertTemplate instanceof List) /// then we expect the template string/file to be the first entry
-        {
-          Map additionalBindings = convertTemplate.size() > 1 ? convertTemplate[1] : [:]
-          bindings.putAll(additionalBindings)
-          convertTemplate = convertTemplate[0]
-        }
+      {
+        Map additionalBindings = convertTemplate.size() > 1 ? convertTemplate[1] : [:]
+        bindings.putAll(additionalBindings)
+        convertTemplate = convertTemplate[0]
+      }
 
       if (seqSetHere) curSequence.set(null)
       return new SimpleTemplateEngine().createTemplate(convertTemplate).make(bindings).toString()
@@ -131,7 +131,7 @@ public class Helper
     * @param method - is the node from the module xml that contains the method description
     * @return the code chunk as a string ready to be placed into the generated code.
     */
-   public static String getInConversion(String apiType, String apiName, Node method, Map overrideBindings = null)
+   public static String getInConversion(String apiType, String apiName, String slName, Node method, Map overrideBindings = null)
    {
       def convertTemplate = inTypemap[apiType]
 
@@ -174,7 +174,7 @@ public class Helper
 
          Map bindings = [
                   'type': "${apiType}", 'ltype': "${apiLType}",
-                  'pyarg' : "py${apiName}", 'api' : "${apiName}",
+                  'slarg' : "${slName}", 'api' : "${apiName}",
                   'method' : method, 'helper' : Helper.class, 
                   'swigTypeParser' : SwigTypeParser.class,
                   'sequence' : seq

@@ -11,11 +11,11 @@
       {
         ${swigTypeParser.SwigType_str(swigTypeParser.SwigType_ltype(keytype))} key;
         ${swigTypeParser.SwigType_str(swigTypeParser.SwigType_ltype(valtype))} value;
-        ${helper.getInConversion(keytype, 'key' ,method,
+        ${helper.getInConversion(keytype, 'key', 'pykey', method,
                                  [ 'type' : swigTypeParser.SwigType_str(keytype),
                                    'ltype' : swigTypeParser.SwigType_str(swigTypeParser.SwigType_ltype(keytype))
                                    ])}
-        ${helper.getInConversion(valtype, 'value' ,method,
+        ${helper.getInConversion(valtype, 'value', 'pyvalue' ,method,
                                  [ 'type' : swigTypeParser.SwigType_str(valtype),
                                    'ltype' : swigTypeParser.SwigType_str(swigTypeParser.SwigType_ltype(valtype))
                                    ])}
