@@ -2,7 +2,7 @@
     {
       PyObject *pykey, *pyvalue;
       Py_ssize_t pos = 0;
-      while(PyDict_Next(${pyarg}, &pos, &pykey, &pyvalue))
+      while(PyDict_Next(${slarg}, &pos, &pykey, &pyvalue))
       {
         CStdString key;
         CStdString value;
