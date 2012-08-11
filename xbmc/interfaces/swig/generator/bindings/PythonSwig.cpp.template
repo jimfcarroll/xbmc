@@ -47,8 +47,8 @@ Helper.setup(classes,
      * call.
      */
     [ 
-      'String' : 'if (${pyarg}) PyXBMCGetUnicodeString(${api},${pyarg},false,"${api}","${method.@name}");',
-      'CStdString' : 'if (${pyarg}) PyXBMCGetUnicodeString(${api},${pyarg},false,"${api}","${method.@name}");',
+      'String' : 'if (${slarg}) PyXBMCGetUnicodeString(${api},${slarg},false,"${api}","${method.@name}");',
+      'CStdString' : 'if (${slarg}) PyXBMCGetUnicodeString(${api},${slarg},false,"${api}","${method.@name}");',
       (Pattern.compile('''(p.){0,1}std::vector<\\(.*\\)>''')) : new File('generator/bindings/python.vector.intm'),
       (Pattern.compile('''(p.){0,1}Tuple(3){0,1}<\\(.*\\)>''')) : new File('generator/bindings/python.Tuple.intm'),
       // I shouldn't need both of these but my parser doesn't resolve namespaces within
@@ -56,8 +56,8 @@ Helper.setup(classes,
       'r.q(const).Dictionary' : new File('generator/bindings/python.dict.intm'),
       'r.q(const).XBMCAddon::Dictionary' : new File('generator/bindings/python.dict.intm'),
       (Pattern.compile('''(p.){0,1}std::map<\\(.*\\)>''')) : new File('generator/bindings/python.map.intm'),
-      'bool' : '${api} = (PyInt_AsLong(${pyarg}) == 0L ? false : true);'
-    ], '${api} = (${swigTypeParser.SwigType_str(ltype)})retrieveApiInstance(${pyarg},"${ltype}","${helper.callingName(method)}");')
+      'bool' : '${api} = (PyInt_AsLong(${slarg}) == 0L ? false : true);'
+    ], '${api} = (${swigTypeParser.SwigType_str(ltype)})retrieveApiInstance(${slarg},"${ltype}","${helper.callingName(method)}");')
 
 //println 'this: ' + this.binding.getVariables()
 
@@ -119,7 +119,7 @@ void doMethod(method, MethodType methodType)
     {
 <%
     // now do the input converstion if any are necessary
-    params.findAll({ !PythonTools.parameterCanBeUsedDirectly(it) }).each { %>      ${Helper.getInConversion(it.@type, it.@name, "py${it.@name}", method)} <% println() }
+    params.findAll({ !PythonTools.parameterCanBeUsedDirectly(it) }).each { %>      ${Helper.getInConversion(it.@type, it.@name, 'py' + it.@name, method)} <% println() }
 %>
 <%
     // now do the method call itself

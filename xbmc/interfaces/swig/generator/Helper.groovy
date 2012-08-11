@@ -124,7 +124,7 @@ public class Helper
     * </code>
     * <p>This could have resulted from a mini-template stored as the way to handle 'long's in the outTypemap:</p>
     * <code>
-    *    if (${pyarg}) PyXBMCGetUnicodeString(${api},${pyarg},"${api}");
+    *    if (${slarg}) PyXBMCGetUnicodeString(${api},${slarg},"${api}");
     * </code>
     * @param apiType - is the Swig typecode that describes the parameter type from the native method
     * @param apiName - is the name of the parameter from the method parameter list in the api
