@@ -73,22 +73,21 @@ namespace XBMCAddon
      * start of xbmc methods
      *****************************************************************/
     /**
-     * "log(msg[, level]) -- Write a string to XBMC's log file and the debug window.\n"
-     *     "\n"
-     *     "msg            : string - text to output.\n"
-     *     "level          : [opt] integer - log level to ouput at. (default=LOGNOTICE)\n"
-     *     "\n"
-     * "*Note, You can use the above as keywords for arguments and skip certain optional arguments.\n"
-     * "       Once you use a keyword, all following arguments require the keyword.\n"
-     * "\n"
-     * Text is written to the log for the following conditions.\n"
-     *           XBMC loglevel == -1 (NONE, nothing at all is logged)"
-     *           XBMC loglevel == 0 (NORMAL, shows LOGNOTICE, LOGERROR, LOGSEVERE and LOGFATAL)"\
-     *           XBMC loglevel == 1 (DEBUG, shows all)"
-     *           See pydocs for valid values for level.\n"
-     *           "\n"
-     *           "example:\n"
-     *           "  - xbmc.output(msg='This is a test string.', level=xbmc.LOGDEBUG)\n");
+     * log(msg[, level]) -- Write a string to XBMC's log file and the debug window.
+     *     msg            : string - text to output.
+     *     level          : [opt] integer - log level to ouput at. (default=LOGNOTICE)
+     *     
+     * *Note, You can use the above as keywords for arguments and skip certain optional arguments.
+     *        Once you use a keyword, all following arguments require the keyword.
+     * 
+     * Text is written to the log for the following conditions.
+     *           XBMC loglevel == -1 (NONE, nothing at all is logged)
+     *           XBMC loglevel == 0 (NORMAL, shows LOGNOTICE, LOGERROR, LOGSEVERE and LOGFATAL)\
+     *           XBMC loglevel == 1 (DEBUG, shows all)
+     *           See pydocs for valid values for level.
+     *           
+     *           example:
+     *             - xbmc.output(msg='This is a test string.', level=xbmc.LOGDEBUG));
      */
     void log(const char* msg, int level)
     {
@@ -103,7 +102,7 @@ namespace XBMCAddon
     /**
      * Shutdown() -- Shutdown the xbox.
      *
-     * example:\n
+     * example:
      *  - xbmc.shutdown()
      */
     void shutdown()
@@ -119,7 +118,6 @@ namespace XBMCAddon
      * example:
      *  - xbmc.restart()
      */
-
     void restart()
     {
       TRACE;
@@ -135,7 +133,6 @@ namespace XBMCAddon
      * example:
      *   - xbmc.executescript('special://home/scripts/update.py')
      */
-
     void executescript(const char* script)
     {
       TRACE;
@@ -252,7 +249,7 @@ namespace XBMCAddon
      * Throws: PyExc_TypeError, if time is not an integer.
      * 
      * example:
-     *   - xbmc.sleep(2000) # sleeps for 2 seconds\n
+     *   - xbmc.sleep(2000) # sleeps for 2 seconds
      */
     void sleep(long timemillis)
     {
@@ -279,7 +276,7 @@ namespace XBMCAddon
      *        you need for a string.
      * 
      * example:
-     *   - locstr = xbmc.getLocalizedString(6)\n
+     *   - locstr = xbmc.getLocalizedString(6)
      */
     String getLocalizedString(int id)
     {
@@ -315,7 +312,7 @@ namespace XBMCAddon
      * getLanguage() -- Returns the active language as a string.
      * 
      * example:
-     *   - language = xbmc.getLanguage()\n
+     *   - language = xbmc.getLanguage()
      */
     String getLanguage()
     {
@@ -328,7 +325,7 @@ namespace XBMCAddon
      * getIPAddress() -- Returns the current ip address as a string.
      * 
      * example:
-     *   - ip = xbmc.getIPAddress()\n
+     *   - ip = xbmc.getIPAddress()
      */
     String getIPAddress()
     {
@@ -380,10 +377,10 @@ namespace XBMCAddon
     // getCpuTemp() method
     // ## Doesn't work right, use getInfoLabel('System.CPUTemperature') instead.
     /*PyDoc_STRVAR(getCpuTemp__doc__,
-      "getCpuTemp() -- Returns the current cpu temperature as an integer.\n"
-      "\n"
-      "example:\n"
-      "  - cputemp = xbmc.getCpuTemp()\n");
+      "getCpuTemp() -- Returns the current cpu temperature as an integer."
+      ""
+      "example:"
+      "  - cputemp = xbmc.getCpuTemp()");
 
       PyObject* XBMC_GetCpuTemp(PyObject *self, PyObject *args)
       {
@@ -474,7 +471,7 @@ namespace XBMCAddon
      * filename       : string - filename of the wav file to play.
      * 
      * example:
-     *   - xbmc.playSFX('special://xbmc/scripts/dingdong.wav')\n
+     *   - xbmc.playSFX('special://xbmc/scripts/dingdong.wav')
      */
     void playSFX(const char* filename)
     {
@@ -495,7 +492,7 @@ namespace XBMCAddon
      * yesNo          : integer - enable (True) or disable (False) nav sounds
      * 
      * example:
-     *   - xbmc.enableNavSounds(True)\n
+     *   - xbmc.enableNavSounds(True)
      */
     void enableNavSounds(bool yesNo)
     {
@@ -515,7 +512,7 @@ namespace XBMCAddon
      * \"|\" as an OR operator, \"!\" as a NOT operator, and \"[\" and \"]\" to bracket expressions.
      * 
      * example:
-     *   - visible = xbmc.getCondVisibility('[Control.IsVisible(41) + !Control.IsVisible(12)]')\n
+     *   - visible = xbmc.getCondVisibility('[Control.IsVisible(41) + !Control.IsVisible(12)]')
      */
     bool getCondVisibility(const char *condition)
     {
@@ -556,7 +553,7 @@ namespace XBMCAddon
      * path           : string or unicode - path to file
      * 
      * example:
-     *   - thumb = xbmc.getCacheThumbName('f:\\\\videos\\\\movie.avi')\n
+     *   - thumb = xbmc.getCacheThumbName('f:\\\\videos\\\\movie.avi')
      */
     String getCacheThumbName(const String& path)
     {
@@ -582,7 +579,7 @@ namespace XBMCAddon
      *        Once you use a keyword, all following arguments require the keyword.
      * 
      * example:
-     *   - filename = xbmc.makeLegalFilename('F:\\Trailers\\Ice Age: The Meltdown.avi')\n
+     *   - filename = xbmc.makeLegalFilename('F:\\Trailers\\Ice Age: The Meltdown.avi')
      */
     String makeLegalFilename(const String& filename, bool fatX)
     {
@@ -601,7 +598,7 @@ namespace XBMCAddon
      *        on Linux. Would return 'special://masterprofile/script_data' on the Xbox.
      * 
      * example:
-     *   - fpath = xbmc.translatePath('special://masterprofile/script_data')\n
+     *   - fpath = xbmc.translatePath('special://masterprofile/script_data')
      */
     String translatePath(const String& path)
     {
@@ -617,7 +614,7 @@ namespace XBMCAddon
      * bool           : [opt] bool - use folder names (defaults to false)
      * 
      * example:
-     *   - title, year = xbmc.getCleanMovieTitle('/path/to/moviefolder/test.avi', True)\n
+     *   - title, year = xbmc.getCleanMovieTitle('/path/to/moviefolder/test.avi', True)
      */
     std::vector<CStdString> getCleanMovieTitle(const String& path, bool usefoldername)
     {
@@ -660,7 +657,7 @@ namespace XBMCAddon
      *        You can use the above as keywords for arguments.
      * 
      * example:
-     *   - date_long_format = xbmc.getRegion('datelong')\n
+     *   - date_long_format = xbmc.getRegion('datelong')
      */
     String getRegion(const char* id)
     {
