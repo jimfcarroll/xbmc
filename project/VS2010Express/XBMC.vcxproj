@@ -2234,77 +2234,242 @@
     <CustomBuild Include="..\..\xbmc\interfaces\swig\AddonModuleXbmc.i">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">cd %(RelativeDir)
-
 IF NOT EXIST python\generated md python\generated
 IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
 IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
-
 $(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
 java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
-
 cd $(SolutionDir)</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">Generating SWIG bindings</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">Generating SWIG bindings</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">Generating SWIG bindings</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">Generating SWIG bindings</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">cd %(RelativeDir)
+IF NOT EXIST python\generated md python\generated
+IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
+IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
+$(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
+java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
+cd $(SolutionDir)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">cd %(RelativeDir)
+IF NOT EXIST python\generated md python\generated
+IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
+IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
+$(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
+java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
+cd $(SolutionDir)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">cd %(RelativeDir)
+IF NOT EXIST python\generated md python\generated
+IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
+IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
+$(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
+java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
+cd $(SolutionDir)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">cd %(RelativeDir)
+IF NOT EXIST python\generated md python\generated
+IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
+IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
+$(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
+java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
+cd $(SolutionDir)</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">Generating SWIG bindings</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
     </CustomBuild>
     <CustomBuild Include="..\..\xbmc\interfaces\swig\AddonModuleXbmcaddon.i">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">cd %(RelativeDir)
-
 IF NOT EXIST python\generated md python\generated
 IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
 IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
-
 $(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
 java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
-
 cd $(SolutionDir)</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">Generating SWIG bindings</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">Generating SWIG bindings</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">Generating SWIG bindings</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">Generating SWIG bindings</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">cd %(RelativeDir)
+IF NOT EXIST python\generated md python\generated
+IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
+IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
+$(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
+java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
+cd $(SolutionDir)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">cd %(RelativeDir)
+IF NOT EXIST python\generated md python\generated
+IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
+IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
+$(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
+java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
+cd $(SolutionDir)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">cd %(RelativeDir)
+IF NOT EXIST python\generated md python\generated
+IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
+IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
+$(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
+java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
+cd $(SolutionDir)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">cd %(RelativeDir)
+IF NOT EXIST python\generated md python\generated
+IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
+IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
+$(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
+java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
+cd $(SolutionDir)</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">Generating SWIG bindings</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
     </CustomBuild>
     <CustomBuild Include="..\..\xbmc\interfaces\swig\AddonModuleXbmcgui.i">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">cd %(RelativeDir)
-
 IF NOT EXIST python\generated md python\generated
 IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
 IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
-
 $(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
 java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
-
 cd $(SolutionDir)</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">Generating SWIG bindings</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">Generating SWIG bindings</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">Generating SWIG bindings</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">Generating SWIG bindings</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">cd %(RelativeDir)
+IF NOT EXIST python\generated md python\generated
+IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
+IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
+$(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
+java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
+cd $(SolutionDir)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">cd %(RelativeDir)
+IF NOT EXIST python\generated md python\generated
+IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
+IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
+$(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
+java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
+cd $(SolutionDir)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">cd %(RelativeDir)
+IF NOT EXIST python\generated md python\generated
+IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
+IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
+$(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
+java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
+cd $(SolutionDir)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">cd %(RelativeDir)
+IF NOT EXIST python\generated md python\generated
+IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
+IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
+$(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
+java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
+cd $(SolutionDir)</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">Generating SWIG bindings</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
     </CustomBuild>
     <CustomBuild Include="..\..\xbmc\interfaces\swig\AddonModuleXbmcplugin.i">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">cd %(RelativeDir)
-
 IF NOT EXIST python\generated md python\generated
 IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
 IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
-
 $(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
 java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
-
 cd $(SolutionDir)</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">Generating SWIG bindings</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">Generating SWIG bindings</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">Generating SWIG bindings</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">Generating SWIG bindings</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">cd %(RelativeDir)
+IF NOT EXIST python\generated md python\generated
+IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
+IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
+$(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
+java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
+cd $(SolutionDir)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">cd %(RelativeDir)
+IF NOT EXIST python\generated md python\generated
+IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
+IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
+$(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
+java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
+cd $(SolutionDir)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">cd %(RelativeDir)
+IF NOT EXIST python\generated md python\generated
+IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
+IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
+$(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
+java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
+cd $(SolutionDir)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">cd %(RelativeDir)
+IF NOT EXIST python\generated md python\generated
+IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
+IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
+$(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
+java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
+cd $(SolutionDir)</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">Generating SWIG bindings</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
     </CustomBuild>
     <CustomBuild Include="..\..\xbmc\interfaces\swig\AddonModuleXbmcvfs.i">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">cd %(RelativeDir)
-
 IF NOT EXIST python\generated md python\generated
 IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
 IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
-
 $(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
 java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
-
 cd $(SolutionDir)</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">Generating SWIG bindings</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">Generating SWIG bindings</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">Generating SWIG bindings</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">Generating SWIG bindings</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">cd %(RelativeDir)
+IF NOT EXIST python\generated md python\generated
+IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
+IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
+$(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
+java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
+cd $(SolutionDir)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">cd %(RelativeDir)
+IF NOT EXIST python\generated md python\generated
+IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
+IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
+$(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
+java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
+cd $(SolutionDir)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">cd %(RelativeDir)
+IF NOT EXIST python\generated md python\generated
+IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
+IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
+$(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
+java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
+cd $(SolutionDir)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">cd %(RelativeDir)
+IF NOT EXIST python\generated md python\generated
+IF EXIST python\generated\%(Filename).xml del python\generated\%(Filename).xml
+IF EXIST python\generated\%(Filename).cpp del python\generated\%(Filename).cpp
+$(SolutionDir)..\BuildDependencies\bin\swig\swig.exe -w401 -c++ -outdir python\generated -o python\generated\%(Filename).xml -xml -I"$(SolutionDir)..\..\xbmc" -xmllang python %(FullPath)
+java.exe -cp "$(SolutionDir)..\..\lib\groovy\groovy-all-1.8.4.jar;$(SolutionDir)..\..\lib\groovy\commons-lang-2.6.jar;generator" groovy.ui.GroovyMain generator\Generator.groovy python\generated\%(Filename).xml generator\bindings\PythonSwig.cpp.template python\generated\%(Filename).cpp
+cd $(SolutionDir)</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">Generating SWIG bindings</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
     </CustomBuild>
     <None Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmc.xml">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">true</ExcludedFromBuild>
