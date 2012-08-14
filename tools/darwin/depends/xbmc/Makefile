@@ -6,6 +6,7 @@ SOURCE=../../../../
 export PATH:=$(TOOLCHAIN)/bin:$(PREFIX)/bin:$(PATH)
 CONFIGURE=./configure --prefix=$(PREFIX) \
   --disable-rsxs \
+  --enable-swigaddons \
   PKG_CONFIG_PATH=$(PREFIX)/lib/pkgconfig \
   PYTHON=$(PREFIX)/bin/python
 
