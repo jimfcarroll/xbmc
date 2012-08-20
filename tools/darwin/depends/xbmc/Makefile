@@ -8,6 +8,7 @@ CONFIGURE=./configure --prefix=$(PREFIX) \
   --enable-upnp \
   --enable-gtest \
   --disable-rsxs \
+  --enable-swigaddons \
   PKG_CONFIG_PATH=$(PREFIX)/lib/pkgconfig \
   PYTHON=$(PREFIX)/bin/python
 

@@ -39,6 +39,9 @@
 #include "guilib/LocalizeStrings.h"
 #include "guilib/GUIWindowManager.h"
 #ifdef HAS_PYTHON
+#ifdef USE_SWIGADDON
+#include "interfaces/swig/python/XBPython.h"
+#else
 #include "interfaces/python/XBPython.h"
 #endif
 #if defined(TARGET_WINDOWS)
@@ -46,8 +49,7 @@
 #elif defined(HAS_SDL_JOYSTICK) 
 #include "input/SDLJoystick.h"
 #endif
-
-
+#endif
 
 #ifdef TARGET_RASPBERRY_PI
 #include "linux/RBP.h"

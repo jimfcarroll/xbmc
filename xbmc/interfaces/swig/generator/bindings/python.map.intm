@@ -1,0 +1,24 @@
+<%
+    matcher = ltype =~ /std::map<\((.*),(.*)\)>/
+    keytype = matcher[0][1]
+    valtype = matcher[0][2]
+%>
+
+    {
+      PyObject *pykey, *pyvalue;
+      Py_ssize_t pos = 0;
+      while(PyDict_Next(${slarg}, &pos, &pykey, &pyvalue))
+      {
+        ${swigTypeParser.SwigType_str(swigTypeParser.SwigType_ltype(keytype))} key;
+        ${swigTypeParser.SwigType_str(swigTypeParser.SwigType_ltype(valtype))} value;
+        ${helper.getInConversion(keytype, 'key', 'pykey', method,
+                                 [ 'type' : swigTypeParser.SwigType_str(keytype),
+                                   'ltype' : swigTypeParser.SwigType_str(swigTypeParser.SwigType_ltype(keytype))
+                                   ])}
+        ${helper.getInConversion(valtype, 'value', 'pyvalue' ,method,
+                                 [ 'type' : swigTypeParser.SwigType_str(valtype),
+                                   'ltype' : swigTypeParser.SwigType_str(swigTypeParser.SwigType_ltype(valtype))
+                                   ])}
+        ${api}[key] = value;
+      }
+    }

@@ -50,8 +50,6 @@ DIRECTORY_ARCHIVES=$(DVDPLAYER_ARCHIVES) \
                    xbmc/interfaces/info/info.a \
                    xbmc/interfaces/interfaces.a \
                    xbmc/interfaces/json-rpc/json-rpc.a \
-                   xbmc/interfaces/python/python.a \
-                   xbmc/interfaces/python/xbmcmodule/xbmcmodule.a \
                    xbmc/linux/linux.a \
                    xbmc/music/dialogs/musicdialogs.a \
                    xbmc/music/infoscanner/musicscanner.a \
@@ -95,6 +93,13 @@ NWAOBJSXBMC=	xbmc/threads/threads.a \
 
 ifeq (@USE_WEB_SERVER@,1)
 DIRECTORY_ARCHIVES += xbmc/network/httprequesthandler/httprequesthandlers.a
+endif
+ifeq (@USE_SWIGADDON@,1)
+DIRECTORY_ARCHIVES += xbmc/interfaces/native/native.a
+DIRECTORY_ARCHIVES += xbmc/interfaces/swig/swig.a
+else
+DIRECTORY_ARCHIVES += xbmc/interfaces/python/xbmcmodule/xbmcmodule.a
+DIRECTORY_ARCHIVES += xbmc/interfaces/python/python.a
 endif
 
 ifeq (@USE_OPENGL@,1)
@@ -396,13 +401,23 @@ libs: libhdhomerun libid3tag imagelib libexif system/libcpluff-@ARCH@.so $(CMYTH
 
 externals: codecs libs visualizations screensavers libaddon
 
+ifeq (@USE_SWIGADDON@,1)
+ADDON_BINDINGS = xbmc/interfaces/native/native.a
+ADDON_BINDINGS += xbmc/interfaces/swig/swig.a
+else
+ADDON_BINDINGS = xbmc/interfaces/python/xbmcmodule/xbmcmodule.a
+ADDON_BINDINGS += xbmc/interfaces/python/python.a
+endif
+
 xcode_depends: \
 	codecs libs visualizations screensavers eventclients skins libaddon \
 	lib/libsquish/libsquish.a \
 	lib/libapetag/.libs/libapetag.a \
 	lib/libRTV/librtv.a \
 	lib/libXDAAP/libxdaap.a \
-	lib/SlingboxLib/SlingboxLib.a
+	lib/SlingboxLib/SlingboxLib.a \
+	$(ADDON_BINDINGS)
+	libtool -static -o xbmc/interfaces/addonbindings.a $(ADDON_BINDINGS)
 
 OBJSXBMC =$(DIRECTORY_ARCHIVES)
 OBJSXBMC+=lib/libapetag/.libs/libapetag.a
