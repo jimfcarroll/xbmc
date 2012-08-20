@@ -36,6 +36,3 @@ FOR /F "tokens=*" %%S IN ('dir /B "*_d.bat"') DO (
 cd %CUR_PATH%
 
 rmdir %TMP_PATH% /S /Q
-
-cd %XBMC_PATH%\xbmc\interfaces\swig
-CALL GenerateSWIGBindings.bat
