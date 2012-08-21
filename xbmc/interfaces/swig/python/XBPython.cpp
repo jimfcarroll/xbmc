@@ -65,12 +65,20 @@ XBPython::XBPython()
   m_iDllScriptCounter = 0;
   m_vecPlayerCallbackList.clear();
   m_vecMonitorCallbackList.clear();
-  CAnnouncementManager::AddAnnouncer(this);
+
+  // Please see the comment in the header file
+  // on the announcerAdded flag.
+//  CAnnouncementManager::AddAnnouncer(this);
+  announcerAdded = false;
 }
 
 XBPython::~XBPython()
 {
-  CAnnouncementManager::RemoveAnnouncer(this);
+   // Please see the comment on the announcerAdded flag in the header.
+   // We cannot actually remove this announcer in the destructor for the
+   // same reason we cannot add it in the constructor.
+//   if (announcerAdded)
+//      CAnnouncementManager::RemoveAnnouncer(this);
 }
 
 // message all registered callbacks that xbmc stopped playing
@@ -485,6 +493,12 @@ void XBPython::DeInitializeInterpreter()
 */
 void XBPython::Initialize()
 {
+  if (!announcerAdded)
+  {
+     announcerAdded = true;
+     CAnnouncementManager::AddAnnouncer(this);
+  }
+
   CLog::Log(LOGINFO, "initializing python engine. ");
   CSingleLock lock(m_critSection);
   m_iDllScriptCounter++;
