@@ -20,8 +20,8 @@ CXXFLAGS+= -DSWIGRUNTIME_DEBUG -DSTATIC_LINKED
 include ../../../Makefile.include
 -include $(patsubst %.cpp,%.P,$(patsubst %.c,%.P,$(SRCS)))
 
-generatedSWIGBindings/dummy:
-	mkdir generatedSWIGBindings
+generatedSWIGBindings/dummy: ../native/*.h
+	mkdir -p generatedSWIGBindings
 	touch generatedSWIGBindings/dummy
 
 generatedSWIGBindings/AddonModuleXbmc.xml:	AddonModuleXbmc.i generatedSWIGBindings/dummy
