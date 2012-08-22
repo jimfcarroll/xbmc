@@ -50,7 +50,7 @@ namespace XBMCAddon
            typename Extraneous = tuple_null_type> class Tuple {};
 
   // Tuple that holds a single value
-  template<typename T1> class Tuple<T1, tuple_null_type, tuple_null_type, tuple_null_type> : public TupleBase
+  template<typename T1> class Tuple<T1, tuple_null_type, tuple_null_type, tuple_null_type, tuple_null_type> : public TupleBase
   {
   private:
     T1 v1;
@@ -64,7 +64,7 @@ namespace XBMCAddon
   };
 
   // Tuple that holds two values
-  template<typename T1, typename T2> class Tuple<T1, T2, tuple_null_type, tuple_null_type> : public Tuple<T1>
+  template<typename T1, typename T2> class Tuple<T1, T2, tuple_null_type, tuple_null_type, tuple_null_type> : public Tuple<T1>
   {
   protected:
     T2 v2;
@@ -80,7 +80,7 @@ namespace XBMCAddon
   };
 
   // Tuple that holds three values
-  template<typename T1, typename T2, typename T3> class Tuple<T1, T2, T3, tuple_null_type> : public Tuple<T1,T2>
+  template<typename T1, typename T2, typename T3> class Tuple<T1, T2, T3, tuple_null_type, tuple_null_type> : public Tuple<T1,T2>
   {
   private:
     T3 v3;
@@ -96,7 +96,7 @@ namespace XBMCAddon
   };
 
   // Tuple that holds four values
-  template<typename T1, typename T2, typename T3, typename T4> class Tuple<T1, T2, T3, T4> : public Tuple<T1,T2,T3>
+  template<typename T1, typename T2, typename T3, typename T4> class Tuple<T1, T2, T3, T4, tuple_null_type> : public Tuple<T1,T2,T3>
   {
   private:
     T4 v4;
