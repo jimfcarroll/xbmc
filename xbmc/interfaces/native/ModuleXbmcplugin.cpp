@@ -71,14 +71,14 @@ namespace XBMCAddon
      *   - if not xbmcplugin.addDirectoryItems(int(sys.argv[1]), [(url, listitem, False,)]: raise
      */
     bool addDirectoryItems(int handle, 
-                           const std::vector<Tuple3<String,const XBMCAddon::xbmcgui::ListItem*,bool> >& items, 
+                           const std::vector<Tuple<String,const XBMCAddon::xbmcgui::ListItem*,bool> >& items, 
                            int totalItems)
     {
       CFileItemList fitems;
-      for (std::vector<Tuple3<String,const XBMCAddon::xbmcgui::ListItem*,bool> >::const_iterator item = items.begin();
+      for (std::vector<Tuple<String,const XBMCAddon::xbmcgui::ListItem*,bool> >::const_iterator item = items.begin();
            item < items.end(); item++ )
       {
-        const Tuple3<String,const XBMCAddon::xbmcgui::ListItem*,bool>* pItem = &(*item);
+        const Tuple<String,const XBMCAddon::xbmcgui::ListItem*,bool>* pItem = &(*item);
         const String& url = pItem->first();
         const XBMCAddon::xbmcgui::ListItem *pListItem = pItem->second();
         bool bIsFolder = pItem->GetNumValuesSet() > 2 ? pItem->third() : false;

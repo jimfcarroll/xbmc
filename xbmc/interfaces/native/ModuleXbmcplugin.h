@@ -67,7 +67,7 @@ namespace XBMCAddon
      *   - if not xbmcplugin.addDirectoryItems(int(sys.argv[1]), [(url, listitem, False,)]: raise
      */
     bool addDirectoryItems(int handle, 
-                           const std::vector<Tuple3<String,const XBMCAddon::xbmcgui::ListItem*,bool> >& items, 
+                           const std::vector<Tuple<String,const XBMCAddon::xbmcgui::ListItem*,bool> >& items, 
                            int totalItems = 0);
 
     /**

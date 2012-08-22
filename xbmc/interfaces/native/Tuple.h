@@ -27,41 +27,83 @@
  */
 namespace XBMCAddon
 {
-  template<class T1, class T2> class Tuple2
+  struct tuple_null_type
+  {
+    tuple_null_type() {}
+    tuple_null_type(const tuple_null_type&, const tuple_null_type&) {}
+  };
+
+  class TupleBase
   {
   protected:
-    T1 v1;
-    T2 v2;
     int numValuesSet;
-
+    inline TupleBase(int pnumValuesSet) : numValuesSet(pnumValuesSet) {}
   public:
-    inline Tuple2() : numValuesSet(0) {}
-    inline Tuple2(T1 pv1) : v1(pv1), numValuesSet(1) {}
-    inline Tuple2(T1 pv1, T2 pv2) : v1(pv1), v2(pv2), numValuesSet(2) {}
-    inline Tuple2(const Tuple2& other) : v1(other.v1), v2(other.v2), numValuesSet(other.numValuesSet) {}
+    inline int GetNumValuesSet() const { return numValuesSet; }
+    inline void SetNumValuesSet(int pnumValuesSet) { numValuesSet = pnumValuesSet; }
+  };
+
+  // stub type template to be partial specialized
+  template<typename T1 = tuple_null_type, typename T2 = tuple_null_type,
+           typename T3 = tuple_null_type, typename T4 = tuple_null_type,
+           typename Extraneous = tuple_null_type> class Tuple {};
+
+  // Tuple that holds a single value
+  template<typename T1> class Tuple<T1, tuple_null_type, tuple_null_type, tuple_null_type> : public TupleBase
+  {
+  private:
+    T1 v1;
+  public:
+    inline Tuple(T1 p1) : TupleBase(1), v1(p1) {}
+    inline Tuple() : TupleBase(0) {}
 
     inline T1& first() { return v1; }
     inline const T1& first() const { return v1; }
+  };
+
+  // Tuple that holds two values
+  template<typename T1, typename T2> class Tuple<T1, T2, tuple_null_type, tuple_null_type> : public Tuple<T1>
+  {
+  protected:
+    T2 v2;
+
+  public:
+    inline Tuple(T1 p1, T2 p2) : Tuple<T1>(p1), v2(p2) { TupleBase::numValuesSet = 2; }
+    inline Tuple(T1 p1) : Tuple<T1>(p1) {}
+    inline Tuple() {}
 
     inline T2& second() { return v2; }
     inline const T2& second() const { return v2; }
-
-    inline int GetNumValuesSet() const { return numValuesSet; }
-    inline void SetNumValuesSet(int pcount) { numValuesSet = pcount; }
   };
 
-  template<class T1, class T2, class T3> class Tuple3 : public Tuple2<T1, T2>
+  // Tuple that holds three values
+  template<typename T1, typename T2, typename T3> class Tuple<T1, T2, T3, tuple_null_type> : public Tuple<T1,T2>
   {
   private:
     T3 v3;
   public:
-    inline Tuple3() {}
-    inline Tuple3(T1 pv1) : Tuple2<T1,T2>(pv1) { }
-    inline Tuple3(T1 pv1, T2 pv2) : Tuple2<T1,T2>(pv1,pv2) { }
-    inline Tuple3(T1 pv1, T2 pv2, T3 pv3) : Tuple2<T1,T2>(pv1,pv2), v3(pv3) { this->SetNumValuesSet(3); }
-    inline Tuple3(const Tuple3& other) : Tuple2<T1,T2>(other), v3(other.v3) { }
+    inline Tuple(T1 p1, T2 p2, T3 p3) : Tuple<T1,T2>(p1,p2), v3(p3) { TupleBase::numValuesSet = 3; }
+    inline Tuple(T1 p1, T2 p2) : Tuple<T1,T2>(p1,p2) {}
+    inline Tuple(T1 p1) : Tuple<T1,T2>(p1) {}
+    inline Tuple() {}
 
     inline T3& third() { return v3; }
     inline const T3& third() const { return v3; }
+  };
+
+  // Tuple that holds four values
+  template<typename T1, typename T2, typename T3, typename T4> class Tuple<T1, T2, T3, T4> : public Tuple<T1,T2,T3>
+  {
+  private:
+    T4 v4;
+  public:
+    inline Tuple(T1 p1, T2 p2, T3 p3, T4 p4) : Tuple<T1,T2,T3>(p1,p2,p3), v4(p4) { TupleBase::numValuesSet = 4; }
+    inline Tuple(T1 p1, T2 p2, T3 p3) : Tuple<T1,T2,T3>(p1,p2,p3) {}
+    inline Tuple(T1 p1, T2 p2) : Tuple<T1,T2,T3>(p1,p2) {}
+    inline Tuple(T1 p1) : Tuple<T1,T2,T3>(p1) {}
+    inline Tuple() {}
+
+    inline T4& fourth() { return v4; }
+    inline const T4& fourth() const { return v4; }
   };
 }

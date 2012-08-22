@@ -1,7 +1,6 @@
 <%
-matcher = ltype =~ /Tuple(3){0,1}<\((.*)\)>/
-    tuplesize = matcher[0][1]
-    vectype = '(' + matcher[0][2] + ')'
+matcher = ltype =~ /Tuple<\((.*)\)>/
+    vectype = '(' + matcher[0][1] + ')'
     boolean ispointer = swigTypeParser.SwigType_ispointer(type)
     String accessor = ispointer ? '->' : '.'
     int seq = sequence.increment()
