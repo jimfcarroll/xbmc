@@ -38,9 +38,10 @@ namespace XBMCAddon
   protected:
     int numValuesSet;
     inline TupleBase(int pnumValuesSet) : numValuesSet(pnumValuesSet) {}
+    inline TupleBase(const TupleBase& o) : numValuesSet(o.numValuesSet) {}
+    inline void nvs(int newSize) { if(numValuesSet < newSize) numValuesSet = newSize; }
   public:
     inline int GetNumValuesSet() const { return numValuesSet; }
-    inline void SetNumValuesSet(int pnumValuesSet) { numValuesSet = pnumValuesSet; }
   };
 
   // stub type template to be partial specialized
@@ -56,8 +57,9 @@ namespace XBMCAddon
   public:
     inline Tuple(T1 p1) : TupleBase(1), v1(p1) {}
     inline Tuple() : TupleBase(0) {}
+    inline Tuple(const Tuple<T1>& o) : TupleBase(o), v1(o.v1) {}
 
-    inline T1& first() { return v1; }
+    inline T1& first() { TupleBase::nvs(1); return v1; }
     inline const T1& first() const { return v1; }
   };
 
@@ -71,8 +73,9 @@ namespace XBMCAddon
     inline Tuple(T1 p1, T2 p2) : Tuple<T1>(p1), v2(p2) { TupleBase::numValuesSet = 2; }
     inline Tuple(T1 p1) : Tuple<T1>(p1) {}
     inline Tuple() {}
+    inline Tuple(const Tuple<T1,T2>& o) : Tuple<T1>(o), v2(o.v2) {}
 
-    inline T2& second() { return v2; }
+    inline T2& second() { TupleBase::nvs(2); return v2; }
     inline const T2& second() const { return v2; }
   };
 
@@ -86,8 +89,9 @@ namespace XBMCAddon
     inline Tuple(T1 p1, T2 p2) : Tuple<T1,T2>(p1,p2) {}
     inline Tuple(T1 p1) : Tuple<T1,T2>(p1) {}
     inline Tuple() {}
+    inline Tuple(const Tuple<T1,T2,T3>& o) : Tuple<T1,T2>(o), v3(o.v3) {}
 
-    inline T3& third() { return v3; }
+    inline T3& third() { TupleBase::nvs(3); return v3; }
     inline const T3& third() const { return v3; }
   };
 
@@ -102,8 +106,9 @@ namespace XBMCAddon
     inline Tuple(T1 p1, T2 p2) : Tuple<T1,T2,T3>(p1,p2) {}
     inline Tuple(T1 p1) : Tuple<T1,T2,T3>(p1) {}
     inline Tuple() {}
+    inline Tuple(const Tuple<T1,T2,T3,T4>& o) : Tuple<T1,T2,T3>(o), v4(o.v4) {}
 
-    inline T4& fourth() { return v4; }
+    inline T4& fourth() { TupleBase::nvs(4); return v4; }
     inline const T4& fourth() const { return v4; }
   };
 }

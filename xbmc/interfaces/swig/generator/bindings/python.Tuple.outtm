@@ -1,0 +1,34 @@
+<%
+    matcher = type =~ /Tuple<\((.*)\)>/
+    vectype = '(' + matcher[0][1] + ')'
+    boolean ispointer = swigTypeParser.SwigType_ispointer(type)
+    int seq = sequence.increment()
+    String accessor = ispointer ? '->' : '.'
+    tupleAccess = [ 'first', 'second', 'third', 'fourth' ]
+%>
+
+    int vecSize = ${api}${accessor}GetNumValuesSet();
+    ${result} = PyTuple_New(vecSize);
+<%
+    if (ispointer)
+    {
+%>
+    if (${api} != NULL)
+<%  }  // this ends the if (ispointer)
+%>    {
+      PyObject* pyentry${seq}; <%
+      swigTypeParser.SwigType_parmlist(vectype).eachWithIndex { curType, entryIndex -> 
+%>
+
+      if (vecSize > ${entryIndex})
+      {
+        const ${swigTypeParser.SwigType_str(swigTypeParser.SwigType_ltype(curType))}& entry${seq} = ${api}${accessor}${tupleAccess[entryIndex]}();
+        {
+          ${helper.getOutConversion(curType,'result',method,[ 'result' : 'pyentry' + seq, 'api' : 'entry' + seq, 'sequence' : sequence ])}
+        }
+        PyTuple_SetItem(${result}, ${entryIndex}, pyentry${seq});
+      }
+<%
+        }
+%>
+    }
