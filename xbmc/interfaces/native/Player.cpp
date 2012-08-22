@@ -81,7 +81,7 @@ namespace XBMCAddon
     void Player::playStream(const String& item, const xbmcgui::ListItem* plistitem, bool windowed)
     {
       TRACE;
-      if (item != nullString)
+      if (!item.empty())
       {
         // set fullscreen or windowed
         g_settings.m_bStartVideoWindowed = windowed;
@@ -370,7 +370,7 @@ namespace XBMCAddon
      * 
      * Throws: Exception, if player is not playing a file.
      */
-    CStdString Player::getPlayingFile() throw (PlayerException)
+    String Player::getPlayingFile() throw (PlayerException)
     {
       TRACE;
       if (!g_application.IsPlaying())

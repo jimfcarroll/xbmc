@@ -22,7 +22,7 @@
 #pragma once
 
 #include <map>
-#include "utils/StdString.h"
+#include "AddonString.h"
 
 namespace XBMCAddon
 {
@@ -35,5 +35,5 @@ namespace XBMCAddon
    * native api handles these calls by converting the string to the
    * appropriate types.
    */
-  typedef std::map<CStdString,CStdString> Dictionary;
+  typedef std::map<String,String> Dictionary;
 }

@@ -60,7 +60,7 @@ namespace XBMCAddon
       bool bHidden;
       CGUIDialogKeyboardGeneric* dlg;
 
-      Keyboard(const String& line = nullString, const String& heading = nullString, bool hidden = false);
+      Keyboard(const String& line = emptyString, const String& heading = emptyString, bool hidden = false);
       virtual ~Keyboard();
 
       /**
@@ -82,7 +82,7 @@ namespace XBMCAddon
        * example:
        *   - kb.setDefault('password')
        */
-      void setDefault(const String& line = nullString) throw (KeyboardException);
+      void setDefault(const String& line = emptyString) throw (KeyboardException);
 
       /**
        * setHiddenInput(hidden) -- Allows hidden text entry.

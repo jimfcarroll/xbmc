@@ -33,6 +33,7 @@
 #include "music/tags/MusicInfoTag.h"
 #include "FileItem.h"
 #include "AddonString.h"
+#include "Tuple.h"
 
 #include <map>
 
@@ -45,11 +46,11 @@ namespace XBMCAddon
     public:
       CFileItemPtr item;
 
-      ListItem(const String& label = nullString, 
-               const String& label2 = nullString,
-               const String& iconImage = nullString,
-               const String& thumbnailImage = nullString,
-               const String& path = nullString);
+      ListItem(const String& label = emptyString, 
+               const String& label2 = emptyString,
+               const String& iconImage = emptyString,
+               const String& thumbnailImage = emptyString,
+               const String& path = emptyString);
       virtual ~ListItem();
 
       static inline ListItem* fromString(const String& str) 
@@ -65,7 +66,7 @@ namespace XBMCAddon
        * example:
        *   - label = self.list.getSelectedItem().getLabel()
        */
-      CStdString getLabel();
+      String getLabel();
 
       /**
        * getLabel2() -- Returns the listitem label.
@@ -73,7 +74,7 @@ namespace XBMCAddon
        * example:
        *   - label = self.list.getSelectedItem().getLabel2()
        */
-      CStdString getLabel2();
+      String getLabel2();
 
       /**
        * setLabel(label) -- Sets the listitem's label.
@@ -83,7 +84,7 @@ namespace XBMCAddon
        * example:
        *   - self.list.getSelectedItem().setLabel('Casino Royale')
        */
-      void setLabel(const CStdString& label);
+      void setLabel(const String& label);
 
       /**
        * setLabel2(label) -- Sets the listitem's label2.
@@ -93,7 +94,7 @@ namespace XBMCAddon
        * example:
        *   - self.list.getSelectedItem().setLabel2('Casino Royale')
        */
-      void setLabel2(const CStdString& label);
+      void setLabel2(const String& label);
 
       /**
        * setIconImage(icon) -- Sets the listitem's icon image.
@@ -252,7 +253,7 @@ namespace XBMCAddon
        * example:
        *   - listitem.addContextMenuItems([('Theater Showtimes', 'XBMC.RunScript(special://home/scripts/showtimes/default.py,Iron Man)',)])\n
        */
-      void addContextMenuItems(const std::vector<std::vector<CStdString> >& items, bool replaceItems = false);
+      void addContextMenuItems(const std::vector<Tuple<String,String> >& items, bool replaceItems = false);
 
       /**
        * setProperty(key, value) -- Sets a listitem property, similar to an infolabel.
@@ -286,7 +287,7 @@ namespace XBMCAddon
        * example:
        *   - AspectRatio = self.list.getSelectedItem().getProperty('AspectRatio')
        */
-      CStdString getProperty(const char* key);
+      String getProperty(const char* key);
 
       /**
        * addContextMenuItems([(label, action,)*], replaceItems) -- Adds item(s) to the context menu for media lists.
@@ -316,7 +317,7 @@ namespace XBMCAddon
        * example:
        *   - self.list.getSelectedItem().setPath(path='ActivateWindow(Weather)')
        */
-      void setPath(const CStdString& path);
+      void setPath(const String& path);
 
       /**
        * setMimeType(mimetype) -- Sets the listitem's mimetype if known.
@@ -325,22 +326,22 @@ namespace XBMCAddon
        * 
        * *If known prehand, this can avoid xbmc doing HEAD requests to http servers to figure out file type.
        */
-      void setMimeType(const CStdString& mimetype);
+      void setMimeType(const String& mimetype);
 
       /**
        * getdescription() -- Returns the description of this PlayListItem.
        */
-      CStdString getdescription();
-
+      String getdescription();
+      
       /**
        * getduration() -- Returns the duration of this PlayListItem
        */
-      CStdString getduration();
+      String getduration();
 
       /**
        * getfilename() -- Returns the filename of this PlayListItem.
        */
-      CStdString getfilename();
+      String getfilename();
 
     };
 

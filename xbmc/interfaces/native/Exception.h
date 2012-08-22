@@ -66,7 +66,7 @@ namespace XBMCAddon
 
     SWIGHIDDENVIRTUAL ~Exception();
 
-    inline CStdString getMessage() const { return message; }
+    inline String getMessage() const { return message; }
   };
 
   /**

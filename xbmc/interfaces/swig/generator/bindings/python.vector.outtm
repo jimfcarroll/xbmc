@@ -3,6 +3,7 @@
     vectype = matcher[0][1]
     boolean ispointer = swigTypeParser.SwigType_ispointer(type)
     String accessor = ispointer ? '->' : '.'
+    seq = sequence.increment()
 %>
 
     ${result} = PyList_New(0);
@@ -15,10 +16,10 @@
 <%  }  %>
       for (std::vector<${vectype}>::iterator iter = ${api}${accessor}begin(); iter != ${api}${accessor}end(); ++iter)
       {
-        const ${swigTypeParser.SwigType_str(swigTypeParser.SwigType_ltype(vectype))}& entry = *iter;
-        PyObject* pyentry;
-        ${helper.getOutConversion(vectype,'result',method,[ 'result' : 'pyentry', 'api' : 'entry' ])}
-        PyList_Append(${result}, pyentry);
+        const ${swigTypeParser.SwigType_str(swigTypeParser.SwigType_ltype(vectype))}& entry${seq} = *iter;
+        PyObject* pyentry${seq};
+        ${helper.getOutConversion(vectype,'result',method,[ 'result' : 'pyentry' + seq, 'api' : 'entry' + seq, 'sequence' : sequence ])}
+        PyList_Append(${result}, pyentry${seq});
       }
 <%
     if (ispointer)

@@ -142,7 +142,7 @@ namespace XBMCAddon
     void addSortMethod(int handle, int sortMethod, const String& clabel2Mask)
     {
       String label2Mask;
-      label2Mask = (isNull(clabel2Mask) ? "%D" : clabel2Mask.c_str());
+      label2Mask = (clabel2Mask.empty() ? "%D" : clabel2Mask.c_str());
 
       // call the directory class to add the sort method.
       if (sortMethod >= SORT_METHOD_NONE && sortMethod < SORT_METHOD_MAX)

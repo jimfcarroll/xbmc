@@ -92,13 +92,13 @@ namespace XBMCAddon
       // currently we only accept messages from a button or controllist with a select action
       virtual bool canAcceptMessages(int actionId) { return false; }
 
-      virtual void setLabel(const String& label = nullString, 
+      virtual void setLabel(const String& label = emptyString, 
                             const char* font = NULL,
                             const char* textColor = NULL,
                             const char* disabledColor = NULL,
                             const char* shadowColor = NULL,
                             const char* focusedColor = NULL,
-                            const String& label2 = nullString) DECL_UNIMP("Control");
+                            const String& label2 = emptyString) DECL_UNIMP("Control");
       virtual void reset() DECL_UNIMP("Control");
       virtual void setSelected(bool selected) DECL_UNIMP("Control");
       virtual void setPercent(float pct) DECL_UNIMP("Control");
@@ -465,13 +465,13 @@ namespace XBMCAddon
        * example:
        *   - self.label.setLabel('Status')
        */
-      virtual void setLabel(const String& label = nullString, 
+      virtual void setLabel(const String& label = emptyString, 
                             const char* font = NULL,
                             const char* textColor = NULL,
                             const char* disabledColor = NULL,
                             const char* shadowColor = NULL,
                             const char* focusedColor = NULL,
-                            const String& label2 = nullString) throw(UnimplementedException);
+                            const String& label2 = emptyString) throw(UnimplementedException);
 #ifndef SWIG
       ControlLabel() : Control("ControlLabel") {}
 
@@ -533,13 +533,13 @@ namespace XBMCAddon
        * example:
        *   - self.edit.setLabel('Status')\n
        */
-      virtual void setLabel(const String& label = nullString, 
+      virtual void setLabel(const String& label = emptyString, 
                             const char* font = NULL,
                             const char* textColor = NULL,
                             const char* disabledColor = NULL,
                             const char* shadowColor = NULL,
                             const char* focusedColor = NULL,
-                            const String& label2 = nullString) throw(UnimplementedException);
+                            const String& label2 = emptyString) throw(UnimplementedException);
 
       // getLabel() Method
       /**
@@ -1115,13 +1115,13 @@ namespace XBMCAddon
        * example:
        *   - self.button.setLabel('Status', 'font14', '0xFFFFFFFF', '0xFFFF3300', '0xFF000000')
        */
-      virtual void setLabel(const String& label = nullString, 
+      virtual void setLabel(const String& label = emptyString, 
                             const char* font = NULL,
                             const char* textColor = NULL,
                             const char* disabledColor = NULL,
                             const char* shadowColor = NULL,
                             const char* focusedColor = NULL,
-                            const String& label2 = nullString) throw (UnimplementedException);
+                            const String& label2 = emptyString) throw (UnimplementedException);
 
       // setDisabledColor() Method
       /**
@@ -1244,13 +1244,13 @@ namespace XBMCAddon
        * example:
        *   - self.checkmark.setLabel('Status', 'font14', '0xFFFFFFFF', '0xFFFF3300')
        */
-      virtual void setLabel(const String& label = nullString, 
+      virtual void setLabel(const String& label = emptyString, 
                             const char* font = NULL,
                             const char* textColor = NULL,
                             const char* disabledColor = NULL,
                             const char* shadowColor = NULL,
                             const char* focusedColor = NULL,
-                            const String& label2 = nullString) throw (UnimplementedException);
+                            const String& label2 = emptyString) throw (UnimplementedException);
 
       // setDisabledColor() Method
       /**
@@ -1361,13 +1361,13 @@ namespace XBMCAddon
        * example:
        *   - self.radiobutton.setLabel('Status', 'font14', '0xFFFFFFFF', '0xFFFF3300', '0xFF000000')
        */
-      virtual void setLabel(const String& label = nullString, 
+      virtual void setLabel(const String& label = emptyString, 
                             const char* font = NULL,
                             const char* textColor = NULL,
                             const char* disabledColor = NULL,
                             const char* shadowColor = NULL,
                             const char* focusedColor = NULL,
-                            const String& label2 = nullString) throw (UnimplementedException);
+                            const String& label2 = emptyString) throw (UnimplementedException);
 
       // setRadioDimension() Method
       /**

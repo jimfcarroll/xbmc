@@ -90,7 +90,7 @@ namespace XBMCAddon
        *   - listitem.setInfo('video', {'Title': 'Ironman', 'Genre': 'Science Fiction'})
        *   - xbmc.Player( xbmc.PLAYER_CORE_MPLAYER ).play(url, listitem, windowed)\n
        */
-      void playStream(const String& item = nullString, const XBMCAddon::xbmcgui::ListItem* listitem = NULL, bool windowed = false);
+      void playStream(const String& item = emptyString, const XBMCAddon::xbmcgui::ListItem* listitem = NULL, bool windowed = false);
 
       /**
        * playPlaylist([playlist, windowed]) -- Play this item.
@@ -222,7 +222,7 @@ namespace XBMCAddon
        * Throws: Exception, if player is not playing a file.
        */
       // Player_GetPlayingFile
-      CStdString getPlayingFile() throw (PlayerException);
+      String getPlayingFile() throw (PlayerException);
 
       /**
        * getTime() -- Returns the current time of the current playing media as fractional seconds.

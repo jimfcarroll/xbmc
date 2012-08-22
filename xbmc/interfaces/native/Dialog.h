@@ -60,10 +60,10 @@ namespace XBMCAddon
        *   - ret = dialog.yesno('XBMC', 'Do you want to exit this script?')\n
        */
       bool yesno(const String& heading, const String& line1, 
-                 const String& line2 = nullString,
-                 const String& line3 = nullString,
-                 const String& nolabel = nullString,
-                 const String& yeslabel = nullString) throw (WindowException);
+                 const String& line2 = emptyString,
+                 const String& line3 = emptyString,
+                 const String& nolabel = emptyString,
+                 const String& yeslabel = emptyString) throw (WindowException);
 
       /**
        * select(heading, list) -- Show a select dialog.
@@ -95,8 +95,8 @@ namespace XBMCAddon
        *   - ok = dialog.ok('XBMC', 'There was an error.')\n
        */
       bool ok(const String& heading, const String& line1, 
-              const String& line2 = nullString,
-              const String& line3 = nullString) throw (WindowException);
+              const String& line2 = emptyString,
+              const String& line3 = emptyString) throw (WindowException);
 
       /**
        * browse(type, heading, shares[, mask, useThumbs, treatAsFolder, default]) -- Show a 'Browse' dialog.
@@ -124,9 +124,9 @@ namespace XBMCAddon
        *   - fn = dialog.browse(3, 'XBMC', 'files', '', False, False, 'special://masterprofile/script_data/XBMC Lyrics')\n
        */
       String browse(int type, const String& heading, const String& shares,
-                    const String& mask = nullString, bool useThumbs = false, 
+                    const String& mask = emptyString, bool useThumbs = false, 
                     bool treatAsFolder = false, 
-                    const String& defaultt = nullString ) throw (WindowException);
+                    const String& defaultt = emptyString ) throw (WindowException);
 
       /**
        * browse(type, heading, shares[, mask, useThumbs, treatAsFolder, default]) -- Show a 'Browse' dialog.
@@ -151,10 +151,10 @@ namespace XBMCAddon
        *   - dialog = xbmcgui.Dialog()
        *   - fn = dialog.browseMultiple(2, 'XBMC', 'files', '', False, False, 'special://masterprofile/script_data/XBMC Lyrics')\n
        */
-      std::vector<CStdString> browseMultiple(int type, const String& heading, const String& shares,
-                                     const String& mask = nullString, bool useThumbs = false, 
-                                     bool treatAsFolder = false, 
-                                     const String& defaultt = nullString ) throw (WindowException);
+      std::vector<String> browseMultiple(int type, const String& heading, const String& shares,
+                                         const String& mask = emptyString, bool useThumbs = false, 
+                                         bool treatAsFolder = false, 
+                                         const String& defaultt = emptyString ) throw (WindowException);
 
 
       /**
@@ -177,7 +177,7 @@ namespace XBMCAddon
        *   - dialog = xbmcgui.Dialog()
        *   - d = dialog.numeric(1, 'Enter date of birth')\n
        */
-      String numeric(int type, const String& heading, const String& defaultt = nullString);
+      String numeric(int type, const String& heading, const String& defaultt = emptyString);
       
     };
 
@@ -208,9 +208,9 @@ namespace XBMCAddon
        *   - pDialog = xbmcgui.DialogProgress()
        *   - pDialog.create('XBMC', 'Initializing script...')
        */
-      void create(const String& heading, const String& line1 = nullString, 
-                  const String& line2 = nullString,
-                  const String& line3 = nullString) throw (WindowException);
+      void create(const String& heading, const String& line1 = emptyString, 
+                  const String& line2 = emptyString,
+                  const String& line3 = emptyString) throw (WindowException);
 
       /**
        * update(percent[, line1, line2, line3]) -- Update's the progress dialog.
@@ -225,9 +225,9 @@ namespace XBMCAddon
        * example:
        *   - pDialog.update(25, 'Importing modules...')
        */
-      void update(int percent, const String& line1 = nullString, 
-                  const String& line2 = nullString,
-                  const String& line3 = nullString) throw (WindowException);
+      void update(int percent, const String& line1 = emptyString, 
+                  const String& line2 = emptyString,
+                  const String& line3 = emptyString) throw (WindowException);
 
       /**
        * close() -- Close the progress dialog.

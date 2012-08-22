@@ -40,16 +40,16 @@ namespace XBMCAddon
       InfoTagMusic();
       virtual ~InfoTagMusic();
 
-      CStdString getURL();
-      CStdString getTitle();
-      CStdString getArtist();
-      CStdString getAlbum();
+      String getURL();
+      String getTitle();
+      String getArtist();
+      String getAlbum();
       String getAlbumArtist();
-      CStdString getGenre();
+      String getGenre();
       int getDuration();
       int getTrack();
       int getDisc();
-      CStdString getReleaseDate();
+      String getReleaseDate();
 
       int getListeners();
       int getPlayCount();

@@ -44,79 +44,79 @@ namespace XBMCAddon
     }
 
     // InfoTagVideo_GetDirector
-    CStdString InfoTagVideo::getDirector()
+    String InfoTagVideo::getDirector()
     {
       return StringUtils::Join(infoTag->m_director, g_advancedSettings.m_videoItemSeparator);
     }
 
     // InfoTagVideo_GetWritingCredits
-    CStdString InfoTagVideo::getWritingCredits()
+    String InfoTagVideo::getWritingCredits()
     {
       return StringUtils::Join(infoTag->m_writingCredits, g_advancedSettings.m_videoItemSeparator);
     }
 
     // InfoTagVideo_GetGenre
-    CStdString InfoTagVideo::getGenre()
+    String InfoTagVideo::getGenre()
     {
       return StringUtils::Join(infoTag->m_genre, g_advancedSettings.m_videoItemSeparator).c_str();
     }
 
     // InfoTagVideo_GetTagLine
-    CStdString InfoTagVideo::getTagLine()
+    String InfoTagVideo::getTagLine()
     {
       return infoTag->m_strTagLine;
     }
 
     // InfoTagVideo_GetPlotOutline
-    CStdString InfoTagVideo::getPlotOutline()
+    String InfoTagVideo::getPlotOutline()
     {
       return infoTag->m_strPlotOutline;
     }
 
     // InfoTagVideo_GetPlot
-    CStdString InfoTagVideo::getPlot()
+    String InfoTagVideo::getPlot()
     {
       return infoTag->m_strPlot;
     }
 
     // InfoTagVideo_GetPictureURL
-    CStdString InfoTagVideo::getPictureURL()
+    String InfoTagVideo::getPictureURL()
     {
       return infoTag->m_strPictureURL.GetFirstThumb().m_url;
     }
 
     // InfoTagVideo_GetTitle
-    CStdString InfoTagVideo::getTitle()
+    String InfoTagVideo::getTitle()
     {
       return infoTag->m_strTitle;
     }
 
     // InfoTagVideo_GetVotes
-    CStdString InfoTagVideo::getVotes()
+    String InfoTagVideo::getVotes()
     {
       return infoTag->m_strVotes;
     }
 
     // InfoTagVideo_GetCast
-    CStdString InfoTagVideo::getCast()
+    String InfoTagVideo::getCast()
     {
       return infoTag->GetCast(true);
     }
 
     // InfoTagVideo_GetFile
-    CStdString InfoTagVideo::getFile()
+    String InfoTagVideo::getFile()
     {
       return infoTag->m_strFile;
     }
 
     // InfoTagVideo_GetPath
-    CStdString InfoTagVideo::getPath()
+    String InfoTagVideo::getPath()
     {
       return infoTag->m_strPath;
     }
 
     // InfoTagVideo_GetIMDBNumber
-    CStdString InfoTagVideo::getIMDBNumber()
+    String InfoTagVideo::getIMDBNumber()
     {
       return infoTag->m_strIMDBNumber;
     }

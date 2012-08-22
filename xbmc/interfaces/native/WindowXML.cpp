@@ -447,7 +447,7 @@ namespace XBMCAddon
       // with out this method overriding the MediaWindow version, it will display 'Add to Favorites'
     }
 
-    bool WindowXML::LoadXML(const CStdString &strPath, const CStdString &strLowerPath)
+    bool WindowXML::LoadXML(const String &strPath, const String &strLowerPath)
     {
       TRACE;
       // load our window
@@ -518,7 +518,7 @@ namespace XBMCAddon
       g_localizeStrings.ClearBlock(m_scriptPath);
     }
 
-    bool WindowXML::Update(const CStdString &strPath)
+    bool WindowXML::Update(const String &strPath)
     {
       TRACE;
       return true;

@@ -92,18 +92,18 @@ namespace XBMCAddon
 
     protected:
       // CGUIWindow
-      SWIGHIDDENVIRTUAL bool     LoadXML(const CStdString &strPath, const CStdString &strPathLower);
+      SWIGHIDDENVIRTUAL bool     LoadXML(const String &strPath, const String &strPathLower);
 
       // CGUIMediaWindow
       SWIGHIDDENVIRTUAL void     GetContextButtons(int itemNumber, CContextButtons &buttons);
-      SWIGHIDDENVIRTUAL bool     Update(const CStdString &strPath);
+      SWIGHIDDENVIRTUAL bool     Update(const String &strPath);
 
       unsigned int     LoadScriptStrings();
       void             ClearScriptStrings();
 // see bug #10575.
 //      void             SetupShares();
-      CStdString       m_scriptPath;
-      CStdString       m_mediaDir;
+      String       m_scriptPath;
+      String       m_mediaDir;
 
       friend class WindowXMLInterceptor;
 #endif

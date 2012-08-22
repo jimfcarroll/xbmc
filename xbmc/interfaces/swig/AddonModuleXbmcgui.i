@@ -49,7 +49,11 @@ using namespace xbmcgui;
 %include "interfaces/native/Exception.h"
 
 %include "interfaces/native/ListItem.h"
+
+%feature("python:coerceToUnicode") XBMCAddon::xbmcgui::ControlButton::getLabel "true"
+%feature("python:coerceToUnicode") XBMCAddon::xbmcgui::ControlButton::getLabel2 "true"
 %include "interfaces/native/Control.h"
+
 %include "interfaces/native/Dialog.h"
 
 %feature("director") Window;

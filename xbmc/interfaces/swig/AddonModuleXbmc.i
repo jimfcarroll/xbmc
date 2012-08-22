@@ -37,6 +37,8 @@ using namespace xbmc;
 
 %include "interfaces/native/swighelper.h"
 
+%feature("python:coerceToUnicode") XBMCAddon::xbmc::getLocalizedString "true"
+
 %include "interfaces/native/ModuleXbmc.h"
 
 %feature("director") Player;

@@ -54,18 +54,18 @@ namespace XBMCAddon
         throw WindowException("Error: Window is NULL, this is not possible :-)");
 
       // get lines, last 4 lines are optional.
-      if (isSet(heading))
+      if (!heading.empty())
         pDialog->SetHeading(heading);
-      if (isSet(line1))
+      if (!line1.empty())
         pDialog->SetLine(0, line1);
-      if (isSet(line2))
+      if (!line2.empty())
         pDialog->SetLine(1, line2);
-      if (isSet(line3))
+      if (!line3.empty())
         pDialog->SetLine(2, line3);
 
-      if (isSet(nolabel))
+      if (!nolabel.empty())
         pDialog->SetChoice(0,nolabel);
-      if (isSet(yeslabel))
+      if (!yeslabel.empty())
         pDialog->SetChoice(1,yeslabel);
 
       //send message and wait for user input
@@ -97,7 +97,7 @@ namespace XBMCAddon
 
       pDialog->Reset();
       CStdString utf8Heading;
-      if (isSet(heading))
+      if (!heading.empty())
         pDialog->SetHeading(utf8Heading);
 
       String listLine;
@@ -140,13 +140,13 @@ namespace XBMCAddon
       if (pDialog == NULL)
         throw WindowException("Error: Window is NULL, this is not possible :-)");
 
-      if (isSet(heading))
+      if (!heading.empty())
         pDialog->SetHeading(heading);
-      if (isSet(line1))
+      if (!line1.empty())
         pDialog->SetLine(0, line1);
-      if (isSet(line2))
+      if (!line2.empty())
         pDialog->SetLine(1, line2);
-      if (isSet(line3))
+      if (!line3.empty())
         pDialog->SetLine(2, line3);
 
       //send message and wait for user input
@@ -192,7 +192,7 @@ namespace XBMCAddon
       if (!shares) 
         throw WindowException(((std::string("Error: GetSourcesFromType given ") += s_shares) += " is NULL.").c_str());
 
-      if (useFileDirectories && (isSet(maskparam) && !maskparam.size() == 0))
+      if (useFileDirectories && (!maskparam.empty() && !maskparam.size() == 0))
         mask += "|.rar|.zip";
 
       value = defaultt;
@@ -205,27 +205,31 @@ namespace XBMCAddon
       return value;
     }
 
-    CStdStringArray Dialog::browseMultiple(int type, const String& heading, const String& s_shares,
-                          const String& maskparam, bool useThumbs, 
-                          bool useFileDirectories, 
-                          const String& defaultt ) throw (WindowException)
+    std::vector<String> Dialog::browseMultiple(int type, const String& heading, const String& s_shares,
+                          const String& mask, bool useThumbs, 
+                          bool useFileDirectories, const String& defaultt ) throw (WindowException)
     {
       DelayedCallGuard dcguard(languageHook);
-      CStdStringArray valuelist;
-      std::string mask = maskparam;
       VECSOURCES *shares = g_settings.GetSourcesFromType(s_shares);
+      CStdStringArray tmpret;
+      String lmask = mask;
       if (!shares) 
         throw WindowException(((std::string("Error: GetSourcesFromType given ") += s_shares) += " is NULL.").c_str());
 
-      if (useFileDirectories && (isSet(maskparam) && !maskparam.size() == 0))
-        mask += "|.rar|.zip";
+      if (useFileDirectories && (!lmask.empty() && !(lmask.size() == 0)))
+        lmask += "|.rar|.zip";
 
       if (type == 1)
-        CGUIDialogFileBrowser::ShowAndGetFileList(*shares, mask, heading, valuelist, useThumbs, useFileDirectories);
+        CGUIDialogFileBrowser::ShowAndGetFileList(*shares, lmask, heading, tmpret, useThumbs, useFileDirectories);
       else if (type == 2)
-        CGUIDialogFileBrowser::ShowAndGetImageList(*shares, heading, valuelist);
+        CGUIDialogFileBrowser::ShowAndGetImageList(*shares, heading, tmpret);
       else
         throw WindowException(((std::string("Error: Cannot retreive multuple directories using browse ") += s_shares) += " is NULL.").c_str());
+
+      std::vector<String> valuelist;
+      int index = 0;
+      for (CStdStringArray::iterator iter = tmpret.begin(); iter != tmpret.end(); iter++)
+        valuelist[index++] = (*iter);
 
       return valuelist;
     }
@@ -251,8 +255,6 @@ namespace XBMCAddon
      *   - dialog = xbmcgui.Dialog()
      *   - d = dialog.numeric(1, 'Enter date of birth')\n
      */
-    // TODO: Figure out how a return of nullString can be mapped into
-    //  a Py_None in python.
     String Dialog::numeric(int inputtype, const String& heading, const String& defaultt)
     {
       DelayedCallGuard dcguard(languageHook);
@@ -260,11 +262,11 @@ namespace XBMCAddon
       SYSTEMTIME timedate;
       GetLocalTime(&timedate);
 
-      if (isSet(heading))
+      if (!heading.empty())
       {
         if (inputtype == 1)
         {
-          if (isSet(defaultt) && defaultt.size() == 10)
+          if (!defaultt.empty() && defaultt.size() == 10)
           {
             CStdString sDefault = defaultt;
             timedate.wDay = atoi(sDefault.Left(2));
@@ -274,11 +276,11 @@ namespace XBMCAddon
           if (CGUIDialogNumeric::ShowAndGetDate(timedate, heading))
             value.Format("%2d/%2d/%4d", timedate.wDay, timedate.wMonth, timedate.wYear);
           else
-            return nullString;
+            return emptyString;
         }
         else if (inputtype == 2)
         {
-          if (isSet(defaultt) && defaultt.size() == 5)
+          if (!defaultt.empty() && defaultt.size() == 5)
           {
             CStdString sDefault = defaultt;
             timedate.wHour = atoi(sDefault.Left(2));
@@ -287,19 +289,19 @@ namespace XBMCAddon
           if (CGUIDialogNumeric::ShowAndGetTime(timedate, heading))
             value.Format("%2d:%02d", timedate.wHour, timedate.wMinute);
           else
-            return nullString;
+            return emptyString;
         }
         else if (inputtype == 3)
         {
           value = defaultt;
           if (!CGUIDialogNumeric::ShowAndGetIPAddress(value, heading))
-            return nullString;
+            return emptyString;
         }
         else
         {
           value = defaultt;
           if (!CGUIDialogNumeric::ShowAndGetNumber(value, heading))
-            return nullString;
+            return emptyString;
         }
       }
       return value;
@@ -336,11 +338,11 @@ namespace XBMCAddon
 
       pDialog->SetHeading(heading);
 
-      if (isSet(line1))
+      if (!line1.empty())
         pDialog->SetLine(0, line1);
-      if (isSet(line2))
+      if (!line2.empty())
         pDialog->SetLine(1, line2);
-      if (isSet(line3))
+      if (!line3.empty())
         pDialog->SetLine(2, line3);
 
       pDialog->StartModal();
@@ -379,11 +381,11 @@ namespace XBMCAddon
         pDialog->ShowProgressBar(false);
       }
 
-      if (isSet(line1))
+      if (!line1.empty())
         pDialog->SetLine(0, line1);
-      if (isSet(line2))
+      if (!line2.empty())
         pDialog->SetLine(1, line2);
-      if (isSet(line3))
+      if (!line3.empty())
         pDialog->SetLine(2, line3);
     }
 

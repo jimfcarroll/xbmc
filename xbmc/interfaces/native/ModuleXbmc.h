@@ -20,6 +20,8 @@
  */
 
 #include "AddonString.h"
+#include "Tuple.h"
+
 #include "utils/log.h"
 #include "utils/StdString.h"
 
@@ -312,7 +314,7 @@ namespace XBMCAddon
      * example:
      *   - title, year = xbmc.getCleanMovieTitle('/path/to/moviefolder/test.avi', True)
      */
-    std::vector<CStdString> getCleanMovieTitle(const String& path, bool usefoldername = false);
+    Tuple<String,String> getCleanMovieTitle(const String& path, bool usefoldername = false);
 
     /**
      * validatePath(path) -- Returns the validated path.

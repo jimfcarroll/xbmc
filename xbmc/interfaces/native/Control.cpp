@@ -273,8 +273,8 @@ namespace XBMCAddon
                                  const char* _focusedColor,
                                  const String& label2) throw (UnimplementedException)
     {
-      if (isSet(label)) strText = label;
-      if (isSet(label2)) strText2 = label2;
+      if (!label.empty()) strText = label;
+      if (!label2.empty()) strText2 = label2;
       if (font) strFont = font;
       if (_textColor) sscanf(_textColor, "%x", &textColor);
       if (_disabledColor) sscanf( _disabledColor, "%x", &disabledColor );
@@ -845,7 +845,7 @@ namespace XBMCAddon
                                       const char* _focusedColor,
                                       const String& label2) throw (UnimplementedException)
     {
-      if (isSet(label)) strText = label;
+      if (!label.empty()) strText = label;
       if (font) strFont = font;
       if (_textColor) sscanf(_textColor, "%x", &textColor);
       if (_disabledColor) sscanf( _disabledColor, "%x", &disabledColor );

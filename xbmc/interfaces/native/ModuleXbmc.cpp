@@ -616,16 +616,17 @@ namespace XBMCAddon
      * example:
      *   - title, year = xbmc.getCleanMovieTitle('/path/to/moviefolder/test.avi', True)
      */
-    std::vector<CStdString> getCleanMovieTitle(const String& path, bool usefoldername)
+    Tuple<String,String> getCleanMovieTitle(const String& path, bool usefoldername)
     {
       TRACE;
       CFileItem item(path, false);
       CStdString strName = item.GetMovieName(usefoldername);
 
-      std::vector<CStdString> ret;
       CStdString strTitleAndYear;
-      CUtil::CleanString(strName, ret[0], strTitleAndYear, ret[1], usefoldername);
-      return ret;
+      CStdString strTitle;
+      CStdString strYear;
+      CUtil::CleanString(strName, strTitle, strTitleAndYear, strYear, usefoldername);
+      return Tuple<String,String>(strTitle,strYear);
     }
 
     // validatePath function

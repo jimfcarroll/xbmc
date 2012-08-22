@@ -33,13 +33,7 @@ namespace XBMCAddon
   typedef std::string String;
 #endif
 
-#ifndef SWIG
-  extern String nullString;
-
-  inline bool isNull(const XBMCAddon::String& str) { return (str.c_str() == NULL || str == nullString || str.size() == 0); }
-  inline bool isSet(const XBMCAddon::String& str) { return !isNull(str); }
-#endif
-
+  extern String emptyString;
 }
 
 

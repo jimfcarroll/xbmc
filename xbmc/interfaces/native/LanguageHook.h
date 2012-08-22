@@ -103,8 +103,8 @@ namespace XBMCAddon
      *  to use scripting language specific calls. So until I figure out a 
      *  better way to do this, this is how I need to retrieve it.
      */
-    virtual String getAddonId() { return nullString; }
-    virtual String getAddonVersion() { return nullString; }
+    virtual String getAddonId() { return emptyString; }
+    virtual String getAddonVersion() { return emptyString; }
 
     virtual void registerPlayerCallback(IPlayerCallback* player) = 0;
     virtual void unregisterPlayerCallback(IPlayerCallback* player) = 0;

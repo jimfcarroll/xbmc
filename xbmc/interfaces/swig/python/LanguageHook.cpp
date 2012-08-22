@@ -150,7 +150,7 @@ namespace XBMCAddon
       // from the global dictionary
       PyObject* pyid = PyDict_GetItemString(global_dict, "__xbmcaddonid__");
       id = PyString_AsString(pyid);
-      return id == NULL ? nullString : String(id);
+      return id;
     }
 
     String LanguageHook::getAddonVersion()

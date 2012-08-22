@@ -23,5 +23,5 @@
 
 namespace XBMCAddon
 {
-  String nullString((const char*)"****Null|lluN****");
+  String emptyString;
 }

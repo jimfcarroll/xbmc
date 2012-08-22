@@ -122,7 +122,7 @@ namespace XBMCAddon
       virtual CGUIWindow* get() { return this; }
 
       // this is only called from XBMC core and we only want it to return true every time
-      virtual bool     Update(const CStdString &strPath) { return true; }
+      virtual bool     Update(const String &strPath) { return true; }
 
     public:
       Interceptor(const char* specializedName,

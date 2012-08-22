@@ -110,7 +110,7 @@ namespace XBMCAddon
      * example:
      *   - xbmcplugin.addSortMethod(int(sys.argv[1]), xbmcplugin.SORT_METHOD_TITLE)
      */
-    void addSortMethod(int handle, int sortMethod, const String& label2Mask = nullString);
+    void addSortMethod(int handle, int sortMethod, const String& label2Mask = emptyString);
 
     /**
      * getSetting(handle, id) -- Returns the value of a setting as a string.

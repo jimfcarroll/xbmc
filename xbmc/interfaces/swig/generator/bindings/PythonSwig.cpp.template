@@ -24,6 +24,7 @@ Helper.setup(classes,
      * This is meant to contain mini-templates for converting the return type
      * of the native call to be returned to the python caller.
      */
+//      'p.void' : '${result} = Py_BuildValue((char*)"s#",${api},readBytes);',
     [ 'void' : 'Py_INCREF(Py_None);\n    ${result} = Py_None;',
       'long': '${result} = PyInt_FromLong(${api});',
       'unsigned long': '${result} = PyInt_FromLong(${api});',
@@ -32,11 +33,10 @@ Helper.setup(classes,
       'int': '${result} = Py_BuildValue((char*)"i", ${api});',
       'double': '${result} = PyFloat_FromDouble(${api});',
       'float': '${result} = Py_BuildValue((char*)"f", ${api});',
-      'CStdString' : new File('generator/bindings/python.string.outtm'),
       'String' : new File('generator/bindings/python.string.outtm'),
       'p.q(const).char' : '${result} = PyString_FromString(${api});',
-//      'p.void' : '${result} = Py_BuildValue((char*)"s#",${api},readBytes);',
-      (Pattern.compile('''(p.){0,1}std::vector<\\(.*\\)>''')) : new File('generator/bindings/python.vector.outtm')
+      (Pattern.compile('''(p.){0,1}std::vector<\\(.*\\)>''')) : new File('generator/bindings/python.vector.outtm'),
+      (Pattern.compile('''(p.){0,1}Tuple<\\(.*\\)>''')) : new File('generator/bindings/python.Tuple.outtm')
     ], '${result} = makePythonInstance(${api},&Py${Helper.findFullClassName(classnode).replaceAll(\'::\',\'_\')}_Type,"${type}");',
     /**
      * This is meant to contain mini-templates for converting the parameter types
@@ -48,7 +48,6 @@ Helper.setup(classes,
      */
     [ 
       'String' : 'if (${slarg}) PyXBMCGetUnicodeString(${api},${slarg},false,"${api}","${method.@name}");',
-      'CStdString' : 'if (${slarg}) PyXBMCGetUnicodeString(${api},${slarg},false,"${api}","${method.@name}");',
       (Pattern.compile('''(p.){0,1}std::vector<\\(.*\\)>''')) : new File('generator/bindings/python.vector.intm'),
       (Pattern.compile('''(p.){0,1}Tuple(3){0,1}<\\(.*\\)>''')) : new File('generator/bindings/python.Tuple.intm'),
       // I shouldn't need both of these but my parser doesn't resolve namespaces within

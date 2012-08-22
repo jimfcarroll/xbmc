@@ -4,7 +4,7 @@ matcher = ltype =~ /Tuple<\((.*)\)>/
     boolean ispointer = swigTypeParser.SwigType_ispointer(type)
     String accessor = ispointer ? '->' : '.'
     int seq = sequence.increment()
-    tupleAccess = [ 'first', 'second', 'third' ]
+    tupleAccess = [ 'first', 'second', 'third', 'fourth' ]
 %>
     {
       bool isTuple = PyObject_TypeCheck(${slarg},&PyTuple_Type);
@@ -32,5 +32,4 @@ matcher = ltype =~ /Tuple<\((.*)\)>/
 <%
       }
 %>
-      ${api}${accessor}SetNumValuesSet(vecSize);
     }

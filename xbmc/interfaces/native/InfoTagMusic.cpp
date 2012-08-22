@@ -43,17 +43,17 @@ namespace XBMCAddon
       delete infoTag;
     }
 
-    CStdString InfoTagMusic::getURL()
+    String InfoTagMusic::getURL()
     {
       return infoTag->GetURL();
     }
 
-    CStdString InfoTagMusic::getTitle()
+    String InfoTagMusic::getTitle()
     {
       return infoTag->GetTitle();
     }
 
-    CStdString InfoTagMusic::getArtist()
+    String InfoTagMusic::getArtist()
     {
       return StringUtils::Join(infoTag->GetArtist(), g_advancedSettings.m_musicItemSeparator);
     }
@@ -63,12 +63,12 @@ namespace XBMCAddon
       return StringUtils::Join(infoTag->GetAlbumArtist(), g_advancedSettings.m_musicItemSeparator);
     }
 
-    CStdString InfoTagMusic::getAlbum()
+    String InfoTagMusic::getAlbum()
     {
       return infoTag->GetAlbum();
     }
 
-    CStdString InfoTagMusic::getGenre()
+    String InfoTagMusic::getGenre()
     {
       return StringUtils::Join(infoTag->GetGenre(), g_advancedSettings.m_musicItemSeparator);
     }
@@ -88,7 +88,7 @@ namespace XBMCAddon
       return infoTag->GetDiscNumber();
     }
 
-    CStdString InfoTagMusic::getReleaseDate()
+    String InfoTagMusic::getReleaseDate()
     {
       return infoTag->GetYearString();
     }

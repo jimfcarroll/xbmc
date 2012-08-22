@@ -37,7 +37,7 @@ using namespace xbmcaddon;
 
 %feature("ref") Addon "${ths}->Acquire();"
 %feature("unref") Addon "${ths}->Release();"
-%feature("coerceToString") XBMCAddon::xbmcaddon::Addon::getAddonInfo "true"
 
+%feature("python:coerceToUnicode") XBMCAddon::xbmcaddon::Addon::getLocalizedString "true"
 %include "interfaces/native/Addon.h"
 

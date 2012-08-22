@@ -33,9 +33,9 @@ namespace XBMCAddon
 {
   namespace xbmcaddon
   {
-    String Addon::getDefaultId() { return languageHook == NULL ? nullString : languageHook->getAddonId(); }
+    String Addon::getDefaultId() { return languageHook == NULL ? emptyString : languageHook->getAddonId(); }
 
-    String Addon::getAddonVersion() { return languageHook == NULL ? nullString : languageHook->getAddonVersion(); }
+    String Addon::getAddonVersion() { return languageHook == NULL ? emptyString : languageHook->getAddonVersion(); }
 
     /**
      * Addon class.
@@ -51,15 +51,15 @@ namespace XBMCAddon
      */
     Addon::Addon(const char* cid) throw (AddonException) : AddonClass("Addon") 
     {
-      String id(cid ? cid : nullString);
+      String id(cid ? cid : emptyString);
 
       // if the id wasn't passed then get the id from
       //   the global dictionary
-      if (isNull(id))
+      if (id.empty())
         id = getDefaultId();
 
       // if we still don't have an id then bail
-      if (isNull(id))
+      if (id.empty())
         throw AddonException("No valid addon id could be obtained. None was passed and the script wasn't executed in a normal xbmc manner.");
 
       // if we still fail we MAY be able to recover.
@@ -74,7 +74,7 @@ namespace XBMCAddon
           // try the default ...
           id = getDefaultId();
 
-          if (id == nullString || !ADDON::CAddonMgr::Get().GetAddon(id.c_str(), pAddon))
+          if (id.empty() || !ADDON::CAddonMgr::Get().GetAddon(id.c_str(), pAddon))
             throw AddonException("Could not get AddonPtr!");
           else
             CLog::Log(LOGERROR,"Use of deprecated functionality. Please to not assume that \"os.getcwd\" will return the script directory.");

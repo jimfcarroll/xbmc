@@ -49,15 +49,15 @@ namespace XBMCAddon
       if (!item) // not sure if this is really possible
         return;
 
-      if (isSet(label))
+      if (!label.empty())
         item->SetLabel( label );
-      if (isSet(label2))
+      if (!label2.empty())
         item->SetLabel2( label2 );
-      if (isSet(iconImage))
+      if (!iconImage.empty())
         item->SetIconImage( iconImage );
-      if (isSet(thumbnailImage))
+      if (!thumbnailImage.empty())
         item->SetThumbnailImage( thumbnailImage );
-      if (isSet(path))
+      if (!path.empty())
         item->SetPath(path);
     }
 
@@ -66,11 +66,11 @@ namespace XBMCAddon
       item.reset();
     }
 
-    CStdString ListItem::getLabel()
+    String ListItem::getLabel()
     {
       if (!item) return "";
 
-      CStdString ret;
+      String ret;
       {
         LOCKGUI;
         ret = item->GetLabel();
@@ -79,11 +79,11 @@ namespace XBMCAddon
       return ret;
     }
 
-    CStdString ListItem::getLabel2()
+    String ListItem::getLabel2()
     {
       if (!item) return "";
 
-      CStdString ret;
+      String ret;
       {
         LOCKGUI;
         ret = item->GetLabel2();
@@ -92,7 +92,7 @@ namespace XBMCAddon
       return ret;
     }
 
-    void ListItem::setLabel(const CStdString& label)
+    void ListItem::setLabel(const String& label)
     {
       if (!item) return;
       // set label
@@ -102,7 +102,7 @@ namespace XBMCAddon
       }
     }
 
-    void ListItem::setLabel2(const CStdString& label)
+    void ListItem::setLabel2(const String& label)
     {
       if (!item) return;
       // set label
@@ -177,7 +177,7 @@ namespace XBMCAddon
         item->SetProperty(lowerKey.ToLower(), value.c_str());
     }
 
-    CStdString ListItem::getProperty(const char* key)
+    String ListItem::getProperty(const char* key)
     {
       LOCKGUI;
       CStdString lowerKey = key;
@@ -190,34 +190,34 @@ namespace XBMCAddon
       else
         value = item->GetProperty(lowerKey.ToLower()).asString();
 
-      return value;
+      return value.c_str();
     }
 
-    void ListItem::setPath(const CStdString& path)
+    void ListItem::setPath(const String& path)
     {
       LOCKGUI;
       item->SetPath(path);
     }
 
-    void ListItem::setMimeType(const CStdString& mimetype)
+    void ListItem::setMimeType(const String& mimetype)
     {
       LOCKGUI;
       item->SetMimeType(mimetype);
     }
 
-    CStdString ListItem::getdescription()
+    String ListItem::getdescription()
     {
       return item->GetLabel();
     }
 
-    CStdString ListItem::getduration()
+    String ListItem::getduration()
     {
       if (item->LoadMusicTag())
-        {
-          std::ostringstream oss;
-          oss << item->GetMusicInfoTag()->GetDuration();
-          return oss.str();
-        }
+      {
+        std::ostringstream oss;
+        oss << item->GetMusicInfoTag()->GetDuration();
+        return oss.str();
+      }
 
       if (item->HasVideoInfoTag())
         return item->GetVideoInfoTag()->m_strRuntime;
@@ -225,7 +225,7 @@ namespace XBMCAddon
       return "0";
     }
 
-    CStdString ListItem::getfilename()
+    String ListItem::getfilename()
     {
       return item->GetPath();
     }
@@ -312,31 +312,31 @@ namespace XBMCAddon
         {
           CStdString key = it->first;
           key.ToLower();
-          const CStdString& value = it->second;
+          const CStdString value(it->second.c_str());
 
           if (key == "year")
-            item->GetVideoInfoTag()->m_iYear = strtol(value, NULL, 10);
+            item->GetVideoInfoTag()->m_iYear = strtol(value.c_str(), NULL, 10);
           else if (key == "episode")
-            item->GetVideoInfoTag()->m_iEpisode = strtol(value, NULL, 10);
+            item->GetVideoInfoTag()->m_iEpisode = strtol(value.c_str(), NULL, 10);
           else if (key == "season")
-            item->GetVideoInfoTag()->m_iSeason = strtol(value, NULL, 10);
+            item->GetVideoInfoTag()->m_iSeason = strtol(value.c_str(), NULL, 10);
           else if (key == "top250")
-            item->GetVideoInfoTag()->m_iTop250 = strtol(value, NULL, 10);
+            item->GetVideoInfoTag()->m_iTop250 = strtol(value.c_str(), NULL, 10);
           else if (key == "tracknumber")
-            item->GetVideoInfoTag()->m_iTrack = strtol(value, NULL, 10);
+            item->GetVideoInfoTag()->m_iTrack = strtol(value.c_str(), NULL, 10);
           else if (key == "count")
-            item->m_iprogramCount = strtol(value, NULL, 10);
+            item->m_iprogramCount = strtol(value.c_str(), NULL, 10);
           else if (key == "rating")
-            item->GetVideoInfoTag()->m_fRating = (float)strtod(value, NULL);
+            item->GetVideoInfoTag()->m_fRating = (float)strtod(value.c_str(), NULL);
           else if (key == "size")
-            item->m_dwSize = (int64_t)strtoll(value, NULL, 10);
+            item->m_dwSize = (int64_t)strtoll(value.c_str(), NULL, 10);
           else if (key == "watched") // backward compat - do we need it?
-            item->GetVideoInfoTag()->m_playCount = strtol(value, NULL, 10);
+            item->GetVideoInfoTag()->m_playCount = strtol(value.c_str(), NULL, 10);
           else if (key == "playcount")
-            item->GetVideoInfoTag()->m_playCount = strtol(value, NULL, 10);
+            item->GetVideoInfoTag()->m_playCount = strtol(value.c_str(), NULL, 10);
           else if (key == "overlay")
           {
-            long overlay = strtol(value, NULL, 10);
+            long overlay = strtol(value.c_str(), NULL, 10);
             if (overlay >= 0 && overlay <= 8)
               item->SetOverlayImage((CGUIListItem::GUIIconOverlay)overlay);
           }
@@ -374,7 +374,7 @@ namespace XBMCAddon
 //            {
 //              PyObject *pActor = PyList_GetItem(value, i);
 //              if (pActor == NULL) continue;
-//              CStdString actor;
+//              String actor;
 //              if (!PyXBMCGetUnicodeString(actor, pActor, 1)) continue;
 //              self->item->GetVideoInfoTag()->m_artist.push_back(actor);
 //            }
@@ -423,7 +423,7 @@ namespace XBMCAddon
             item->GetVideoInfoTag()->m_strTrailer = value;
           else if (key == "date")
           {
-            if (strlen(value) == 10)
+            if (value.length() == 10)
               item->m_dateTime.SetDate(atoi(value.Right(4).c_str()), atoi(value.Mid(3,4).c_str()), atoi(value.Left(2).c_str()));
             else
               CLog::Log(LOGERROR,"NEWADDON Invalid Date Format \"%s\"",value.c_str());
@@ -437,8 +437,9 @@ namespace XBMCAddon
         for (Dictionary::const_iterator it = infoLabels.begin(); it != infoLabels.end(); it++)
         {
           CStdString key = it->first;
+
           key.ToLower();
-          const CStdString& value = it->second;
+          const CStdString value(it->second.c_str());
 
           // TODO: add the rest of the infolabels
           if (key == "tracknumber")
@@ -500,7 +501,7 @@ namespace XBMCAddon
         {
           CStdString key = it->first;
           key.ToLower();
-          const CStdString& value = it->second;
+          const CStdString value(it->second.c_str());
 
           if (key == "count")
             item->m_iprogramCount = strtol(value, NULL, 10);
@@ -558,14 +559,14 @@ namespace XBMCAddon
     {
       LOCKGUI;
 
-      CStdString tmp;
+      String tmp;
       if (strcmpi(cType, "video") == 0)
       {
         CStreamDetailVideo* video = new CStreamDetailVideo;
         for (Dictionary::const_iterator it = dictionary.begin(); it != dictionary.end(); it++)
         {
-          const CStdString& key = it->first;
-          const CStdString& value = it->second;
+          const String& key = it->first;
+          const CStdString value(it->second.c_str());
 
           if (key == "codec")
             video->m_strCodec = value;
@@ -585,15 +586,15 @@ namespace XBMCAddon
         CStreamDetailAudio* audio = new CStreamDetailAudio;
         for (Dictionary::const_iterator it = dictionary.begin(); it != dictionary.end(); it++)
         {
-          const CStdString& key = it->first;
-          const CStdString& value = it->second;
+          const String& key = it->first;
+          const String& value = it->second;
 
           if (key == "codec")
             audio->m_strCodec = value;
           else if (key == "language")
             audio->m_strLanguage = value;
           else if (key == "channels")
-            audio->m_iChannels = strtol(value, NULL, 10);
+            audio->m_iChannels = strtol(value.c_str(), NULL, 10);
         }
         item->GetVideoInfoTag()->m_streamDetails.AddStream(audio);
       }
@@ -602,8 +603,8 @@ namespace XBMCAddon
         CStreamDetailSubtitle* subtitle = new CStreamDetailSubtitle;
         for (Dictionary::const_iterator it = dictionary.begin(); it != dictionary.end(); it++)
         {
-          const CStdString& key = it->first;
-          const CStdString& value = it->second;
+          const String& key = it->first;
+          const String& value = it->second;
 
           if (key == "language")
             subtitle->m_strLanguage = value;
@@ -628,7 +629,7 @@ namespace XBMCAddon
      * example:
      *   - listitem.addContextMenuItems([('Theater Showtimes', 'XBMC.RunScript(special://home/scripts/showtimes/default.py,Iron Man)',)])\n
      */
-    void ListItem::addContextMenuItems(const std::vector<std::vector<CStdString> >& items, bool replaceItems /* = false */)
+    void ListItem::addContextMenuItems(const std::vector<Tuple<String,String> >& items, bool replaceItems /* = false */)
     {
       
     } // end addContextMenuItems
