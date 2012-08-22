@@ -1580,18 +1580,6 @@ else
   AC_DEFINE([PIX_FMT_VDPAU_MPEG4_IN_AVUTIL], [1], [Whether AVUtil defines PIX_FMT_VDPAU_MPEG4.])
 fi
 
-# Python
-if test -z "$PYTHON_NOVERSIONCHECK"; then
-  AX_PYTHON_DEVEL([>= 2.4])
-  PYTHON_VERSION=$ac_python_version
-fi
-
-if test -z "$PYTHON_VERSION"; then
-  AC_MSG_ERROR([Can't find a Python version.])
-else
-  AC_MSG_NOTICE([Using Python $PYTHON_VERSION])
-fi
-
 # SWIG
 if test "$use_swigaddons" = "yes"; then
   echo "Using SWIG"
