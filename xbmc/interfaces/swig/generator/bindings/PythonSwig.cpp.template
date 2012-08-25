@@ -107,8 +107,8 @@ void doMethod(method, MethodType methodType)
     CLog::Log(LOGDEBUG, "NEWADDON Entering the Python method \\"${PythonTools.getPyMethodName(method,methodType)}\\"");
 <%  if (numParams > 0)
     { %>
-    static const char *keywords[] = {
-<%    params.each { %>
+    static const char *keywords[] = {<%
+          params.each { %>
           "${it.@name}",<% } %>
           NULL};
 
