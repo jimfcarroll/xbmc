@@ -363,7 +363,9 @@ void XBPyThread::Process()
     Py_XDECREF(pystring);
   }
 
-  XBMCAddon::xbmc::setabortRequested(true);
+  PyObject *m = PyImport_AddModule((char*)"xbmc");
+  if(!m || PyObject_SetAttrString(m, (char*)"abortRequested", PyBool_FromLong(1)))
+    CLog::Log(LOGERROR, "Scriptresult: failed to set abortRequested");
 
   // make sure all sub threads have finished
   for(PyThreadState* s = state->interp->tstate_head, *old = NULL; s;)
@@ -451,7 +453,10 @@ void XBPyThread::stop()
     if (addon)
       g_pythonParser.OnAbortRequested(addon->ID());
 
-    XBMCAddon::xbmc::setabortRequested(true);
+    PyObject *m;
+    m = PyImport_AddModule((char*)"xbmc");
+    if(!m || PyObject_SetAttrString(m, (char*)"abortRequested", PyBool_FromLong(1)))
+      CLog::Log(LOGERROR, "XBPyThread::stop - failed to set abortRequested");
 
     PyThreadState_Swap(old);
     PyEval_ReleaseLock();

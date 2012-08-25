@@ -418,6 +418,7 @@ void XBPython::UnloadExtensionLibs()
 #define RUNSCRIPT_PRAMBLE \
         "" \
         "import " MODULE "\n" \
+        "xbmc.abortRequested = False\n" \
         "class xbmcout:\n" \
         "\tdef __init__(self, loglevel=" MODULE ".LOGNOTICE):\n" \
         "\t\tself.ll=loglevel\n" \

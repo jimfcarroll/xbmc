@@ -809,12 +809,6 @@ namespace XBMCAddon
     int getCAPTURE_FLAG_CONTINUOUS() { return (int)CAPTUREFLAG_CONTINUOUS; }
     int getCAPTURE_FLAG_IMMEDIATELY() { return (int)CAPTUREFLAG_IMMEDIATELY; }
 
-    static bool abortRequested = false;
-    bool getabortRequested() { return abortRequested; }
-    void setabortRequested(bool _abortRequested) { abortRequested = _abortRequested; }
-
     const int lLOGNOTICE = LOGNOTICE;
-
-
   }
 }
