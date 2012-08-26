@@ -27,11 +27,7 @@
  */
 namespace XBMCAddon
 {
-  struct tuple_null_type
-  {
-    tuple_null_type() {}
-    tuple_null_type(const tuple_null_type&, const tuple_null_type&) {}
-  };
+  struct tuple_null_type { };
 
   class TupleBase
   {
