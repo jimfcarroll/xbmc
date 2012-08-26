@@ -26,6 +26,7 @@
 #include "interfaces/native/RenderCapture.h"
 #include "interfaces/native/Keyboard.h"
 #include "interfaces/native/ModuleXbmc.h"
+#include "interfaces/native/Monitor.h"
 
 using namespace XBMCAddon;
 using namespace xbmc;
@@ -79,12 +80,12 @@ using namespace xbmc;
         PyXBMCGetUnicodeString(item,pObject,"item","Player::play");
         XBMCAddon::xbmcgui::ListItem* pListItem = 
           (pObjectListItem ? 
-           (XBMCAddon::xbmcgui::ListItem *)retrieveApiInstance(pObjectListItem,"p.XBMCAddon::xbmcgui::ListItem","play") :
+           (XBMCAddon::xbmcgui::ListItem *)retrieveApiInstance(pObjectListItem,"p.XBMCAddon::xbmcgui::ListItem","XBMCAddon::xbmcgui::","play") :
            NULL);
         player->playStream(item,pListItem,windowed);
       }
       else // pObject must be a playlist
-        player->playPlaylist((PlayList *)retrieveApiInstance(pObject,"p.PlayList","play"), windowed);
+        player->playPlaylist((PlayList *)retrieveApiInstance(pObject,"p.PlayList","XBMCAddon::xbmcgui::", "play"), windowed);
     }
     catch (XBMCAddon::Exception e)
     { 
@@ -127,4 +128,11 @@ using namespace xbmc;
 %include "interfaces/native/InfoTagVideo.h"
 %include "interfaces/native/Keyboard.h"
 %include "interfaces/native/PlayList.h"
+
+%feature("director") Monitor;
+%feature("ref") Monitor "${ths}->Acquire();"
+%feature("unref") Monitor "${ths}->Release();"
+
+%include "interfaces/native/Monitor.h"
+
 

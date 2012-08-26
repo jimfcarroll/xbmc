@@ -293,7 +293,7 @@ namespace XBMCAddon
                                                  //  the CGUIMediaWindow::OnAction and calls directly to
                                                  //  CGUIWindow::OnAction
       AddonClass::Ref<Action> inf(new Action(action));
-      handleCallback(new VoidCallbackFunction1Ref<WindowXML,Action>(this,&WindowXML::onAction,inf.get()));
+      handleCallback(new CallbackFunction<WindowXML,AddonClass::Ref<Action> >(this,&WindowXML::onAction,inf.get()));
       PulseActionEvent();
       return ret;
     }
@@ -316,7 +316,7 @@ namespace XBMCAddon
       case GUI_MSG_WINDOW_INIT:
         {
           ref(window)->OnMessage(message);
-          handleCallback(new VoidCallbackFunction<WindowXML>(this,&WindowXML::onInit));
+          handleCallback(new CallbackFunction<WindowXML>(this,&WindowXML::onInit));
           return true;
         }
         break;
@@ -335,7 +335,7 @@ namespace XBMCAddon
           AddonClass::Ref<Control> inf(GetControlById(iControl));
           if (inf.isNotNull())
           {
-            handleCallback(new VoidCallbackFunction1Param<WindowXML,int>(this,&WindowXML::onFocus,iControl));
+            handleCallback(new CallbackFunction<WindowXML,int>(this,&WindowXML::onFocus,iControl));
             PulseActionEvent();
           }
         }
@@ -378,7 +378,7 @@ namespace XBMCAddon
                 AddonClass::Ref<Control> inf(GetControlById(iControl));
                 if (inf.isNotNull())
                 {
-                  handleCallback(new VoidCallbackFunction1Param<WindowXML,int>(this,&WindowXML::onClick,iControl));
+                  handleCallback(new CallbackFunction<WindowXML,int>(this,&WindowXML::onClick,iControl));
                   PulseActionEvent();
                 }
                 return true;
@@ -386,7 +386,7 @@ namespace XBMCAddon
               else if (controlClicked->IsContainer() && message.GetParam1() == ACTION_MOUSE_RIGHT_CLICK)
               {
                 AddonClass::Ref<Action> inf(new Action(CAction(ACTION_CONTEXT_MENU)));
-                handleCallback(new VoidCallbackFunction1Ref<WindowXML,Action>(this,&WindowXML::onAction,inf.get()));
+                handleCallback(new CallbackFunction<WindowXML,AddonClass::Ref<Action> >(this,&WindowXML::onAction,inf.get()));
                 PulseActionEvent();
                 return true;
               }

@@ -20,6 +20,7 @@
  */
 
 #include "interfaces/swig/python/swig.h"
+#include <string>
 
 namespace PythonBindings
 {
@@ -73,6 +74,48 @@ namespace PythonBindings
     buf = "";
     PyErr_Format(PyExc_TypeError, "argument \"%s\" for method \"%s\" must be unicode or str", argumentName, methodname);
     return 0;
+  }
+
+  // need to compare the typestring
+  bool isParameterRightType(const char* passedType, const char* expectedType, const char* methodNamespacePrefix)
+  {
+    if (strcmp(expectedType,passedType) == 0)
+      return true;
+
+    // well now things are a bit more complicated. We need to see if the passed type
+    // is a subset of the overall type
+    std::string pt(passedType);
+    bool isPointer = (pt[0] == 'p' && pt[1] == '.');
+    std::string baseType(pt,(isPointer ? 2 : 0));
+    std::string ns(methodNamespacePrefix);
+
+    // cut off trailing '::'
+    if (ns.size() > 2 && ns[ns.size() - 1] == ':' && ns[ns.size() - 2] == ':')
+      ns = ns.substr(0,ns.size()-2);
+    
+    bool done = false;
+    while(! done)
+    {
+      done = true;
+      std::string check(isPointer ? "p." : "");
+      check += ns;
+      check += "::";
+      check += baseType;
+
+      if (strcmp(expectedType,check.c_str()) == 0)
+        return true;
+
+      // see if the namespace is nested.
+      int posOfScopeOp = ns.find("::");
+      if (posOfScopeOp >= 0)
+      {
+        done = false;
+        // cur off the outermost namespace
+        ns = ns.substr(posOfScopeOp + 2);
+      }
+    }
+
+    return false;
   }
 }
 

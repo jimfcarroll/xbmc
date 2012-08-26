@@ -379,7 +379,7 @@ namespace XBMCAddon
         return ret;
 
       AddonClass::Ref<Action> inf(new Action(action));
-      handleCallback(new VoidCallbackFunction1Ref<Window,Action>(this,&Window::onAction,inf.get()));
+      handleCallback(new CallbackFunction<Window,AddonClass::Ref<Action> >(this,&Window::onAction,inf.get()));
       PulseActionEvent();
 
       return ret;
@@ -448,7 +448,7 @@ namespace XBMCAddon
             // currently we only accept messages from a button or controllist with a select action
             if (inf->canAcceptMessages(message.GetParam1()))
             {
-              handleCallback(new VoidCallbackFunction1Ref<Window,Control>(this,&Window::onControl,inf.get()));
+              handleCallback(new CallbackFunction<Window,AddonClass::Ref<Control> >(this,&Window::onControl,inf.get()));
               PulseActionEvent();
 
               // return true here as we are handling the event

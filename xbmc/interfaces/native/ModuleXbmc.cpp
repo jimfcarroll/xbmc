@@ -63,6 +63,7 @@
 #include "cores/VideoRenderers/RenderCapture.h"
 
 #include "threads/SystemClock.h"
+#include <vector>
 
 namespace XBMCAddon
 {
@@ -810,5 +811,43 @@ namespace XBMCAddon
     int getCAPTURE_FLAG_IMMEDIATELY() { return (int)CAPTUREFLAG_IMMEDIATELY; }
 
     const int lLOGNOTICE = LOGNOTICE;
+
+    static std::vector<AddonClass::Ref<Monitor> > monitors;
+    static CCriticalSection monitorsLock;
+
+    void registerMonitor(Monitor* monitor)
+    {
+      TRACE;
+      if (monitor == NULL)
+        return;
+      unregisterMonitor(monitor);
+      CSingleLock l(monitorsLock);
+      monitors.push_back(AddonClass::Ref<Monitor>(monitor));
+
+      // for testing, make a callback
+      LanguageHook* lh = LanguageHook::getLanguageHook();
+      CallbackHandler* ch = lh == NULL ? NULL : lh->getCallbackHandler();
+      if (ch)
+        ch->handleCallback(new CallbackFunction<Monitor,const char*>(monitor,&Monitor::callback,"through callback mechanism"));
+
+      monitor->callback("direct");
+    }
+
+    void unregisterMonitor(Monitor* monitor)
+    {
+      TRACE;
+      if (monitor == NULL)
+        return;
+      CSingleLock l(monitorsLock);
+      for (std::vector<AddonClass::Ref<Monitor> >::iterator iter = monitors.begin(); iter != monitors.end(); iter++)
+      {
+        AddonClass::Ref<Monitor>& cur = (*iter);
+        if (monitor == cur.get())
+        {
+          monitors.erase(iter);
+          break;
+        }
+      }
+    }
   }
 }

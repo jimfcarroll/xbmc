@@ -64,20 +64,22 @@ namespace PythonBindings
     return ((PyHolder*)pythonType)->pSelf;
   }
 
+  bool isParameterRightType(const char* passedType, const char* expectedType, const char* methodNamespacePrefix);
+
   /**
    * This method retrieves the pointer from the PyHolder. The return value should
    * be case to the appropriate type.
    *
    * Since the calls to this are generated there's no NULL pointer checks
    */
-  inline void* retrieveApiInstance(PyObject* pythonType, const char* swigType,
+  inline void* retrieveApiInstance(PyObject* pythonType, const char* swigType, const char* methodNamespacePrefix,
                                    const char* methodNameForErrorString) throw (WrongTypeException)
   {
     if (pythonType == NULL || ((PyHolder*)pythonType)->magicNumber != XBMC_PYTHON_TYPE_MAGIC_NUMBER)
       throw WrongTypeException("Non api type passed in place of the expected type \"%s.\"",swigType);
-    if (strcmp(swigType,((PyHolder*)pythonType)->swigType) != 0)
+    if (isParameterRightType(((PyHolder*)pythonType)->swigType,swigType,methodNamespacePrefix))
       throw WrongTypeException("Incorrect type passed to \"%s\", was expecting a \"%s.\" but received a \"%s.\"",
-                               methodNameForErrorString,((PyHolder*)pythonType)->swigType,swigType);
+                               methodNameForErrorString,swigType,((PyHolder*)pythonType)->swigType);
     return ((PyHolder*)pythonType)->pSelf;
   }
 

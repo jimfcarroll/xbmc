@@ -236,37 +236,37 @@ namespace XBMCAddon
     void Player::OnPlayBackStarted()
     { 
       TRACE;
-      handleCallback(new VoidCallbackFunction<Player>(this,&Player::onPlayBackStarted));
+      handleCallback(new CallbackFunction<Player>(this,&Player::onPlayBackStarted));
     }
 
     void Player::OnPlayBackEnded()
     { 
       TRACE;
-      handleCallback(new VoidCallbackFunction<Player>(this,&Player::onPlayBackEnded));
+      handleCallback(new CallbackFunction<Player>(this,&Player::onPlayBackEnded));
     }
 
     void Player::OnPlayBackStopped()
     { 
       TRACE;
-      handleCallback(new VoidCallbackFunction<Player>(this,&Player::onPlayBackStopped));
+      handleCallback(new CallbackFunction<Player>(this,&Player::onPlayBackStopped));
     }
 
     void Player::OnPlayBackPaused()
     { 
       TRACE;
-      handleCallback(new VoidCallbackFunction<Player>(this,&Player::onPlayBackPaused));
+      handleCallback(new CallbackFunction<Player>(this,&Player::onPlayBackPaused));
     }
 
     void Player::OnPlayBackResumed()
     { 
       TRACE;
-      handleCallback(new VoidCallbackFunction<Player>(this,&Player::onPlayBackResumed));
+      handleCallback(new CallbackFunction<Player>(this,&Player::onPlayBackResumed));
     }
 
     void Player::OnQueueNextItem()
     { 
       TRACE;
-      handleCallback(new VoidCallbackFunction<Player>(this,&Player::onQueueNextItem));
+      handleCallback(new CallbackFunction<Player>(this,&Player::onQueueNextItem));
     }
 
     // Player_OnPlayBackStarted

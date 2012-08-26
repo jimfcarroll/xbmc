@@ -512,6 +512,18 @@ public class Helper
 
    public static String unescape(String insertSection) { return StringEscapeUtils.unescapeHtml(insertSection) }
 
+   public static boolean isDirector(Node method)
+   { 
+     Node clazz = findClassNode(method)
+     if (!clazz || !clazz.@feature_director)
+       return false
+     if (method.name() == 'destructor')
+       return false
+     if (method.name() == 'constructor')
+       return false
+     return method.@storage && method.@storage == 'virtual'
+   }
+
    private static void flatten(Node node, List elementsToRemove)
    {
       for (boolean done = false; !done;)

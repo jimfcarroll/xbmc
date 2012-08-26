@@ -78,7 +78,7 @@ Helper.setup(classes,
       'r.q(const).XBMCAddon::Dictionary' : new File('generator/bindings/python.dict.intm'),
       (Pattern.compile('''(p.){0,1}std::map<\\(.*\\)>''')) : new File('generator/bindings/python.map.intm'),
       'bool' : '${api} = (PyInt_AsLong(${slarg}) == 0L ? false : true);'
-    ], '${api} = (${swigTypeParser.SwigType_str(ltype)})retrieveApiInstance(${slarg},"${ltype}","${helper.callingName(method)}");')
+    ], '${api} = (${swigTypeParser.SwigType_str(ltype)})retrieveApiInstance(${slarg},"${ltype}","${helper.findNamespace(method)}","${helper.callingName(method)}");')
 
 //println 'this: ' + this.binding.getVariables()
 
@@ -143,16 +143,26 @@ void doMethod(method, MethodType methodType)
     params.findAll({ !PythonTools.parameterCanBeUsedDirectly(it) }).each { %>      ${Helper.getInConversion(it.@type, it.@name, 'py' + it.@name, method)} <% println() }
 %>
 <%
+    // check to see if this method is a call to a virtual function on a director class.
+    boolean isDirectorCall = Helper.isDirector(method)
+    if (isDirectorCall)
+    {
+      %>      // This is a director call comming from python so it explcitly calls the base class method.
+<%
+    }
     // now do the method call itself
     if (!destructor) {
     if (constructor || !clazz) {  %>      XBMCAddon::SetLanguageHookGuard slhg(XBMCAddon::Python::LanguageHook::getInstance());<% println() }
 %>      <%
     if (returns != "void") { %>apiResult = <% }
     if (clazz && !constructor) {
-%>((${clazz}*)retrieveApiInstance((PyObject*)self,&Py${classNameAsVariable}_Type,"${Helper.callingName(method)}","${clazz}"))-> <%
+      %>((${clazz}*)retrieveApiInstance((PyObject*)self,&Py${classNameAsVariable}_Type,"${Helper.callingName(method)}","${clazz}"))-> <%
     }
     if (constructor && classnode.@feature_director) { 
     %>(&Py${classNameAsVariable}_Type != pytype) ? new ${classNameAsVariable}_Director(<% params.eachWithIndex { param, i -> %> ${param.@name}${i < params.size() - 1 ? "," : ""} <% } %>) : <% }
+
+    // Here is the actual call ... if this is a Director we need to do an upCall (from Python)
+    if (isDirectorCall){ %>${clazz}::<% }
     %>${Helper.callingName(method)}( <% params.eachWithIndex { param, i -> %> ${param.@name}${i < params.size() - 1 ? "," : ""} <% } %> );
 <%
       if (constructor && classnode.@feature_ref != null) {  %>      ${new SimpleTemplateEngine().createTemplate(classnode.@feature_ref).make(['ths' : 'apiResult']).toString()} <% }
@@ -383,7 +393,8 @@ namespace PythonBindings
         %>) : ${Helper.findFullClassName(constructor)}(<% 
         params.eachWithIndex { param, i -> %> ${param.@name}${i < params.size() - 1 ? "," : ""} <% } %>) { } <%
       }
-
+%>
+<%
       getAllVirtualMethods(clazz).each
       { %>
       virtual ${SwigTypeParser.SwigType_str(Helper.getReturnSwigType(it))} ${Helper.callingName(it)}( <%

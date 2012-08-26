@@ -26,9 +26,14 @@
 namespace XBMCAddon
 {
   /**
-   * This is the parent class for the class templates that hold
+   * <p>This is the parent class for the class templates that hold
    *   a callback. A callback is essentially a templatized
-   *   functor (functoid?) for a call to a member function.
+   *   functor (functoid?) for a call to a member function.</p>
+   *
+   * <p>This class combined with the attending CallbackHandlers should make
+   *  sure that the AddonClass isn't in the midst of deallocating when 
+   *  the callback executes. In this way the Callback class acts as
+   *  a weak reference.</p>
    */
   class Callback : public AddonClass 
   { 
@@ -43,97 +48,84 @@ namespace XBMCAddon
     AddonClass* getObject() { return addonClassObject; }
   };
 
+  struct cb_null_type {};
+
+  // stub type template to be partial specialized
+  template<typename M = cb_null_type, typename T1 = cb_null_type, 
+           typename T2 = cb_null_type, typename T3 = cb_null_type, 
+           typename T4 = cb_null_type, typename Extraneous = cb_null_type> 
+  class CallbackFunction {};
+  
   /**
    * This is the template to carry a callback to a member function
    *  that returns 'void' (has no return) and takes no parameters.
    */
-  template<class M> class VoidCallbackFunction: public Callback
+  template<class M> class CallbackFunction<M, cb_null_type, cb_null_type, cb_null_type, cb_null_type, cb_null_type> : public Callback
   { 
   public:
     typedef void (M::*MemberFunction)();
+
+  protected:
     MemberFunction meth;
-    M* object;
+    M* obj;
 
-    VoidCallbackFunction(M* _object, MemberFunction _meth) : 
-      Callback(_object, "VoidCallbackFunction"), meth(_meth), object(_object) {}
+  public:
+    CallbackFunction(M* object, MemberFunction method) : 
+      Callback(object, "CallbackFunction<M>"), meth(method), obj(object) {}
 
-    virtual ~VoidCallbackFunction() { deallocating(); }
+    virtual ~CallbackFunction() { deallocating(); }
 
-    virtual void executeCallback()
-    { 
-      TRACE;
-      ((*object).*(meth))(); 
-    }
+    virtual void executeCallback() { TRACE; ((*obj).*(meth))(); }
   };
 
   /**
    * This is the template to carry a callback to a member function
    *  that returns 'void' (has no return) and takes one parameter.
    */
-  template<class M, typename P1> class VoidCallbackFunction1Param: public Callback
+  template<class M, typename P1> class CallbackFunction<M,P1, cb_null_type, cb_null_type, cb_null_type, cb_null_type> : public Callback
   { 
   public:
     typedef void (M::*MemberFunction)(P1);
+
+  protected:
     MemberFunction meth;
-    M* object;
-    P1 parameter;
+    M* obj;
+    P1 param;
 
-    VoidCallbackFunction1Param(M* _object, MemberFunction _meth, P1 _parameter) : 
-      Callback(_object, "VoidCallbackFunction1"), meth(_meth), object(_object),
-      parameter(_parameter) {}
+  public:
+    CallbackFunction(M* object, MemberFunction method, P1 parameter) : 
+      Callback(object, "CallbackFunction<M,P1>"), meth(method), obj(object),
+      param(parameter) {}
 
-    virtual ~VoidCallbackFunction1Param() { deallocating(); }
+    virtual ~CallbackFunction() { deallocating(); }
 
-    virtual void executeCallback()
-    { 
-      TRACE;
-      ((*object).*(meth))(parameter); 
-    }
+    virtual void executeCallback() { TRACE; ((*obj).*(meth))(param); }
   };
 
   /**
    * This is the template to carry a callback to a member function
-   *  that returns 'void' (has no return) and takes one parameter.
+   *  that returns 'void' (has no return) and takes one parameter
+   *  that can be held in an AddonClass::Ref
    */
-  template<class M, typename P1> class VoidCallbackFunction1Ref: public Callback
+  template<class M, typename P1> class CallbackFunction<M,AddonClass::Ref<P1>, cb_null_type, cb_null_type, cb_null_type, cb_null_type> : public Callback
   { 
   public:
     typedef void (M::*MemberFunction)(P1*);
+
+  protected:
     MemberFunction meth;
-    M* object;
-    AddonClass::Ref<P1> parameter;
+    M* obj;
+    AddonClass::Ref<P1> param;
 
-    VoidCallbackFunction1Ref(M* _object, MemberFunction _meth, P1* _parameter) : 
-      Callback(_object, "VoidCallbackFunction1"), meth(_meth), object(_object),
-      parameter(_parameter) {}
+  public:
+    CallbackFunction(M* object, MemberFunction method, P1* parameter) : 
+      Callback(object, "CallbackFunction<M,P1>"), meth(method), obj(object),
+      param(parameter) {}
 
-    virtual ~VoidCallbackFunction1Ref() { deallocating(); }
+    virtual ~CallbackFunction() { deallocating(); }
 
-    virtual void executeCallback()
-    { 
-      TRACE;
-      ((*object).*(meth))(parameter.get()); 
-    }
+    virtual void executeCallback() { TRACE; ((*obj).*(meth))(param); }
   };
-
-  // Currently all callbacks return void since the current system
-  //  requires that they be asynchronous and called from the language
-  //  thread. This is commented out until we work out the means of
-  //  doing synchronous callbacks even with language requirements like
-  //  those of Python
-//  template<class M, typename R> class CallbackFunction: public Callback
-//  { 
-//  public:
-//    typedef R (M::*MemberFunction)();
-//
-//    M* object;
-//    MemberFunction meth;
-//    
-//    virtual R executeCallback()
-//    {
-//      return ((*object).*(meth))();
-//    }
-//  };
 }
 
 
