@@ -18,7 +18,6 @@ SRCS=	\
 	ModuleXbmcgui.cpp \
 	ModuleXbmcplugin.cpp \
 	ModuleXbmcvfs.cpp \
-	Monitor.cpp \
 	Player.cpp \
 	PlayList.cpp \
 	String.cpp \
