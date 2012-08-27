@@ -26,7 +26,7 @@
 #include "interfaces/native/RenderCapture.h"
 #include "interfaces/native/Keyboard.h"
 #include "interfaces/native/ModuleXbmc.h"
-#include "interfaces/native/Monitor.h"
+//#include "interfaces/native/Monitor.h"
 
 using namespace XBMCAddon;
 using namespace xbmc;
@@ -129,10 +129,10 @@ using namespace xbmc;
 %include "interfaces/native/Keyboard.h"
 %include "interfaces/native/PlayList.h"
 
-%feature("director") Monitor;
-%feature("ref") Monitor "${ths}->Acquire();"
-%feature("unref") Monitor "${ths}->Release();"
-
-%include "interfaces/native/Monitor.h"
+//%feature("director") Monitor;
+//%feature("ref") Monitor "${ths}->Acquire();"
+//%feature("unref") Monitor "${ths}->Release();"
+//
+//%include "interfaces/native/Monitor.h"
 
 

@@ -21,7 +21,7 @@
 
 #include "AddonString.h"
 #include "Tuple.h"
-#include "Monitor.h"
+//#include "Monitor.h"
 
 #include "utils/log.h"
 #include "utils/StdString.h"
@@ -423,8 +423,9 @@ namespace XBMCAddon
 
     SWIG_CONSTANT_FROM_GETTER(int,CAPTURE_FLAG_CONTINUOUS);
     SWIG_CONSTANT_FROM_GETTER(int,CAPTURE_FLAG_IMMEDIATELY);
-
+#if 0
     void registerMonitor(Monitor* monitor);
     void unregisterMonitor(Monitor* monitor);
+#endif
   }
 }

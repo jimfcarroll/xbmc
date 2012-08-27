@@ -812,6 +812,7 @@ namespace XBMCAddon
 
     const int lLOGNOTICE = LOGNOTICE;
 
+#if 0
     static std::vector<AddonClass::Ref<Monitor> > monitors;
     static CCriticalSection monitorsLock;
 
@@ -849,5 +850,6 @@ namespace XBMCAddon
         }
       }
     }
+#endif
   }
 }
