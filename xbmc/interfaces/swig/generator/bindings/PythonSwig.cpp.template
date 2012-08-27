@@ -182,10 +182,10 @@ void doMethod(method, MethodType methodType)
     }
 %>
     }
-    catch (XBMCAddon::Exception e)
+    catch (const XbmcCommons::Exception& e)
     { 
-      CLog::Log(LOGERROR,"Leaving Python method \\"${PythonTools.getPyMethodName(method,methodType)}\\". Exception from call to \"${Helper.callingName(method)}\" \"%s\" ... returning NULL", e.getMessage().c_str());
-      PyErr_SetString(PyExc_RuntimeError, e.getMessage().c_str()); <%
+      CLog::Log(LOGERROR,"Leaving Python method \\"${PythonTools.getPyMethodName(method,methodType)}\\". Exception from call to \"${Helper.callingName(method)}\" \"%s\" ... returning NULL", e.GetMessage());
+      PyErr_SetString(PyExc_RuntimeError, e.GetMessage()); <%
       if (!destructor) {  %>
       return NULL; <%
       } %>
@@ -416,6 +416,8 @@ namespace PythonBindings
              %>, py${it.@name} <%
           }
         %>);
+        if (PyErr_Occurred())
+          throw PythonBindings::PythonToCppException();
       }
 <%    }
       

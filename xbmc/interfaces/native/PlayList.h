@@ -31,7 +31,7 @@ namespace XBMCAddon
 {
   namespace xbmc
   {
-    DECLARE_EXCEPTION(xbmc,PlayList);
+    XBMCCOMMONS_STANDARD_EXCEPTION(PlayListException);
 
     typedef XBMCAddon::xbmcgui::ListItem PlayListItem;
 

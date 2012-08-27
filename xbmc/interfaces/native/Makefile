@@ -8,7 +8,6 @@ SRCS=	\
 	CallbackHandler.cpp \
 	Control.cpp \
 	Dialog.cpp \
-	Exception.cpp \
 	File.cpp \
 	InfoTagMusic.cpp \
 	InfoTagVideo.cpp \

@@ -32,7 +32,7 @@ namespace XBMCAddon
 {
   namespace xbmcaddon
   {
-    DECLARE_EXCEPTION(xbmcaddon,Addon);
+    XBMCCOMMONS_STANDARD_EXCEPTION(AddonException);
 
     /**
      * Addon class.

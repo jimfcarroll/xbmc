@@ -38,7 +38,7 @@ namespace XBMCAddon
 {
   namespace xbmc
   {
-    DECLARE_EXCEPTION(xbmc,Player);
+    XBMCCOMMONS_STANDARD_EXCEPTION(PlayerException);
 
     /**
      * Player class.

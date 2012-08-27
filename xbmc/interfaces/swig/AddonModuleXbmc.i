@@ -87,10 +87,10 @@ using namespace xbmc;
       else // pObject must be a playlist
         player->playPlaylist((PlayList *)retrieveApiInstance(pObject,"p.PlayList","XBMCAddon::xbmcgui::", "play"), windowed);
     }
-    catch (XBMCAddon::Exception e)
+    catch (const XbmcCommons::Exception& e)
     { 
-      CLog::Log(LOGERROR,"Leaving Python method 'XBMCAddon_xbmc_Player_play'. Exception from call to 'play' '%s' ... returning NULL", e.getMessage().c_str());
-      PyErr_SetString(PyExc_RuntimeError, e.getMessage().c_str()); 
+      CLog::Log(LOGERROR,"Leaving Python method 'XBMCAddon_xbmc_Player_play'. Exception from call to 'play' '%s' ... returning NULL", e.GetMessage());
+      PyErr_SetString(PyExc_RuntimeError, e.GetMessage()); 
       return NULL; 
     }
     catch (...)

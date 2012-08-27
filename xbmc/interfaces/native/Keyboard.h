@@ -31,7 +31,7 @@ namespace XBMCAddon
 {
   namespace xbmc
   {
-    DECLARE_EXCEPTION(xbmc,Keyboard);
+    XBMCCOMMONS_STANDARD_EXCEPTION(KeyboardException);
 
     /**
      * Keyboard class.

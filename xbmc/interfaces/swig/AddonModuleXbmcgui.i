@@ -91,10 +91,10 @@ using namespace xbmcgui;
       apiobj->addListItem(listItem);
     }
   }
-  catch (XBMCAddon::Exception e)
+  catch (const XbmcCommons::Exception& e)
   { 
-    CLog::Log(LOGERROR,"Leaving Python method 'XBMCAddon_xbmcgui_Control_addItemStream'. Exception from call to '%s' '%s' ... returning NULL", callName,e.getMessage().c_str());
-    PyErr_SetString(PyExc_RuntimeError, e.getMessage().c_str()); 
+    CLog::Log(LOGERROR,"Leaving Python method 'XBMCAddon_xbmcgui_Control_addItemStream'. Exception from call to '%s' '%s' ... returning NULL", callName,e.GetMessage());
+    PyErr_SetString(PyExc_RuntimeError, e.GetMessage()); 
     return NULL; 
   }
   catch (...)

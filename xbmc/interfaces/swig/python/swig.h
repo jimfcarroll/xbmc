@@ -43,7 +43,7 @@ namespace PythonBindings
     void* pSelf;
   };
 
-  DECLARE_EXCEPTION(Python,WrongType);
+  XBMCCOMMONS_STANDARD_EXCEPTION(WrongTypeException);
 
 #define XBMC_PYTHON_TYPE_MAGIC_NUMBER 0x58626D63
 
@@ -106,5 +106,20 @@ namespace PythonBindings
   public:
     inline Director() : self(NULL) {}
     inline void setPyObjectForDirector(PyObject* pyargself) { self = pyargself; }
+  };
+
+  /**
+   * This exception is thrown from Director calls that call into python when the 
+   * Python error is 
+   */
+  class PythonToCppException : public XbmcCommons::UncheckedException
+  {
+  public:
+    /**
+     * Assuming a PyErr_Occurred, this will fill the exception message with all
+     *  of the appropriate information including the traceback if it can be
+     *  obtained. It will also clear the python message.
+     */
+    PythonToCppException();
   };
 }

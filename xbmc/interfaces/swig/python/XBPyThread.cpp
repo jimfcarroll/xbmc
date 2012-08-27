@@ -49,6 +49,7 @@
 #include "interfaces/native/ModuleXbmc.h"
 
 #include "interfaces/swig/python/pythreadstate.h"
+#include "interfaces/swig/python/swig.h"
 #include "utils/CharsetConverter.h"
 
 
@@ -277,7 +278,7 @@ void XBPyThread::Process()
     }
     catch (XBMCAddon::UnhandledException uhe)
     {
-      CLog::Log(LOGERROR, "failure in %s, %s", m_source,uhe.getMessage().c_str());
+      CLog::Log(LOGERROR, "failure in %s, %s", m_source,uhe.GetMessage());
     }
   }
 
@@ -300,38 +301,8 @@ void XBPyThread::Process()
     }
     else
     {
-      if (exc_type != NULL && (pystring = PyObject_Str(exc_type)) != NULL && (PyString_Check(pystring)))
-      {
-          PyObject *tracebackModule;
-
-          CLog::Log(LOGINFO, "-->Python script returned the following error<--");
-          CLog::Log(LOGERROR, "Error Type: %s", PyString_AsString(PyObject_Str(exc_type)));
-          if (PyObject_Str(exc_value))
-            CLog::Log(LOGERROR, "Error Contents: %s", PyString_AsString(PyObject_Str(exc_value)));
-
-          tracebackModule = PyImport_ImportModule((char*)"traceback");
-          if (tracebackModule != NULL)
-          {
-            PyObject *tbList, *emptyString, *strRetval;
-
-            tbList = PyObject_CallMethod(tracebackModule, (char*)"format_exception", (char*)"OOO", exc_type, exc_value == NULL ? Py_None : exc_value, exc_traceback == NULL ? Py_None : exc_traceback);
-            emptyString = PyString_FromString("");
-            strRetval = PyObject_CallMethod(emptyString, (char*)"join", (char*)"O", tbList);
-
-            CLog::Log(LOGERROR, "%s", PyString_AsString(strRetval));
-
-            Py_DECREF(tbList);
-            Py_DECREF(emptyString);
-            Py_DECREF(strRetval);
-            Py_DECREF(tracebackModule);
-          }
-          CLog::Log(LOGINFO, "-->End of Python script error report<--");
-      }
-      else
-      {
-        pystring = NULL;
-        CLog::Log(LOGINFO, "<unknown exception type>");
-      }
+      PythonBindings::PythonToCppException e;
+      e.LogThrowMessage();
 
       {
         CPyThreadState releaseGil;

@@ -23,6 +23,7 @@
 #include "AddonUtils.h"
 #include "threads/SingleLock.h"
 #include <vector>
+#include "commons/Exception.h"
 
 namespace XBMCAddon
 {
@@ -103,8 +104,18 @@ namespace XBMCAddon
           CLog::Log(LOGDEBUG,"NEWADDON executing callback 0x%lx", (long)(p->cb.get()));
           Synchronize lock2(*(p->cb->getObject()));
           if (!p->cb->getObject()->isDeallocating())
-            // need to make the call
-            p->cb->executeCallback();
+          {
+            try
+            {
+              // need to make the call
+              p->cb->executeCallback();
+            }
+            catch (XbmcCommons::Exception& e) { e.LogThrowMessage(); }
+            catch (...)
+            {
+              CLog::Log(LOGERROR,"Unknown exception while executeing callback 0x%lx", (long)(p->cb.get()));
+            }
+          }
         }
 
         // since the state of the iterator may have been corrupted by

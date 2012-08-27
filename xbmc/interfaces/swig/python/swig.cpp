@@ -117,5 +117,60 @@ namespace PythonBindings
 
     return false;
   }
+
+  PythonToCppException::PythonToCppException() : XbmcCommons::UncheckedException("")
+  {
+    setClassname("PythonToCppException");
+
+    PyObject* exc_type;
+    PyObject* exc_value;
+    PyObject* exc_traceback;
+    PyObject* pystring = NULL;
+
+    CStdString msg;
+
+    PyErr_Fetch(&exc_type, &exc_value, &exc_traceback);
+    if (exc_type == 0 && exc_value == 0 && exc_traceback == 0)
+    {
+      msg = "Strange: No Python exception occured";
+    }
+    else
+    {
+      msg = "-->Python callback returned the following error<--\n";
+      if (exc_type != NULL && (pystring = PyObject_Str(exc_type)) != NULL && (PyString_Check(pystring)))
+      {
+          PyObject *tracebackModule;
+
+          msg.AppendFormat("Error Type: %s\n", PyString_AsString(pystring));
+          if (PyObject_Str(exc_value))
+            msg.AppendFormat("Error Contents: %s\n", PyString_AsString(PyObject_Str(exc_value)));
+
+          tracebackModule = PyImport_ImportModule((char*)"traceback");
+          if (tracebackModule != NULL)
+          {
+            PyObject *tbList, *emptyString, *strRetval;
+
+            tbList = PyObject_CallMethod(tracebackModule, (char*)"format_exception", (char*)"OOO", exc_type, exc_value == NULL ? Py_None : exc_value, exc_traceback == NULL ? Py_None : exc_traceback);
+            emptyString = PyString_FromString("");
+            strRetval = PyObject_CallMethod(emptyString, (char*)"join", (char*)"O", tbList);
+            
+            msg.Format("%s%s", msg.c_str(),PyString_AsString(strRetval));
+
+            Py_DECREF(tbList);
+            Py_DECREF(emptyString);
+            Py_DECREF(strRetval);
+            Py_DECREF(tracebackModule);
+          }
+          msg += "\n-->End of Python script error report<--\n";
+      }
+      else
+      {
+        pystring = NULL;
+        msg += "<unknown exception type>";
+      }
+    }
+
+    SetMessage("%s",msg.c_str());
+  }
 }
 

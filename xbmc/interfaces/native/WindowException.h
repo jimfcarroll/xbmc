@@ -27,7 +27,7 @@ namespace XBMCAddon
 {
   namespace xbmcgui
   {
-    DECLARE_EXCEPTION(xbmcgui,Window);
+    XBMCCOMMONS_STANDARD_EXCEPTION(WindowException);
   }
 }
 
