@@ -26,8 +26,7 @@
 
 #include "utils/log.h"
 #include "utils/StdString.h"
-
-#define COPYVARARGS(fmt) va_list argList; va_start(argList, fmt); set(fmt, argList); va_end(argList)
+#include "commons/Exception.h"
 
 #define __PRETTY_FUNCTION__ __FUNCTION__
 
@@ -35,65 +34,30 @@
 namespace XBMCAddon
 {
   /**
-   * This class is the superclass for all exceptions thrown in the addon interface.
-   * It provides a means for the bindings to retrieve error messages as needed.
-   */
-  class Exception
-  {
-    String classname;
-    String message;
-
-    void logThrowMessage();
-
-  protected:
-    inline Exception(bool discrim, const char* _classname) : classname(_classname) { TRACE; }
-
-    /**
-     * This method is called from the constructor of subclasses. It
-     *  will set the message from varargs as well as call log message
-     */
-    void set(const char* fmt, va_list& argList);
-
-    /**
-     * This message can be called from the constructor of subclasses.
-     * It will set the message and log the throwing.
-     */
-    void setMessage(const char* fmt, ...);
-
-  public:
-    inline Exception(const Exception& other) : classname(other.classname), 
-                                               message(other.message) { TRACE; logThrowMessage(); }
-
-    SWIGHIDDENVIRTUAL ~Exception();
-
-    inline String getMessage() const { return message; }
-  };
-
-  /**
    * UnimplementedException Can be used in places like the 
    *  Control hierarchy where the
    *  requirements of dynamic language usage force us to add 
    *  unimplmenented methods to a class hierarchy. See the 
    *  detailed explanation on the class Control for more.
    */
-  class UnimplementedException : public Exception
+  class UnimplementedException : public XbmcCommons::Exception
   {
   public:
     inline UnimplementedException(const UnimplementedException& other) : Exception(other) { }
     inline UnimplementedException(const char* classname, const char* methodname) : 
-      Exception(true,"UnimplementedException") 
-    { setMessage("Unimplemented method: %s::%s(...)", classname, methodname); }
+      Exception("UnimplementedException") 
+    { SetMessage("Unimplemented method: %s::%s(...)", classname, methodname); }
   };
 
   /**
    * This is what callback exceptions from the scripting language
    *  are translated to.
    */
-  class UnhandledException : public Exception
+  class UnhandledException : public XbmcCommons::Exception
   {
   public:
     inline UnhandledException(const UnhandledException& other) : Exception(other) { }
-    inline UnhandledException(const char* _message,...) : Exception(true,"UnhandledException") { COPYVARARGS(_message); } 
+    inline UnhandledException(const char* _message,...) : Exception("UnhandledException") { XBMCCOMMONS_COPYVARARGS(_message); } 
   };
 }
 #endif
@@ -108,18 +72,3 @@ namespace XBMCAddon
 #define DECL_UNIMP(classname) throw(UnimplementedException) { throw UnimplementedException(classname, __FUNCTION__); }
 #define DECL_UNIMP2(classname,otherexception) throw(UnimplementedException,otherexception) { throw UnimplementedException(classname, __FUNCTION__); }
 
-/**
- * The DECLARE_EXCEPTION macro will create a specific Exception
- *   type that can be used in the API and incorporates the appropriate
- *   SWIG handling for when that exception is thrown.
- *
- * Note: The DECLARE_EXCEPTION_TYPEMAP macro is not really public but is 
- *  an implementation detail of the DECLARE_EXCEPTION macro
- */
-#define DECLARE_EXCEPTION(module,exception) \
-    class exception##Exception : public XBMCAddon::Exception      \
-    { \
-    public: \
-      inline exception##Exception(const exception##Exception& other) : Exception(other) { } \
-      inline exception##Exception(const char* _message,...) : Exception(true,#exception "Exception") { COPYVARARGS(_message); } \
-    }
