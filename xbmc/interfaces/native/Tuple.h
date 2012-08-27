@@ -66,7 +66,7 @@ namespace XBMCAddon
     T2 v2;
 
   public:
-    inline Tuple(T1 p1, T2 p2) : Tuple<T1>(p1), v2(p2) { TupleBase::numValuesSet = 2; }
+    inline Tuple(T1 p1, T2 p2) : Tuple<T1>(p1), v2(p2) { TupleBase::nvs(2); }
     inline Tuple(T1 p1) : Tuple<T1>(p1) {}
     inline Tuple() {}
     inline Tuple(const Tuple<T1,T2>& o) : Tuple<T1>(o), v2(o.v2) {}
@@ -81,7 +81,7 @@ namespace XBMCAddon
   private:
     T3 v3;
   public:
-    inline Tuple(T1 p1, T2 p2, T3 p3) : Tuple<T1,T2>(p1,p2), v3(p3) { TupleBase::numValuesSet = 3; }
+    inline Tuple(T1 p1, T2 p2, T3 p3) : Tuple<T1,T2>(p1,p2), v3(p3) { TupleBase::nvs(3); }
     inline Tuple(T1 p1, T2 p2) : Tuple<T1,T2>(p1,p2) {}
     inline Tuple(T1 p1) : Tuple<T1,T2>(p1) {}
     inline Tuple() {}
@@ -97,7 +97,7 @@ namespace XBMCAddon
   private:
     T4 v4;
   public:
-    inline Tuple(T1 p1, T2 p2, T3 p3, T4 p4) : Tuple<T1,T2,T3>(p1,p2,p3), v4(p4) { TupleBase::numValuesSet = 4; }
+    inline Tuple(T1 p1, T2 p2, T3 p3, T4 p4) : Tuple<T1,T2,T3>(p1,p2,p3), v4(p4) { TupleBase::nvs(4); }
     inline Tuple(T1 p1, T2 p2, T3 p3) : Tuple<T1,T2,T3>(p1,p2,p3) {}
     inline Tuple(T1 p1, T2 p2) : Tuple<T1,T2,T3>(p1,p2) {}
     inline Tuple(T1 p1) : Tuple<T1,T2,T3>(p1) {}
