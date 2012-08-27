@@ -77,8 +77,8 @@ namespace PythonBindings
   {
     if (pythonType == NULL || ((PyHolder*)pythonType)->magicNumber != XBMC_PYTHON_TYPE_MAGIC_NUMBER)
       throw WrongTypeException("Non api type passed in place of the expected type \"%s.\"",swigType);
-    if (isParameterRightType(((PyHolder*)pythonType)->swigType,swigType,methodNamespacePrefix))
-      throw WrongTypeException("Incorrect type passed to \"%s\", was expecting a \"%s.\" but received a \"%s.\"",
+    if (!isParameterRightType(((PyHolder*)pythonType)->swigType,swigType,methodNamespacePrefix))
+      throw WrongTypeException("Incorrect type passed to \"%s\", was expecting a \"%s\" but received a \"%s\"",
                                methodNameForErrorString,swigType,((PyHolder*)pythonType)->swigType);
     return ((PyHolder*)pythonType)->pSelf;
   }
