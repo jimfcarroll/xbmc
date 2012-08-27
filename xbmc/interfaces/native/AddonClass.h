@@ -30,6 +30,18 @@
  */
 #define LOG_LIFECYCLE_EVENTS
 
+/** 
+ * Defining XBMC_ADDON_DEBUG_MEMORY will make the Acquire and Release
+ *  methods virtual allow the developer to overload them in a sub-class
+ *  and set breakpoints to aid in debugging. It will also cause the 
+ *  reference counting mechanism to never actually delete any AddonClass
+ *  instance allowing for the tracking of more references to (supposedly)
+ *  deallocated classes.
+ *
+ * Comment out (or uncomment out) to change the setting.
+ */
+//#define XBMC_ADDON_DEBUG_MEMORY
+
 #include "AddonString.h"
 #include "threads/SingleLock.h"
 #include "threads/Atomics.h"
@@ -61,6 +73,10 @@ namespace XBMCAddon
     CCriticalSection thisLock;
     bool m_isDeallocating;
 
+#ifdef XBMC_ADDON_DEBUG_MEMORY
+    bool isDeleted;
+#endif
+
     friend class Synchronize;
   protected:
     LanguageHook* languageHook;
@@ -91,7 +107,13 @@ namespace XBMCAddon
      */
     bool isDeallocating() { TRACE; return m_isDeallocating; }
 
+#ifdef XBMC_ADDON_DEBUG_MEMORY
+    virtual 
+#else
+    inline
+#endif
     void Release() const
+#ifndef XBMC_ADDON_DEBUG_MEMORY
     {
       long ct = AtomicDecrement((long*)&refs);
 #ifdef LOG_LIFECYCLE_EVENTS
@@ -100,8 +122,18 @@ namespace XBMCAddon
       if(ct == 0)
         delete this;
     }
+#else
+    ;
+#endif
 
+
+#ifdef XBMC_ADDON_DEBUG_MEMORY
+    virtual 
+#else
+    inline
+#endif
     void Acquire() const
+#ifndef XBMC_ADDON_DEBUG_MEMORY
     {
 #ifdef LOG_LIFECYCLE_EVENTS
       CLog::Log(LOGDEBUG,"NEWADDON REFCNT incrementing to %ld on %s 0x%lx", 
@@ -110,6 +142,9 @@ namespace XBMCAddon
       AtomicIncrement((long*)&refs);
 #endif
     }
+#else
+    ;
+#endif
 
 #define refcheck
     /**
@@ -180,7 +215,7 @@ namespace XBMCAddon
     class Synchronize : public CSingleLock
     {
     public:
-      Synchronize(const AddonClass& obj) : CSingleLock(obj.thisLock) {}
+      inline Synchronize(const AddonClass& obj) : CSingleLock(obj.thisLock) {}
     };
 
   };

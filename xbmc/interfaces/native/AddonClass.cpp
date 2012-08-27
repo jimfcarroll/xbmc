@@ -39,6 +39,10 @@ namespace XBMCAddon
 #ifdef LOG_LIFECYCLE_EVENTS
     CLog::Log(LOGDEBUG, "NEWADDON LIFECYCLE destroying %s 0x%lx", classname.c_str(), (long)(((void*)this)));
 #endif
+
+#ifdef XBMC_ADDON_DEBUG_MEMORY
+    isDeleted = false;
+#endif
   }
 
   AddonClass::AddonClass(const char* cname) : refs(0L), classname(cname), m_isDeallocating(false), 
@@ -46,6 +50,10 @@ namespace XBMCAddon
   {
 #ifdef LOG_LIFECYCLE_EVENTS
     CLog::Log(LOGDEBUG, "NEWADDON LIFECYCLE constructing %s 0x%lx", classname.c_str(), (long)(((void*)this)));
+#endif
+
+#ifdef XBMC_ADDON_DEBUG_MEMORY
+    isDeleted = false;
 #endif
 
     // check to see if we have a language hook that was prepared for this instantiation
@@ -62,6 +70,40 @@ namespace XBMCAddon
     }
   }
 
+#ifdef XBMC_ADDON_DEBUG_MEMORY
+  void AddonClass::Release() const
+  {
+    if (isDeleted)
+      CLog::Log(LOGERROR,"NEWADDON REFCNT Releasing dead class %s 0x%lx", 
+                classname.c_str(), (long)(((void*)this)));
+
+    long ct = AtomicDecrement((long*)&refs);
+#ifdef LOG_LIFECYCLE_EVENTS
+    CLog::Log(LOGDEBUG,"NEWADDON REFCNT decrementing to %ld on %s 0x%lx", ct,classname.c_str(), (long)(((void*)this)));
+#endif
+    if(ct == 0)
+    {
+        ((AddonClass*)this)->isDeleted = true;
+        // we're faking a delete but not doing it so call the destructor explicitly
+        this->~AddonClass();
+    }
+  }
+
+  void AddonClass::Acquire() const
+  {
+    if (isDeleted)
+      CLog::Log(LOGERROR,"NEWADDON REFCNT Acquiring dead class %s 0x%lx", 
+                classname.c_str(), (long)(((void*)this)));
+
+#ifdef LOG_LIFECYCLE_EVENTS
+    CLog::Log(LOGDEBUG,"NEWADDON REFCNT incrementing to %ld on %s 0x%lx", 
+              AtomicIncrement((long*)&refs),classname.c_str(), (long)(((void*)this)));
+#else
+    AtomicIncrement((long*)&refs);
+#endif
+  }
+
+#endif
 }
 
               
