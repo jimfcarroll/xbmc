@@ -276,9 +276,13 @@ void XBPyThread::Process()
       PyRun_String(m_source, m_Py_file_input, moduleDict, moduleDict);
     }
     }
-    catch (XBMCAddon::UnhandledException uhe)
+    catch (const XbmcCommons::Exception& e)
     {
-      CLog::Log(LOGERROR, "failure in %s, %s", m_source,uhe.GetMessage());
+      e.LogThrowMessage();
+    }
+    catch (...)
+    {
+      CLog::Log(LOGERROR, "failure in %s", m_source);
     }
   }
 
@@ -288,50 +292,31 @@ void XBPyThread::Process()
     CLog::Log(LOGINFO, "Scriptresult: Aborted");
   else
   {
-    PyObject* exc_type;
-    PyObject* exc_value;
-    PyObject* exc_traceback;
-    PyObject* pystring;
-    pystring = NULL;
+    PythonBindings::PythonToCppException e;
+    e.LogThrowMessage();
 
-    PyErr_Fetch(&exc_type, &exc_value, &exc_traceback);
-    if (exc_type == 0 && exc_value == 0 && exc_traceback == 0)
     {
-      CLog::Log(LOGINFO, "Strange: No Python exception occured");
-    }
-    else
-    {
-      PythonBindings::PythonToCppException e;
-      e.LogThrowMessage();
+      CPyThreadState releaseGil;
+      CSingleLock gc(g_graphicsContext);
 
+      CGUIDialogKaiToast *pDlgToast = (CGUIDialogKaiToast*)g_windowManager.GetWindow(WINDOW_DIALOG_KAI_TOAST);
+      if (pDlgToast)
       {
-        CPyThreadState releaseGil;
-        CSingleLock gc(g_graphicsContext);
-
-        CGUIDialogKaiToast *pDlgToast = (CGUIDialogKaiToast*)g_windowManager.GetWindow(WINDOW_DIALOG_KAI_TOAST);
-        if (pDlgToast)
+        CStdString desc;
+        CStdString path;
+        CStdString script;
+        URIUtils::Split(m_source, path, script);
+        if (script.Equals("default.py"))
         {
-          CStdString desc;
-          CStdString path;
-          CStdString script;
-          URIUtils::Split(m_source, path, script);
-          if (script.Equals("default.py"))
-          {
-            CStdString path2;
-            URIUtils::RemoveSlashAtEnd(path);
-            URIUtils::Split(path, path2, script);
-          }
-
-          desc.Format(g_localizeStrings.Get(2100), script);
-          pDlgToast->QueueNotification(CGUIDialogKaiToast::Error, g_localizeStrings.Get(257), desc);
+          CStdString path2;
+          URIUtils::RemoveSlashAtEnd(path);
+          URIUtils::Split(path, path2, script);
         }
+
+        desc.Format(g_localizeStrings.Get(2100), script);
+        pDlgToast->QueueNotification(CGUIDialogKaiToast::Error, g_localizeStrings.Get(257), desc);
       }
     }
-
-    Py_XDECREF(exc_type);
-    Py_XDECREF(exc_value); // caller owns all 3
-    Py_XDECREF(exc_traceback); // already NULL'd out
-    Py_XDECREF(pystring);
   }
 
   PyObject *m = PyImport_AddModule((char*)"xbmc");

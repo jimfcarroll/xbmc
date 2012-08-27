@@ -136,7 +136,8 @@ namespace PythonBindings
     }
     else
     {
-      msg = "-->Python callback returned the following error<--\n";
+      msg = "-->Python callback/script returned the following error<--\n";
+      msg += " - NOTE: IGNORING THIS CAN LEAD TO MEMORY LEAKS!\n";
       if (exc_type != NULL && (pystring = PyObject_Str(exc_type)) != NULL && (PyString_Check(pystring)))
       {
           PyObject *tracebackModule;
@@ -161,7 +162,7 @@ namespace PythonBindings
             Py_DECREF(strRetval);
             Py_DECREF(tracebackModule);
           }
-          msg += "\n-->End of Python script error report<--\n";
+          msg += "-->End of Python script error report<--\n";
       }
       else
       {
