@@ -58,7 +58,8 @@ Helper.setup(classes,
       'String' : new File('generator/bindings/python.string.outtm'),
       'p.q(const).char' : '${result} = PyString_FromString(${api});',
       (Pattern.compile('''(p.){0,1}std::vector<\\(.*\\)>''')) : new File('generator/bindings/python.vector.outtm'),
-      (Pattern.compile('''(p.){0,1}Tuple<\\(.*\\)>''')) : new File('generator/bindings/python.Tuple.outtm')
+      (Pattern.compile('''(p.){0,1}Tuple<\\(.*\\)>''')) : new File('generator/bindings/python.Tuple.outtm'),
+      (Pattern.compile('''(p.){0,1}Alternative<\\(.*\\)>''')) : new File('generator/bindings/python.Alternative.outtm')
     ], '${result} = makePythonInstance(${api},&Py${Helper.findFullClassName(classnode).replaceAll(\'::\',\'_\')}_Type,"${type}");',
     /**
      * This is meant to contain mini-templates for converting the parameter types
