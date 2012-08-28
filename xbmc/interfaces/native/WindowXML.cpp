@@ -294,7 +294,7 @@ namespace XBMCAddon
                                                  //  CGUIWindow::OnAction
       AddonClass::Ref<Action> inf(new Action(action));
       handleCallback(new CallbackFunction<WindowXML,AddonClass::Ref<Action> >(this,&WindowXML::onAction,inf.get()));
-      PulseActionEvent();
+      Pulseactionevent();
       return ret;
     }
 
@@ -317,6 +317,7 @@ namespace XBMCAddon
         {
           ref(window)->OnMessage(message);
           handleCallback(new CallbackFunction<WindowXML>(this,&WindowXML::onInit));
+          PulseActionEvent();
           return true;
         }
         break;
