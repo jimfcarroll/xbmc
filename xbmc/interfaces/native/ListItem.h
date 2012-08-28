@@ -34,6 +34,7 @@
 #include "FileItem.h"
 #include "AddonString.h"
 #include "Tuple.h"
+#include "commons/Exception.h"
 
 #include <map>
 
@@ -41,6 +42,8 @@ namespace XBMCAddon
 {
   namespace xbmcgui
   {
+    XBMCCOMMONS_STANDARD_EXCEPTION(ListItemException);
+
     class ListItem : public AddonClass
     {
     public:
@@ -253,7 +256,7 @@ namespace XBMCAddon
        * example:
        *   - listitem.addContextMenuItems([('Theater Showtimes', 'XBMC.RunScript(special://home/scripts/showtimes/default.py,Iron Man)',)])\n
        */
-      void addContextMenuItems(const std::vector<Tuple<String,String> >& items, bool replaceItems = false);
+      void addContextMenuItems(const std::vector<Tuple<String,String> >& items, bool replaceItems = false) throw (ListItemException);
 
       /**
        * setProperty(key, value) -- Sets a listitem property, similar to an infolabel.
