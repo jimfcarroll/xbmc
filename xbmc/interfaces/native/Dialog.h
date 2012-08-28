@@ -28,6 +28,7 @@
 #include "AddonString.h"
 #include "ApplicationMessenger.h"
 #include "dialogs/GUIDialogProgress.h"
+#include "Alternative.h"
 
 namespace XBMCAddon
 {
@@ -99,6 +100,41 @@ namespace XBMCAddon
               const String& line3 = emptyString) throw (WindowException);
 
       /**
+       * browse(type, heading, shares[, mask, useThumbs, treatAsFolder, default, enableMultiple]) -- Show a 'Browse' dialog.
+       * 
+       * type           : integer - the type of browse dialog.
+       * heading        : string or unicode - dialog heading.
+       * shares         : string or unicode - from sources.xml. (i.e. 'myprograms')
+       * mask           : [opt] string or unicode - '|' separated file mask. (i.e. '.jpg|.png')
+       * useThumbs      : [opt] boolean - if True autoswitch to Thumb view if files exist.
+       * treatAsFolder  : [opt] boolean - if True playlists and archives act as folders.
+       * default        : [opt] string - default path or file.
+       * 
+       * enableMultiple : [opt] boolean - if True multiple file selection is enabled.
+       * Types:
+       *   0 : ShowAndGetDirectory
+       *   1 : ShowAndGetFile
+       *   2 : ShowAndGetImage
+       *   3 : ShowAndGetWriteableDirectory
+       * 
+       * *Note, If enableMultiple is False (default): returns filename and/or path as a string
+       *        to the location of the highlighted item, if user pressed 'Ok' or a masked item
+       *        was selected. Returns the default value if dialog was canceled.
+       *        If enableMultiple is True: returns tuple of marked filenames as a strin
+       *        if user pressed 'Ok' or a masked item was selected. Returns empty tuple if dialog was canceled.
+       * 
+       *        If type is 0 or 3 the enableMultiple parameter is ignore
+       * 
+       * example:
+       *   - dialog = xbmcgui.Dialog()
+       *   - fn = dialog.browse(3, 'XBMC', 'files', '', False, False, False, 'special://masterprofile/script_data/XBMC Lyrics')
+       */
+      Alternative<String, std::vector<String> > browse(int type, const String& heading, const String& s_shares,
+                          const String& mask = emptyString, bool useThumbs = false, 
+                          bool treatAsFolder = false, const String& defaultt = emptyString,
+                          bool enableMultiple = false) throw (WindowException);
+ 
+      /**
        * browse(type, heading, shares[, mask, useThumbs, treatAsFolder, default]) -- Show a 'Browse' dialog.
        * 
        * type           : integer - the type of browse dialog.
@@ -123,10 +159,10 @@ namespace XBMCAddon
        *   - dialog = xbmcgui.Dialog()
        *   - fn = dialog.browse(3, 'XBMC', 'files', '', False, False, 'special://masterprofile/script_data/XBMC Lyrics')\n
        */
-      String browse(int type, const String& heading, const String& shares,
-                    const String& mask = emptyString, bool useThumbs = false, 
-                    bool treatAsFolder = false, 
-                    const String& defaultt = emptyString ) throw (WindowException);
+      String browseSingle(int type, const String& heading, const String& shares,
+                          const String& mask = emptyString, bool useThumbs = false, 
+                          bool treatAsFolder = false, 
+                          const String& defaultt = emptyString ) throw (WindowException);
 
       /**
        * browse(type, heading, shares[, mask, useThumbs, treatAsFolder, default]) -- Show a 'Browse' dialog.

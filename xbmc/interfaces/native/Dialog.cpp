@@ -25,22 +25,6 @@ namespace XBMCAddon
 
     Dialog::~Dialog() {}
 
-    /**
-     * yesno(heading, line1[, line2, line3]) -- Show a dialog 'YES/NO'.
-     * 
-     * heading        : string or unicode - dialog heading.
-     * line1          : string or unicode - line #1 text.
-     * line2          : [opt] string or unicode - line #2 text.
-     * line3          : [opt] string or unicode - line #3 text.
-     * nolabel        : [opt] label to put on the no button.
-     * yeslabel       : [opt] label to put on the yes button.
-     * 
-     * *Note, Returns True if 'Yes' was pressed, else False.
-     * 
-     * example:
-     *   - dialog = xbmcgui.Dialog()
-     *   - ret = dialog.yesno('XBMC', 'Do you want to exit this script?')\n
-     */
     bool Dialog::yesno(const String& heading, const String& line1, 
                        const String& line2,
                        const String& line3,
@@ -74,19 +58,6 @@ namespace XBMCAddon
       return pDialog->IsConfirmed();
     }
 
-    /**
-     * select(heading, list) -- Show a select dialog.
-     * 
-     * heading        : string or unicode - dialog heading.
-     * list           : string list - list of items.
-     * autoclose      : [opt] integer - milliseconds to autoclose dialog. (default=do not autoclose)
-     * 
-     * *Note, Returns the position of the highlighted item as an integer.
-     * 
-     * example:
-     *   - dialog = xbmcgui.Dialog()
-     *   - ret = dialog.select('Choose a playlist', ['Playlist #1', 'Playlist #2, 'Playlist #3'])\n
-     */
     int Dialog::select(const String& heading, const std::vector<String>& list, int autoclose) throw (WindowException)
     {
       DelayedCallGuard dcguard(languageHook);
@@ -115,20 +86,6 @@ namespace XBMCAddon
       return pDialog->GetSelectedLabel();
     }
 
-    /**
-     * ok(heading, line1[, line2, line3]) -- Show a dialog 'OK'.
-     * 
-     * heading        : string or unicode - dialog heading.
-     * line1          : string or unicode - line #1 text.
-     * line2          : [opt] string or unicode - line #2 text.
-     * line3          : [opt] string or unicode - line #3 text.
-     * 
-     * *Note, Returns True if 'Ok' was pressed, else False.
-     * 
-     * example:
-     *   - dialog = xbmcgui.Dialog()
-     *   - ok = dialog.ok('XBMC', 'There was an error.')\n
-     */
     bool Dialog::ok(const String& heading, const String& line1, 
                     const String& line2,
                     const String& line3) throw (WindowException)
@@ -155,35 +112,23 @@ namespace XBMCAddon
       return pDialog->IsConfirmed();
     }
 
-    /**
-     * browse(type, heading, shares[, mask, useThumbs, treatAsFolder, default]) -- Show a 'Browse' dialog.
-     * 
-     * type           : integer - the type of browse dialog.
-     * heading        : string or unicode - dialog heading.
-     * shares         : string or unicode - from sources.xml. (i.e. 'myprograms')
-     * mask           : [opt] string or unicode - '|' separated file mask. (i.e. '.jpg|.png')
-     * useThumbs      : [opt] boolean - if True autoswitch to Thumb view if files exist (default=false).
-     * treatAsFolder  : [opt] boolean - if True playlists and archives act as folders (default=false).
-     * default        : [opt] string - default path or file.
-     * 
-     * Types:
-     *   0 : ShowAndGetDirectory
-     *   1 : ShowAndGetFile
-     *   2 : ShowAndGetImage
-     *   3 : ShowAndGetWriteableDirectory
-     * 
-     * *Note, Returns filename and/or path as a string to the location of the highlighted item,
-     *        if user pressed 'Ok' or a masked item was selected.
-     *        Returns the default value if dialog was canceled.
-     * 
-     * example:
-     *   - dialog = xbmcgui.Dialog()
-     *   - fn = dialog.browse(3, 'XBMC', 'files', '', False, False, 'special://masterprofile/script_data/XBMC Lyrics')\n
-     */
-    String Dialog::browse(int type, const String& heading, const String& s_shares,
-                          const String& maskparam, bool useThumbs, 
-                          bool useFileDirectories, 
-                          const String& defaultt ) throw (WindowException)
+    Alternative<String, std::vector<String> > Dialog::browse(int type, const String& heading, 
+                                const String& s_shares, const String& maskparam, bool useThumbs, 
+                                bool useFileDirectories, const String& defaultt,
+                                bool enableMultiple) throw (WindowException)
+    {
+      Alternative<String, std::vector<String> > ret;
+      if (enableMultiple)
+        ret.later() = browseMultiple(type,heading,s_shares,maskparam,useThumbs,useFileDirectories,defaultt);
+      else
+        ret.former() = browseSingle(type,heading,s_shares,maskparam,useThumbs,useFileDirectories,defaultt);
+      return ret;
+    }
+
+    String Dialog::browseSingle(int type, const String& heading, const String& s_shares,
+                                const String& maskparam, bool useThumbs, 
+                                bool useFileDirectories, 
+                                const String& defaultt ) throw (WindowException)
     {
       DelayedCallGuard dcguard(languageHook);
       CStdString value;
@@ -234,27 +179,6 @@ namespace XBMCAddon
       return valuelist;
     }
 
-
-    /**
-     * numeric(type, heading[, default]) -- Show a 'Numeric' dialog.
-     * 
-     * type           : integer - the type of numeric dialog.
-     * heading        : string or unicode - dialog heading.
-     * default        : [opt] string - default value.
-     * 
-     * Types:
-     *   0 : ShowAndGetNumber    (default format: #)
-     *   1 : ShowAndGetDate      (default format: DD/MM/YYYY)
-     *   2 : ShowAndGetTime      (default format: HH:MM)
-     *   3 : ShowAndGetIPAddress (default format: #.#.#.#)
-     * 
-     * *Note, Returns the entered data as a string.
-     *        Returns the default value if dialog was canceled.
-     * 
-     * example:
-     *   - dialog = xbmcgui.Dialog()
-     *   - d = dialog.numeric(1, 'Enter date of birth')\n
-     */
     String Dialog::numeric(int inputtype, const String& heading, const String& defaultt)
     {
       DelayedCallGuard dcguard(languageHook);
