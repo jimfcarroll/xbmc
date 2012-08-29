@@ -42,65 +42,8 @@ namespace XBMCAddonUtils
   }
   //***********************************************************
   
-//  //***********************************************************
-//  // WaitForNotify
-//  //***********************************************************
-//
-//  void WaitForNotify::wait()
-//  {
-//    CSingleLock lock(csection);
-//    HANDLE event = CreateEvent(NULL,true,false,NULL);
-//
-//    thoseWaiting.push_back(event);
-//
-//    {
-//      CSingleLock atomicOperation(atomicWait); 
-//      InvertSingleLockGuard unlocker(lock);
-//      WaitForSingleObject(event,INFINITE);
-//      // make sure the atomicWait is unlocked prior to the 
-//      //  csection to avoid a deadlock which can happen by 
-//      //  grabing nested locks in a different order.
-//      atomicOperation.Leave();
-//      // there is a race condition here? - Maybe. I think that
-//      //  if both locks are unlocked for a short period - it doesn't
-//      //  matter because the attempt to reassert the csection
-//      //  lock will block until it's available and the atomicOperation
-//      //  already accomplished it's job of making sure nothing could 
-//      //  happen in between unlocker(lock) and WaitForSingleObject.
-//    }
-//
-//    // now we're done with the event
-//    CloseHandle(event);
-//  }
-//
-//  void WaitForNotify::notify()
-//  {
-//    CSingleLock lock(csection);
-//    if (thoseWaiting.size() > 0)
-//    {
-//      HANDLE cur = thoseWaiting.back();
-//      thoseWaiting.pop_back();
-//      SetEvent(cur);
-//    }
-//  }
-//
-//  void WaitForNotify::notifyAll()
-//  {
-//    CSingleLock lock(csection);
-//    while (thoseWaiting.size() > 0)
-//    {
-//      HANDLE cur = thoseWaiting.back();
-//      thoseWaiting.pop_back();
-//      SetEvent(cur);
-//    }
-//  }
-//  //***********************************************************
-
   static char defaultImage[1024];
-  /*
-   * Looks in references.xml for image name
-   * If none exist return default image name
-   */
+
   const char *getDefaultImage(char* cControlType, char* cTextureType, char* cDefault)
   {
     // create an xml block so that we can resolve our defaults

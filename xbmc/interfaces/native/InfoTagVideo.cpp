@@ -43,109 +43,86 @@ namespace XBMCAddon
       delete infoTag;
     }
 
-    // InfoTagVideo_GetDirector
     String InfoTagVideo::getDirector()
     {
       return StringUtils::Join(infoTag->m_director, g_advancedSettings.m_videoItemSeparator);
     }
 
-    // InfoTagVideo_GetWritingCredits
     String InfoTagVideo::getWritingCredits()
     {
       return StringUtils::Join(infoTag->m_writingCredits, g_advancedSettings.m_videoItemSeparator);
     }
 
-    // InfoTagVideo_GetGenre
     String InfoTagVideo::getGenre()
     {
       return StringUtils::Join(infoTag->m_genre, g_advancedSettings.m_videoItemSeparator).c_str();
     }
 
-    // InfoTagVideo_GetTagLine
     String InfoTagVideo::getTagLine()
     {
       return infoTag->m_strTagLine;
     }
 
-    // InfoTagVideo_GetPlotOutline
     String InfoTagVideo::getPlotOutline()
     {
       return infoTag->m_strPlotOutline;
     }
 
-    // InfoTagVideo_GetPlot
     String InfoTagVideo::getPlot()
     {
       return infoTag->m_strPlot;
     }
 
-    // InfoTagVideo_GetPictureURL
     String InfoTagVideo::getPictureURL()
     {
       return infoTag->m_strPictureURL.GetFirstThumb().m_url;
     }
 
-    // InfoTagVideo_GetTitle
     String InfoTagVideo::getTitle()
     {
       return infoTag->m_strTitle;
     }
 
-    // InfoTagVideo_GetVotes
     String InfoTagVideo::getVotes()
     {
       return infoTag->m_strVotes;
     }
 
-    // InfoTagVideo_GetCast
     String InfoTagVideo::getCast()
     {
       return infoTag->GetCast(true);
     }
 
-    // InfoTagVideo_GetFile
     String InfoTagVideo::getFile()
     {
       return infoTag->m_strFile;
     }
 
-    // InfoTagVideo_GetPath
     String InfoTagVideo::getPath()
     {
       return infoTag->m_strPath;
     }
 
-    // InfoTagVideo_GetIMDBNumber
     String InfoTagVideo::getIMDBNumber()
     {
       return infoTag->m_strIMDBNumber;
     }
 
-    // InfoTagVideo_GetYear
     int InfoTagVideo::getYear()
     {
       return infoTag->m_iYear;
     }
 
-    // InfoTagVideo_GetRating
     double InfoTagVideo::getRating()
     {
       return infoTag->m_fRating;
     }
 
-    // InfoTagVideo_GetPlayCount
-    /**
-     * getPlayCount() -- returns a integer.
-     */
     int InfoTagVideo::getPlayCount()
     {
       return infoTag->m_playCount;
     }
 
-    // InfoTagVideo_GetLastPlayed
-    /**
-     * getLastPlayed() -- returns a string.
-     */
     String InfoTagVideo::getLastPlayed()
     {
       return infoTag->m_lastPlayed.GetAsLocalizedDateTime();

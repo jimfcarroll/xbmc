@@ -76,6 +76,7 @@ namespace XBMCAddon
      */
     class Window : public AddonCallback
     {
+      friend class WindowDialogMixin;
     protected:
 #ifndef SWIG
       bool windowCleared;
@@ -146,6 +147,15 @@ namespace XBMCAddon
 #endif
 
       // callback takes a parameter
+      /**
+       * onAction(self, Action action) -- onAction method.
+       * 
+       * This method will recieve all actions that the main program will send
+       * to this window.
+       * By default, only the PREVIOUS_MENU and NAV_BACK actions are handled.
+       * Overwrite this method to let your script handle all actions.
+       * Don't forget to capture ACTION_PREVIOUS_MENU or ACTION_NAV_BACK, else the user can't close this window.
+       */
       virtual void onAction(Action* action);
       // on control is not actually on Window in the api but is called
       //  into Python anyway. This must result in a problem when 
@@ -154,25 +164,221 @@ namespace XBMCAddon
       virtual void onFocus(int controlId);
       virtual void onInit();
 
+      /**
+       * show(self) -- Show this window.
+       * 
+       * Shows this window by activating it, calling close() after it wil activate the
+       * current window again.
+       * Note, if your script ends this window will be closed to. To show it forever, 
+       * make a loop at the end of your script ar use doModal() instead
+       */
       SWIGHIDDENVIRTUAL void show();
+
+      /**
+       * setFocus(self, Control) -- Give the supplied control focus.
+       * Throws: TypeError, if supplied argument is not a Control type
+       *         SystemError, on Internal error
+       *         RuntimeError, if control is not added to a window
+       */
       SWIGHIDDENVIRTUAL void setFocus(Control* pControl) throw (WindowException);
+
+      /**
+       * setFocusId(self, int) -- Gives the control with the supplied focus.
+       * Throws: 
+       *         SystemError, on Internal error
+       *         RuntimeError, if control is not added to a window
+       */
       SWIGHIDDENVIRTUAL void setFocusId(int iControlId);
+
+      /**
+       * getFocus(self, Control) -- returns the control which is focused.
+       * Throws: SystemError, on Internal error
+       *         RuntimeError, if no control has focus
+       */
       SWIGHIDDENVIRTUAL Control* getFocus() throw (WindowException);
+
+      /**
+       * getFocusId(self, int) -- returns the id of the control which is focused.
+       * Throws: SystemError, on Internal error
+       *         RuntimeError, if no control has focus
+       */
       SWIGHIDDENVIRTUAL long getFocusId() throw (WindowException);
+
+      /**
+       * removeControl(self, Control) -- Removes the control from this window.
+       * 
+       * Throws: TypeError, if supplied argument is not a Control type
+       *         RuntimeError, if control is not added to this window
+       * 
+       * This will not delete the control. It is only removed from the window.
+       */
       SWIGHIDDENVIRTUAL void removeControl(Control* pControl) throw (WindowException);
+
+      /**
+       * removeControls(self, List) -- Removes a list of controls from this window.
+       *
+       * Throws: TypeError, if supplied argument is not a Control type
+       *        RuntimeError, if control is not added to this window
+       *
+       * This will not delete the controls. They are only removed from the window.
+       */
       SWIGHIDDENVIRTUAL void removeControls(std::vector<Control*> pControls) throw (WindowException);
+
+      /**
+       * getHeight(self) -- Returns the height of this screen.
+       */
       SWIGHIDDENVIRTUAL long getHeight();
+
+      /**
+       * getWidth(self) -- Returns the width of this screen.
+       */
       SWIGHIDDENVIRTUAL long getWidth();
+
+      /**
+       * getResolution(self) -- Returns the resolution of the scree
+       *  The returned value is one of the following:
+       *    0 - 1080i      (1920x1080)
+       *    1 - 720p       (1280x720)
+       *    2 - 480p 4:3   (720x480)
+       *    3 - 480p 16:9  (720x480)
+       *    4 - NTSC 4:3   (720x480)
+       *    5 - NTSC 16:9  (720x480)
+       *    6 - PAL 4:3    (720x576)
+       *    7 - PAL 16:9   (720x576)
+       *    8 - PAL60 4:3  (720x480)
+       *    9 - PAL60 16:9 (720x480)\n
+       */
       SWIGHIDDENVIRTUAL long getResolution();
+
+      /**
+       * setCoordinateResolution(self, int resolution) -- Sets the resolution
+       * that the coordinates of all controls are defined in.  Allows XBMC
+       * to scale control positions and width/heights to whatever resolution
+       * XBMC is currently using.
+       *  resolution is one of the following:
+       *    0 - 1080i      (1920x1080)
+       *    1 - 720p       (1280x720)
+       *    2 - 480p 4:3   (720x480)
+       *    3 - 480p 16:9  (720x480)
+       *    4 - NTSC 4:3   (720x480)
+       *    5 - NTSC 16:9  (720x480)
+       *    6 - PAL 4:3    (720x576)
+       *    7 - PAL 16:9   (720x576)
+       *    8 - PAL60 4:3  (720x480)
+       *    9 - PAL60 16:9 (720x480)\n
+       */
       SWIGHIDDENVIRTUAL void setCoordinateResolution(long res) throw (WindowException);
+
+      /**
+       * setProperty(key, value) -- Sets a window property, similar to an infolabel.
+       * 
+       * key            : string - property name.
+       * value          : string or unicode - value of property.
+       * 
+       * *Note, key is NOT case sensitive. Setting value to an empty string is equivalent to clearProperty(key)
+       *        You can use the above as keywords for arguments and skip certain optional arguments.
+       *        Once you use a keyword, all following arguments require the keyword.
+       * 
+       * example:
+       *   - win = xbmcgui.Window(xbmcgui.getCurrentWindowId())
+       *   - win.setProperty('Category', 'Newest')\n
+       */
       SWIGHIDDENVIRTUAL void setProperty(const char* key, const String& value);
+
+      /**
+       * getProperty(key) -- Returns a window property as a string, similar to an infolabel.
+       * 
+       * key            : string - property name.
+       * 
+       * *Note, key is NOT case sensitive.
+       *        You can use the above as keywords for arguments and skip certain optional arguments.
+       *        Once you use a keyword, all following arguments require the keyword.
+       * 
+       * example:
+       *   - win = xbmcgui.Window(xbmcgui.getCurrentWindowId())
+       *   - category = win.getProperty('Category')
+       */
       SWIGHIDDENVIRTUAL String getProperty(const char* key);
+
+      /**
+       * clearProperty(key) -- Clears the specific window property.
+       * 
+       * key            : string - property name.
+       * 
+       * *Note, key is NOT case sensitive. Equivalent to setProperty(key,'')
+       *        You can use the above as keywords for arguments and skip certain optional arguments.
+       *        Once you use a keyword, all following arguments require the keyword.
+       * 
+       * example:
+       *   - win = xbmcgui.Window(xbmcgui.getCurrentWindowId())
+       *   - win.clearProperty('Category')\n
+       */
       SWIGHIDDENVIRTUAL void clearProperty(const char* key);
+
+      /**
+       * clearProperties() -- Clears all window properties.
+       * 
+       * example:
+       *   - win = xbmcgui.Window(xbmcgui.getCurrentWindowId())
+       *   - win.clearProperties()\n
+       */
       SWIGHIDDENVIRTUAL void clearProperties();
+
+      /**
+       * close(self) -- Closes this window.
+       * 
+       * Closes this window by activating the old window.
+       * The window is not deleted with this method.
+       */
       SWIGHIDDENVIRTUAL void close();
+
+      /**
+       * doModal(self) -- Display this window until close() is called.
+       */
       SWIGHIDDENVIRTUAL void doModal();
+
+      /**
+       * addControl(self, Control) -- Add a Control to this window.
+       * 
+       * Throws: TypeError, if supplied argument is not a Control type
+       *         ReferenceError, if control is already used in another window
+       *         RuntimeError, should not happen :-)
+       * 
+       * The next controls can be added to a window atm
+       * 
+       *   -ControlLabel
+       *   -ControlFadeLabel
+       *   -ControlTextBox
+       *   -ControlButton
+       *   -ControlCheckMark
+       *   -ControlList
+       *   -ControlGroup
+       *   -ControlImage
+       *   -ControlRadioButton
+       *   -ControlProgress\n
+       */
       SWIGHIDDENVIRTUAL void addControl(Control* pControl) throw (WindowException);
+
+      /**
+       * addControls(self, List) -- Add a list of Controls to this window.
+       *
+       *Throws: TypeError, if supplied argument is not of List type, or a control is not of Control type
+       *        ReferenceError, if control is already used in another window
+       *        RuntimeError, should not happen :-)
+       */
       SWIGHIDDENVIRTUAL void addControls(std::vector<Control*> pControls) throw (WindowException);
+
+      /**
+       * getControl(self, int controlId) -- Get's the control from this window.
+       * 
+       * Throws: Exception, if Control doesn't exist
+       * 
+       * controlId doesn't have to be a python control, it can be a control id
+       * from a xbmc window too (you can find id's in the xml files
+       * 
+       * Note, not python controls are not completely usable yet
+       * You can only use the Control functions
+       */
       SWIGHIDDENVIRTUAL Control* getControl(int iControlId) throw (WindowException);
     };
   }

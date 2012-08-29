@@ -23,6 +23,7 @@ SRCS=	\
 	String.cpp \
 	Window.cpp \
 	WindowDialog.cpp \
+	WindowDialogMixin.cpp \
 	WindowXML.cpp \
 
 LIB=native.a

@@ -36,11 +36,11 @@ namespace XBMCAddon
       AddonClass("AsynchCallbackMessage"), cb(_cb), handler(_handler) {}
   };
 
-  /**
-   * This holds the callback messages which will be executed. It doesn't
-   *  seem to work correctly with the Ref object so we'll go with Ref*'s
-   */
+  //********************************************************************
+  // This holds the callback messages which will be executed. It doesn't
+  //  seem to work correctly with the Ref object so we'll go with Ref*'s
   typedef std::vector<AddonClass::Ref<AsynchCallbackMessage> > CallbackQueue;
+  //********************************************************************
 
   static CCriticalSection critSection;
   static CallbackQueue g_callQueue;

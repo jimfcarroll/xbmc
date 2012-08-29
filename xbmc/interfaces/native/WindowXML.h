@@ -31,6 +31,8 @@
 #include "swighelper.h"
 #include "FileItem.h"
 
+#include "WindowDialogMixin.h"
+
 namespace XBMCAddon
 {
   namespace xbmcgui
@@ -85,7 +87,6 @@ namespace XBMCAddon
       SWIGHIDDENVIRTUAL void      FreeResources(bool forceUnLoad = false);
                         void      Process(unsigned int currentTime, CDirtyRegionList &regions);
       SWIGHIDDENVIRTUAL bool      OnClick(int iItem);
-//      void              SetCallbackWindow(PyThreadState* state, PyObject *object);
 
       SWIGHIDDENVIRTUAL bool IsMediaWindow() const { TRACE; return true; };
       SWIGHIDDENVIRTUAL bool    IsDialogRunning() const;
@@ -124,7 +125,7 @@ namespace XBMCAddon
      *  At some point this entire hierarchy needs to be reworked. The XML handling
      *  routines should be put in a mixin.
      */
-    class WindowXMLDialog : public WindowXML
+    class WindowXMLDialog : public WindowXML, private WindowDialogMixin
     {
     public:
       WindowXMLDialog(const String& xmlFilename, const String& scriptPath,
@@ -134,20 +135,15 @@ namespace XBMCAddon
       virtual ~WindowXMLDialog();
 
 #ifndef SWIG
-//      SWIGHIDDENVIRTUAL void    Show(bool show = true);
       SWIGHIDDENVIRTUAL bool    OnMessage(CGUIMessage &message);
       SWIGHIDDENVIRTUAL bool    IsDialog() const { TRACE; return true;};
       SWIGHIDDENVIRTUAL bool    IsModalDialog() const { TRACE; return true; };
       SWIGHIDDENVIRTUAL bool    IsMediaWindow() const { TRACE; return false; };
       SWIGHIDDENVIRTUAL bool    OnAction(const CAction &action);
-
-//      void Show_Internal(); 
-//      void Close_Internal(bool forceClose = false);
 #endif
 
-      // TODO: These methods are in two places, here and WindowDialog
-      SWIGHIDDENVIRTUAL void    show();
-      SWIGHIDDENVIRTUAL void    close();
+      SWIGHIDDENVIRTUAL inline void show() { WindowDialogMixin::show(); }
+      SWIGHIDDENVIRTUAL inline void close() { WindowDialogMixin::close(); }
 
       friend class DialogJumper;
     };

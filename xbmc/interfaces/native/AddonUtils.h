@@ -74,6 +74,10 @@ namespace XBMCAddonUtils
 
 #define LOCKGUI XBMCAddonUtils::GuiLock __gl
 
+  /*
+   * Looks in references.xml for image name
+   * If none exist return default image name
+   */
   const char *getDefaultImage(char* cControlType, char* cTextureType, char* cDefault);
 
 #ifdef ENABLE_TRACE_API

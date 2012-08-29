@@ -23,13 +23,15 @@
 
 #include "Window.h"
 #include "WindowInterceptor.h"
+#include "WindowDialogMixin.h"
 
 namespace XBMCAddon
 {
   namespace xbmcgui
   {
-    class WindowDialog : public Window
+    class WindowDialog : public Window, private WindowDialogMixin
     {
+
     public:
       WindowDialog() throw(WindowException);
       virtual ~WindowDialog();
@@ -43,9 +45,8 @@ namespace XBMCAddon
       SWIGHIDDENVIRTUAL bool IsDialog() const { TRACE; return true; };
 #endif
 
-      // TODO: These methods are in two places, here and WindowXMLDialog
-      SWIGHIDDENVIRTUAL void show();
-      SWIGHIDDENVIRTUAL void close();
+      SWIGHIDDENVIRTUAL inline void show() { WindowDialogMixin::show(); }
+      SWIGHIDDENVIRTUAL inline void close() { WindowDialogMixin::close(); }
     };
   }
 }

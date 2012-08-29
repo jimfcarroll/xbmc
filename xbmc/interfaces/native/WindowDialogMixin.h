@@ -1,4 +1,4 @@
-/*
+ /*
  *      Copyright (C) 2005-2012 Team XBMC
  *      http://www.xbmc.org
  *
@@ -19,40 +19,31 @@
  *
  */
 
-#include "ModuleXbmcgui.h"
+#pragma once
 
-#include "guilib/GraphicContext.h"
-#include "guilib/GUIWindowManager.h"
-#include "utils/log.h"
+#include "Window.h"
+
+// These messages are a side effect of the way dialogs work through the
+// main ApplicationMessenger. At some point it would be nice to remove
+// the messenger and have direct (or even drive) communications.
+#define HACK_CUSTOM_ACTION_CLOSING -3
+#define HACK_CUSTOM_ACTION_OPENING -4
 
 namespace XBMCAddon
 {
   namespace xbmcgui
   {
-    void lock()
+    class WindowDialogMixin
     {
-      CLog::Log(LOGWARNING,"'xbmcgui.lock()' is depreciated and serves no purpose anymore, it will be removed in future releases");
-    }
+    private:
+      Window* w;
 
-    void unlock()
-    {
-      CLog::Log(LOGWARNING,"'xbmcgui.unlock()' is depreciated and serves no purpose anymore, it will be removed in future releases");
-    }
+    protected:
+      inline WindowDialogMixin(Window* window) : w(window) {}
 
-    long getCurrentWindowId()
-    {
-      lock();
-      int id = g_windowManager.GetActiveWindow();
-      unlock();
-      return id;
-    }
-
-    long getCurrentWindowDialogId()
-    {
-      lock();
-      int id = g_windowManager.GetTopMostModalDialogID();
-      unlock();
-      return id;
-    }
+    public:
+      SWIGHIDDENVIRTUAL void show();
+      SWIGHIDDENVIRTUAL void close();
+    };
   }
 }

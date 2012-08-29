@@ -234,20 +234,6 @@ namespace XBMCAddon
     DialogProgress::~DialogProgress() {}
 
 
-    /**
-     * create(heading[, line1, line2, line3]) -- Create and show a progress dialog.
-     * 
-     * heading        : string or unicode - dialog heading.
-     * line1          : string or unicode - line #1 text.
-     * line2          : [opt] string or unicode - line #2 text.
-     * line3          : [opt] string or unicode - line #3 text.
-     * 
-     * *Note, Use update() to update lines and progressbar.
-     * 
-     * example:
-     *   - pDialog = xbmcgui.DialogProgress()
-     *   - pDialog.create('XBMC', 'Initializing script...')
-     */
     void DialogProgress::create(const String& heading, const String& line1, 
                                 const String& line2,
                                 const String& line3) throw (WindowException)
@@ -272,19 +258,6 @@ namespace XBMCAddon
       pDialog->StartModal();
     }
 
-    /**
-     * update(percent[, line1, line2, line3]) -- Update's the progress dialog.
-     * 
-     * percent        : integer - percent complete. (0:100)
-     * line1          : [opt] string or unicode - line #1 text.
-     * line2          : [opt] string or unicode - line #2 text.
-     * line3          : [opt] string or unicode - line #3 text.
-     * 
-     * *Note, If percent == 0, the progressbar will be hidden.
-     * 
-     * example:
-     *   - pDialog.update(25, 'Importing modules...')
-     */
     void DialogProgress::update(int percent, const String& line1, 
                                 const String& line2,
                                 const String& line3) throw (WindowException)
@@ -313,24 +286,12 @@ namespace XBMCAddon
         pDialog->SetLine(2, line3);
     }
 
-    /**
-     * close() -- Close the progress dialog.
-     * 
-     * example:
-     *   - pDialog.close()
-     */
     void DialogProgress::close()
     {
       DelayedCallGuard dcguard(languageHook);
       dlg->Close();
     }
 
-    /**
-     * iscanceled() -- Returns True if the user pressed cancel.
-     * 
-     * example:
-     *   - if (pDialog.iscanceled()): return
-     */
     bool DialogProgress::iscanceled()
     {
       return dlg->IsCanceled();

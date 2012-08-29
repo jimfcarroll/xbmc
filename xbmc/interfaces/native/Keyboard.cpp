@@ -38,14 +38,6 @@ namespace XBMCAddon
 
     Keyboard::~Keyboard() {}
 
-    /**
-     * doModal([autoclose]) -- Show keyboard and wait for user action.
-     * 
-     * autoclose      : [opt] integer - milliseconds to autoclose dialog. (default=do not autoclose)
-     * 
-     * example:
-     *   - kb.doModal(30000)
-     */
     void Keyboard::doModal(int autoclose) throw (KeyboardException)
     {
       DelayedCallGuard dg(languageHook);
@@ -65,15 +57,6 @@ namespace XBMCAddon
       CApplicationMessenger::Get().SendMessage(tMsg, true);
     }
 
-    // setDefault() Method
-    /**
-     * setDefault(default) -- Set the default text entry.
-     * 
-     * default        : string - default text entry.
-     * 
-     * example:
-     *   - kb.setDefault('password')
-     */
     void Keyboard::setDefault(const String& line) throw (KeyboardException)
     {
       strDefault = line;
@@ -85,13 +68,6 @@ namespace XBMCAddon
       pKeyboard->SetText(strDefault);
     }
 
-    /**
-     * setHiddenInput(hidden) -- Allows hidden text entry.
-     * 
-     * hidden        : boolean - True for hidden text entry.
-     * example:
-     *   - kb.setHiddenInput(True)
-     */
     void Keyboard::setHiddenInput(bool hidden) throw (KeyboardException)
     {
       bHidden = hidden;
@@ -103,15 +79,6 @@ namespace XBMCAddon
       pKeyboard->SetHiddenInput(bHidden);
     }
 
-    // setHeading() Method
-    /**
-     * setHeading(heading) -- Set the keyboard heading.
-     * 
-     * heading        : string - keyboard heading.
-     * 
-     * example:
-     *   - kb.setHeading('Enter password')
-     */
     void Keyboard::setHeading(const String& heading) throw (KeyboardException)
     {
       strHeading = heading;
@@ -123,16 +90,6 @@ namespace XBMCAddon
       pKeyboard->SetHeading(strHeading);
     }
 
-    // getText() Method
-    /**
-     * getText() -- Returns the user input as a string.
-     * 
-     * *Note, This will always return the text entry even if you cancel the keyboard.
-     *        Use the isConfirmed() method to check if user cancelled the keyboard.
-     * 
-     * example:
-     *   - text = kb.getText()
-     */
     String Keyboard::getText() throw (KeyboardException)
     {
       CGUIDialogKeyboardGeneric *pKeyboard = dlg;
@@ -141,13 +98,6 @@ namespace XBMCAddon
       return pKeyboard->GetText();
     }
 
-    // isConfirmed() Method
-    /**
-     * isConfirmed() -- Returns False if the user cancelled the input.
-     * 
-     * example:
-     *   - if (kb.isConfirmed()):
-     */
     bool Keyboard::isConfirmed() throw (KeyboardException)
     {
       CGUIDialogKeyboardGeneric *pKeyboard = dlg;

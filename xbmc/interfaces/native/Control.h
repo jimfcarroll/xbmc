@@ -389,10 +389,6 @@ namespace XBMCAddon
     public:
       virtual ~ControlSpin();
 
-      /*
-       * set textures
-       * (string textureUp, string textureDown, string textureUpFocus, string textureDownFocus)
-       */
       /**
        * setTextures(up, down, upFocus, downFocus) -- Set's textures for this control.
        * 

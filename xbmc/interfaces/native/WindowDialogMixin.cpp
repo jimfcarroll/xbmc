@@ -1,4 +1,4 @@
-/*
+ /*
  *      Copyright (C) 2005-2012 Team XBMC
  *      http://www.xbmc.org
  *
@@ -19,40 +19,39 @@
  *
  */
 
-#include "ModuleXbmcgui.h"
+#include "WindowDialogMixin.h"
+#include "WindowInterceptor.h"
 
-#include "guilib/GraphicContext.h"
-#include "guilib/GUIWindowManager.h"
-#include "utils/log.h"
+#include "ApplicationMessenger.h"
 
 namespace XBMCAddon
 {
   namespace xbmcgui
   {
-    void lock()
+    void WindowDialogMixin::show()
     {
-      CLog::Log(LOGWARNING,"'xbmcgui.lock()' is depreciated and serves no purpose anymore, it will be removed in future releases");
+      TRACE;
+      DelayedCallGuard dcguard(w->languageHook);
+
+      ThreadMessage tMsg = {TMSG_GUI_PYTHON_DIALOG, HACK_CUSTOM_ACTION_OPENING, 0};
+      tMsg.lpVoid = w->window->get();
+      CApplicationMessenger::Get().SendMessage(tMsg, true);
     }
 
-    void unlock()
+    void WindowDialogMixin::close()
     {
-      CLog::Log(LOGWARNING,"'xbmcgui.unlock()' is depreciated and serves no purpose anymore, it will be removed in future releases");
-    }
+      TRACE;
+      DelayedCallGuard dcguard(w->languageHook);
+      w->bModal = false;
+      w->PulseActionEvent();
 
-    long getCurrentWindowId()
-    {
-      lock();
-      int id = g_windowManager.GetActiveWindow();
-      unlock();
-      return id;
-    }
+      ThreadMessage tMsg = {TMSG_GUI_PYTHON_DIALOG, HACK_CUSTOM_ACTION_CLOSING, 0};
+      tMsg.lpVoid = w->window->get();
+      CApplicationMessenger::Get().SendMessage(tMsg, true);
 
-    long getCurrentWindowDialogId()
-    {
-      lock();
-      int id = g_windowManager.GetTopMostModalDialogID();
-      unlock();
-      return id;
     }
   }
 }
+
+
+

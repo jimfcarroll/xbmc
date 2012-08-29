@@ -160,10 +160,6 @@ namespace XBMCAddon
         g_windowManager.Add(window->get());
     }
 
-    /**
-     * This helper retrieves the next available id. It is assumed 
-     *  that the global lock is already being held.
-     */
     int Window::getNextAvailalbeWindowId() throw (WindowException)
     {
       TRACE;
@@ -178,10 +174,6 @@ namespace XBMCAddon
       return id;
     }
 
-    /**
-     * This is a helper method since poping the
-     *  previous window id is a common function
-     */
     void Window::popActiveWindowId()
     {
       TRACE;
@@ -357,15 +349,6 @@ namespace XBMCAddon
       m_actionEvent.Reset();
     }
 
-    /**
-     * onAction(self, Action action) -- onAction method.
-     * 
-     * This method will recieve all actions that the main program will send
-     * to this window.
-     * By default, only the PREVIOUS_MENU and NAV_BACK actions are handled.
-     * Overwrite this method to let your script handle all actions.
-     * Don't forget to capture ACTION_PREVIOUS_MENU or ACTION_NAV_BACK, else the user can't close this window.
-     */
     bool Window::OnAction(const CAction &action)
     {
       TRACE;
@@ -468,14 +451,6 @@ namespace XBMCAddon
     void Window::onFocus(int controlId) { TRACE; /* do nothing by default */ }
     void Window::onInit() { TRACE; /* do nothing by default */ }
 
-    /**
-     * show(self) -- Show this window.
-     * 
-     * Shows this window by activating it, calling close() after it wil activate the
-     * current window again.
-     * Note, if your script ends this window will be closed to. To show it forever, 
-     * make a loop at the end of your script ar use doModal() instead
-     */
     void Window::show()
     {
       TRACE;
@@ -486,12 +461,6 @@ namespace XBMCAddon
       CApplicationMessenger::Get().ActivateWindow(iWindowId, params, false);
     }
 
-    /**
-     * setFocus(self, Control) -- Give the supplied control focus.
-     * Throws: TypeError, if supplied argument is not a Control type
-     *         SystemError, on Internal error
-     *         RuntimeError, if control is not added to a window
-     */
     void Window::setFocus(Control* pControl) throw (WindowException)
     {
       TRACE;
@@ -502,12 +471,6 @@ namespace XBMCAddon
       g_windowManager.SendThreadMessage(msg, pControl->iParentId);
     }
 
-    /**
-     * setFocusId(self, int) -- Gives the control with the supplied focus.
-     * Throws: 
-     *         SystemError, on Internal error
-     *         RuntimeError, if control is not added to a window
-     */
     void Window::setFocusId(int iControlId)
     {
       TRACE;
@@ -515,11 +478,6 @@ namespace XBMCAddon
       g_windowManager.SendThreadMessage(msg, iWindowId);
     }
 
-    /**
-     * getFocus(self, Control) -- returns the control which is focused.
-     * Throws: SystemError, on Internal error
-     *         RuntimeError, if no control has focus
-     */
     Control* Window::getFocus() throw (WindowException)
     {
       TRACE;
@@ -532,11 +490,6 @@ namespace XBMCAddon
       return GetControlById(iControlId);
     }
 
-    /**
-     * getFocusId(self, int) -- returns the id of the control which is focused.
-     * Throws: SystemError, on Internal error
-     *         RuntimeError, if no control has focus
-     */
     long Window::getFocusId() throw (WindowException)
     {
       TRACE;
@@ -547,14 +500,6 @@ namespace XBMCAddon
       return (long)iControlId;
     }
 
-    /**
-     * removeControl(self, Control) -- Removes the control from this window.
-     * 
-     * Throws: TypeError, if supplied argument is not a Control type
-     *         RuntimeError, if control is not added to this window
-     * 
-     * This will not delete the control. It is only removed from the window.
-     */
     void Window::removeControl(Control* pControl) throw (WindowException)
     {
       TRACE;
@@ -587,75 +532,30 @@ namespace XBMCAddon
       pControl->iParentId = 0;
     }
 
-    /**
-     * removeControls(self, List) -- Removes a list of controls from this window.
-     *
-     * Throws: TypeError, if supplied argument is not a Control type
-     *        RuntimeError, if control is not added to this window
-     *
-     * This will not delete the controls. They are only removed from the window.
-     */
     void Window::removeControls(std::vector<Control*> pControls) throw (WindowException)
     {
       for (std::vector<Control*>::iterator iter = pControls.begin(); iter != pControls.end(); iter++)
         removeControl(*iter);
     }
 
-    /**
-     * getHeight(self) -- Returns the height of this screen.
-     */
     long Window::getHeight()
     {
       TRACE;
       return g_graphicsContext.GetHeight();
     }
 
-    /**
-     * getWidth(self) -- Returns the width of this screen.
-     */
     long Window::getWidth()
     {
       TRACE;
       return g_graphicsContext.GetWidth();
     }
 
-    /**
-     * getResolution(self) -- Returns the resolution of the scree
-     *  The returned value is one of the following:
-     *    0 - 1080i      (1920x1080)
-     *    1 - 720p       (1280x720)
-     *    2 - 480p 4:3   (720x480)
-     *    3 - 480p 16:9  (720x480)
-     *    4 - NTSC 4:3   (720x480)
-     *    5 - NTSC 16:9  (720x480)
-     *    6 - PAL 4:3    (720x576)
-     *    7 - PAL 16:9   (720x576)
-     *    8 - PAL60 4:3  (720x480)
-     *    9 - PAL60 16:9 (720x480)\n
-     */
     long Window::getResolution()
     {
       TRACE;
       return (long)g_graphicsContext.GetVideoResolution();
     }
 
-    /**
-     * setCoordinateResolution(self, int resolution) -- Sets the resolution
-     * that the coordinates of all controls are defined in.  Allows XBMC
-     * to scale control positions and width/heights to whatever resolution
-     * XBMC is currently using.
-     *  resolution is one of the following:
-     *    0 - 1080i      (1920x1080)
-     *    1 - 720p       (1280x720)
-     *    2 - 480p 4:3   (720x480)
-     *    3 - 480p 16:9  (720x480)
-     *    4 - NTSC 4:3   (720x480)
-     *    5 - NTSC 16:9  (720x480)
-     *    6 - PAL 4:3    (720x576)
-     *    7 - PAL 16:9   (720x576)
-     *    8 - PAL60 4:3  (720x480)
-     *    9 - PAL60 16:9 (720x480)\n
-     */
     void Window::setCoordinateResolution(long res) throw (WindowException)
     {
       TRACE;
@@ -666,21 +566,6 @@ namespace XBMCAddon
       ref(window)->SetCoordsRes(g_settings.m_ResInfo[res]);
     }
 
-    // setProperty() method
-    /**
-     * setProperty(key, value) -- Sets a window property, similar to an infolabel.
-     * 
-     * key            : string - property name.
-     * value          : string or unicode - value of property.
-     * 
-     * *Note, key is NOT case sensitive. Setting value to an empty string is equivalent to clearProperty(key)
-     *        You can use the above as keywords for arguments and skip certain optional arguments.
-     *        Once you use a keyword, all following arguments require the keyword.
-     * 
-     * example:
-     *   - win = xbmcgui.Window(xbmcgui.getCurrentWindowId())
-     *   - win.setProperty('Category', 'Newest')\n
-     */
     void Window::setProperty(const char* key, const String& value)
     {
       TRACE;
@@ -690,19 +575,6 @@ namespace XBMCAddon
       ref(window)->SetProperty(lowerKey.ToLower(), value);
     }
 
-    /**
-     * getProperty(key) -- Returns a window property as a string, similar to an infolabel.
-     * 
-     * key            : string - property name.
-     * 
-     * *Note, key is NOT case sensitive.
-     *        You can use the above as keywords for arguments and skip certain optional arguments.
-     *        Once you use a keyword, all following arguments require the keyword.
-     * 
-     * example:
-     *   - win = xbmcgui.Window(xbmcgui.getCurrentWindowId())
-     *   - category = win.getProperty('Category')
-     */
     String Window::getProperty(const char* key)
     {
       TRACE;
@@ -712,19 +584,6 @@ namespace XBMCAddon
       return value.c_str();
     }
 
-    /**
-     * clearProperty(key) -- Clears the specific window property.
-     * 
-     * key            : string - property name.
-     * 
-     * *Note, key is NOT case sensitive. Equivalent to setProperty(key,'')
-     *        You can use the above as keywords for arguments and skip certain optional arguments.
-     *        Once you use a keyword, all following arguments require the keyword.
-     * 
-     * example:
-     *   - win = xbmcgui.Window(xbmcgui.getCurrentWindowId())
-     *   - win.clearProperty('Category')\n
-     */
     void Window::clearProperty(const char* key)
     {
       TRACE;
@@ -735,13 +594,6 @@ namespace XBMCAddon
       ref(window)->SetProperty(lowerKey.ToLower(), "");
     }
 
-    /**
-     * clearProperties() -- Clears all window properties.
-     * 
-     * example:
-     *   - win = xbmcgui.Window(xbmcgui.getCurrentWindowId())
-     *   - win.clearProperties()\n
-     */
     void Window::clearProperties()
     {
       TRACE;
@@ -749,13 +601,6 @@ namespace XBMCAddon
       ref(window)->ClearProperties();
     }
 
-    /**
-     * close(self) -- Closes this window.
-     * 
-     * Closes this window by activating the old window.
-     * The window is not deleted with this method.
-     */
-    //Py_BEGIN_ALLOW_THREADS -delayed
     void Window::close()
     {
       TRACE;
@@ -769,9 +614,6 @@ namespace XBMCAddon
       iOldWindowId = 0;
     }
 
-    /**
-     * doModal(self) -- Display this window until close() is called.
-     */
     void Window::doModal()
     {
       TRACE;
@@ -799,26 +641,6 @@ namespace XBMCAddon
       }
     }
 
-    /**
-     * addControl(self, Control) -- Add a Control to this window.
-     * 
-     * Throws: TypeError, if supplied argument is not a Control type
-     *         ReferenceError, if control is already used in another window
-     *         RuntimeError, should not happen :-)
-     * 
-     * The next controls can be added to a window atm
-     * 
-     *   -ControlLabel
-     *   -ControlFadeLabel
-     *   -ControlTextBox
-     *   -ControlButton
-     *   -ControlCheckMark
-     *   -ControlList
-     *   -ControlGroup
-     *   -ControlImage
-     *   -ControlRadioButton
-     *   -ControlProgress\n
-     */
     void Window::addControl(Control* pControl) throw (WindowException)
     {
       TRACE;
@@ -857,30 +679,12 @@ namespace XBMCAddon
       CApplicationMessenger::Get().SendGUIMessage(msg, iWindowId, true);
     }
 
-    /**
-     * addControls(self, List) -- Add a list of Controls to this window.
-     *
-     *Throws: TypeError, if supplied argument is not of List type, or a control is not of Control type
-     *        ReferenceError, if control is already used in another window
-     *        RuntimeError, should not happen :-)
-     */
     void Window::addControls(std::vector<Control*> pControls) throw (WindowException)
     {
       for (std::vector<Control*>::iterator iter = pControls.begin(); iter != pControls.end(); iter++)
         addControl(*iter);
     }
 
-    /**
-     * getControl(self, int controlId) -- Get's the control from this window.
-     * 
-     * Throws: Exception, if Control doesn't exist
-     * 
-     * controlId doesn't have to be a python control, it can be a control id
-     * from a xbmc window too (you can find id's in the xml files
-     * 
-     * Note, not python controls are not completely usable yet
-     * You can only use the Control functions
-     */
     Control* Window::getControl(int iControlId) throw (WindowException)
     {
       TRACE;

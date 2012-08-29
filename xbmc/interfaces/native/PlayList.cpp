@@ -49,23 +49,6 @@ namespace XBMCAddon
 
     PlayList::~PlayList()  { }
 
-    /**
-     * add(url[, listitem, index]) -- Adds a new file to the playlist.
-     * 
-     * url            : string or unicode - filename or url to add.
-     * listitem       : [opt] listitem - used with setInfo() to set different infolabels.
-     * index          : [opt] integer - position to add playlist item. (default=end)
-     * 
-     * *Note, You can use the above as keywords for arguments and skip certain optional arguments.
-     *        Once you use a keyword, all following arguments require the keyword.
-     * 
-     * example:
-     *   - playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
-     *   - video = 'F:\\\\movies\\\\Ironman.mov'
-     *   - listitem = xbmcgui.ListItem('Ironman', thumbnailImage='F:\\\\movies\\\\Ironman.tbn')
-     *   - listitem.setInfo('video', {'Title': 'Ironman', 'Genre': 'Science Fiction'})
-     *   - playlist.add(url=video, listitem=listitem, index=7)\n
-     */
     void PlayList::add(const String& url, PlayListItem* listitem, int index)
     {
       CFileItemList items;
@@ -89,13 +72,6 @@ namespace XBMCAddon
       pPlayList->Insert(items, index);
     }
 
-    /**
-     * load(filename) -- Load a playlist.
-     * 
-     * clear current playlist and copy items from the file to this Playlist
-     * filename can be like .pls or .m3u ...
-     * returns False if unable to load playlist, True otherwise
-     */
     bool PlayList::load(const char* cFileName) throw (PlayListException)
     {
       CFileItem item(cFileName);
@@ -136,49 +112,31 @@ namespace XBMCAddon
       return true;
     }
 
-    /**
-     * remove(filename) -- remove an item with this filename from the playlist.
-     */
     void PlayList::remove(const char* filename)
     {
       pPlayList->Remove(filename);
     }
 
-    /**
-     * clear() -- clear all items in the playlist.
-     */
     void PlayList::clear()
     {
       pPlayList->Clear();
     }
 
-    /**
-     * size() -- returns the total number of PlayListItems in this playlist.
-     */
     int PlayList::size()
     {
       return pPlayList->size();
     }
 
-    /**
-     * shuffle() -- shuffle the playlist.
-     */
     void PlayList::shuffle()
     {
       pPlayList->Shuffle();
     }
 
-    /**
-     * unshuffle() -- unshuffle the playlist.
-     */
     void PlayList::unshuffle()
     {
       pPlayList->UnShuffle();
     }
 
-    /**
-     * getposition() -- returns the position of the current song in this playlist.
-     */
     int PlayList::getposition()
     {
       return g_playlistPlayer.GetCurrentSong();

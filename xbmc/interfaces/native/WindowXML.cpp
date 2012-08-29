@@ -26,7 +26,6 @@
 #include "settings/GUISettings.h"
 #include "addons/Skin.h"
 #include "filesystem/File.h"
-#include "ApplicationMessenger.h"
 #include "utils/URIUtils.h"
 #include "addons/Addon.h"
 
@@ -37,9 +36,6 @@
 #define CONTROL_LABELFILES      12
 
 #define A(x) interceptor->x
-
-#define HACK_CUSTOM_ACTION_CLOSING -3
-#define HACK_CUSTOM_ACTION_OPENING -4
 
 namespace XBMCAddon
 {
@@ -529,21 +525,12 @@ namespace XBMCAddon
     { 
       return window->isActive();
     }
-//    // SetupShares();
-//    /*
-//      CGUIMediaWindow::OnWindowLoaded() calls SetupShares() so override it
-//      and just call UpdateButtons();
-//    */
-//    void WindowXML::SetupShares()
-//    {
-//      TRACE;
-//      UpdateButtons();
-//    }
 
     WindowXMLDialog::WindowXMLDialog(const String& xmlFilename, const String& scriptPath,
                                      const String& defaultSkin,
                                      const String& defaultRes) throw(WindowException) :
-      WindowXML("WindowXMLDialog",xmlFilename, scriptPath, defaultSkin, defaultRes)
+      WindowXML("WindowXMLDialog",xmlFilename, scriptPath, defaultSkin, defaultRes),
+      WindowDialogMixin(this)
     {
       interceptor->m_loadOnDemand = false;
     }
@@ -561,203 +548,6 @@ namespace XBMCAddon
         return interceptor->skipLevelOnMessage(message);
       }
       return WindowXML::OnMessage(message);
-    }
-
-//    void WindowXMLDialog::Show(bool show /* = true */)
-//    {
-//      TRACE;
-//      int count = ExitCriticalSection(g_graphicsContext);
-//// This code sends a message which in turn simply calls show internal.
-////   Let's see if I can just put the "Show_Internal" code here.
-////      ThreadMessage tMsg = {TMSG_GUI_PYTHON_DIALOG, 1, show ? 1 : 0};
-////      tMsg.lpVoid = this;
-////      CApplicationMessenger::Get().SendMessage(tMsg, true);
-////-----------------------------------------------------
-//// 'Show_Internal' code from CGUIPythonWindowXMLDialog
-////-----------------------------------------------------
-//      if (show)
-//      {
-//        g_windowManager.RouteToWindow(interceptor);
-//
-//        // active this dialog...
-//        CGUIMessage msg(GUI_MSG_WINDOW_INIT,0,0);
-//        OnMessage(msg);
-//        amRunning = true;
-//      }
-//      else // hide
-//      {
-//        CGUIMessage msg(GUI_MSG_WINDOW_DEINIT,0,0);
-//        OnMessage(msg);
-//
-//        g_windowManager.RemoveDialog(interceptor->GetID());
-//        amRunning = false;
-//      }
-////-----------------------------------------------------
-//
-//      RestoreCriticalSection(g_graphicsContext, count);
-//    }
-
-//    /**
-//     * I'm not sure why but my original attempt to handle a WindowXMLDialog
-//     *  without recourse to a GUIDialog and without running the 'show' in 
-//     *  another thread failed. So we are going to have Show_Internal invoked
-//     *  the way it was originally designed (that is, from the main processing
-//     *  thread) but without using the stupid hack TMSG_GUI_PYTHON_DIALOG.
-//     *  This, however, requires another hack (enter, the DialogJumper) which 
-//     *  jumpers calls to Show_Internal and Close_Internal over to the 
-//     *  WindowXMLDialog.
-//     *
-//     * Since Show_Internal and Close_Internal are not virtual, we need
-//     *  to intercept these calls at the OnMessage level.
-//     *
-//     * Note: This method of jumpering Show_Internal/Close_Internal may be 
-//     *  brittle with respect to changes in the GUIDialog class as it 
-//     *  assumes certain things about the internals.
-//     */
-//    class DialogJumper : public CGUIDialog
-//    {
-//      WindowXMLDialog* window;
-//    public:
-//      DialogJumper(WindowXMLDialog* _window, int windowid, bool closing) : 
-//        CGUIDialog(windowid,""), window(_window) 
-//      {
-//#ifdef LOG_LIFECYCLE_EVENTS
-//        CLog::Log(LOGDEBUG, "NEWADDON LIFECYCLE constructing DialogJumper 0x%lx", (long)(((void*)this)));
-//#endif
-//        CLog::Log(LOGINFO,"DialogJumper window id is %d\n",(int)GetID());
-//
-//        m_bModal = false;
-//        m_enableSound = false;
-//        if (closing)
-//          m_bRunning = true; // make it think it's running or it wont close
-//      }
-//      virtual ~DialogJumper()
-//      {
-//#ifdef LOG_LIFECYCLE_EVENTS
-//        CLog::Log(LOGDEBUG, "NEWADDON LIFECYCLE destroying DialogJumper 0x%lx", (long)(((void*)this)));
-//#endif
-//      }
-//      virtual bool OnMessage(CGUIMessage& message);
-//    };
-//
-//    bool DialogJumper::OnMessage(CGUIMessage& message)
-//    {
-//      TRACE;
-//      switch (message.GetMessage())
-//      {
-//      case GUI_MSG_WINDOW_INIT:
-//        // This indicates that the Show_Internal was invoked
-//        //  on the dialog.
-//        window->Show_Internal();
-//        break;
-//      case GUI_MSG_WINDOW_DEINIT:
-//        // This indicates the Close_Internal was invoked
-//        //  on the dialog
-//        window->Close_Internal();
-//        break;
-//      }
-////      g_windowManager.Remove(GetID());
-//      g_windowManager.RemoveDialog(GetID());
-//      // TODO: see if the following works
-//      // delete this;
-//      return true;
-//    };
-//
-//    void WindowXMLDialog::Show_Internal()
-//    {
-//      TRACE;
-//      g_windowManager.RouteToWindow(interceptor);
-//
-//      // active this dialog...
-//      CGUIMessage msg(GUI_MSG_WINDOW_INIT,0,0);
-//      OnMessage(msg);
-//      amRunning = true;
-//    }
-//
-//    void WindowXMLDialog::Close_Internal(bool forceClose)
-//    {
-//      TRACE;
-//      CGUIMessage msg(GUI_MSG_WINDOW_DEINIT,0,0);
-//      OnMessage(msg);
-//
-//      g_windowManager.RemoveDialog(interceptor->GetID());
-//      amRunning = false;
-//    }
-
-    // TODO: Move this into a Mixin since it's the same code as in WindowDialog
-    // This used the hack:
-    //   ThreadMessage tMsg = {TMSG_GUI_PYTHON_DIALOG, 1, 1};
-    // but we're going to try and fix that here.
-    void WindowXMLDialog::show()
-    {
-      TRACE;
-      DelayedCallGuard dcguard(languageHook);
-//      // Previously the code did this in response to a 'show' when the 
-//      //   Window was a Python dialog:
-//      //ThreadMessage tMsg = {TMSG_GUI_PYTHON_DIALOG, 1, 1};
-//      //tMsg.lpVoid = self->pWindow;
-//      //CApplicationMessenger::Get().SendMessage(tMsg, true);
-//      //
-//      // however, the 2nd parameter to SendMessage is true, so the call
-//      //  went straight to ProcessMessage in the ApplicationMessenger
-//      //  after setting a 'wait' event.
-//      //
-//      // ProcessMessage then switched on the TMSG_GUI_PYTHON_DIALOG
-//      //   and executes:
-//      // 
-//      // if (pMsg->dwParam1)
-//      //  ((CGUIPythonWindowXMLDialog *)pMsg->lpVoid)->Show_Internal(pMsg->dwParam2 > 0);
-//      // else
-//      //  ((CGUIPythonWindowDialog *)pMsg->lpVoid)->Show_Internal(pMsg->dwParam2 > 0);
-//      // 
-//      // dwparam1 is '1' so it sends the message to the Show_Internal on a 
-//      //   CGUIPythonWindowXMLDialog (even if the object is a CGUIPythonWindowDialog
-//      //   - see bug 10425). Show_Internal does the same thing for either class.
-//      // to send an INIT message directly to the OnMessage method after setting
-//      //   RouteToWindow to 'this' .. .so that's all we're going to do
-//      amRunning = true;
-//      g_windowManager.RouteToWindow(interceptor);
-//      // active this dialog...
-//      CGUIMessage msg(GUI_MSG_WINDOW_INIT,0,0);
-//      OnMessage(msg);
-
-//      // Now we try this
-//      ThreadMessage tMsg = {TMSG_GUI_SHOW, 0, 0};
-//      tMsg.lpVoid = new DialogJumper(this,ref(window)->GetID() + 1,false);
-//      CApplicationMessenger::Get().SendMessage(tMsg, true);
-
-// Instead of the above we are going to create a custom action and 
-      ThreadMessage tMsg = {TMSG_GUI_PYTHON_DIALOG, HACK_CUSTOM_ACTION_OPENING, 0};
-      tMsg.lpVoid = window->get();
-      CApplicationMessenger::Get().SendMessage(tMsg, true);
-    }
-
-    // TODO: Move this into a Mixin since it's the same code as in WindowDialog
-    void WindowXMLDialog::close()
-    {
-      TRACE;
-      DelayedCallGuard dcguard(languageHook);
-      bModal = false;
-      PulseActionEvent();
-
-//      // see the 'show' for a tediout explanation of problems with the
-//      //  call to 'Show_Internal.' The exact same thing happens on this
-//      //  side of the window's lifecycle.
-//      CGUIMessage msg(GUI_MSG_WINDOW_DEINIT,0,0);
-//      OnMessage(msg);
-//
-//      g_windowManager.RemoveDialog(ref(window)->GetID());
-//      amRunning = false;
-
-//      ThreadMessage tMsg = {TMSG_GUI_DIALOG_CLOSE, 1, 0};
-//      tMsg.lpVoid = new DialogJumper(this,ref(window)->GetID() + 1,true);
-//      CApplicationMessenger::Get().SendMessage(tMsg, true);
-
-// Instead of the above we are going to create a custom action and 
-      ThreadMessage tMsg = {TMSG_GUI_PYTHON_DIALOG, HACK_CUSTOM_ACTION_CLOSING, 0};
-      tMsg.lpVoid = window->get();
-      CApplicationMessenger::Get().SendMessage(tMsg, true);
-
     }
 
     bool WindowXMLDialog::OnAction(const CAction &action)

@@ -31,29 +31,12 @@ namespace XBMCAddon
 
   namespace xbmcvfs
   {
-    /**
-     * copy(source, destination) -- copy file to destination, returns true/false.
-     * 
-     * source          : file to copy.
-     * destination     : destination fi
-     * 
-     * example:
-     *   success = xbmcvfs.copy(source, destination)
-     */
     bool copy(const String& strSource, const String& strDestnation)
     {
       DelayedCallGuard dg;
       return XFILE::CFile::Cache(strSource, strDestnation);
     }
 
-    /**
-     * delete(file)
-     * 
-     * file        : file to dele
-     * 
-     * example:
-     *   xbmcvfs.delete(file)
-     */
     // delete a file
     bool deleteFile(const String& strSource)
     {
@@ -61,15 +44,6 @@ namespace XBMCAddon
       return XFILE::CFile::Delete(strSource);
     }
 
-    /**
-     * rename(file, newFileName)
-     * 
-     * file        : file to reana
-     * newFileName : new filename, including the full pa
-     * 
-     * example:
-     *   success = xbmcvfs.rename(file,newFileName)
-     */
     // rename a file
     bool rename(const String& file, const String& newFile)
     {
@@ -77,14 +51,6 @@ namespace XBMCAddon
       return XFILE::CFile::Rename(file,newFile);
     }  
 
-    /**
-     * exists(path)
-     * 
-     * path        : file or fold
-     * 
-     * example:
-     *   success = xbmcvfs.exists(path)
-     */
     // check for a file or folder existance, mimics Pythons os.path.exists()
     bool exists(const String& path)
     {
@@ -92,14 +58,6 @@ namespace XBMCAddon
       return XFILE::CFile::Exists(path, false);
     }      
 
-    /**
-     * mkdir(path) -- Create a folder.
-     * 
-     * path        : folder
-     * 
-     * example:
-     *  - success = xbmcvfs.mkdir(path)
-     */
     // make a directory
     bool mkdir(const String& path)
     {
@@ -107,14 +65,6 @@ namespace XBMCAddon
       return XFILE::CDirectory::Create(path);
     }      
 
-    /**
-     * mkdirs(path) -- Create folder(s) - it will create all folders in the path.
-     * 
-     * path        : folder
-     * 
-     * example:
-     *  - success = xbmcvfs.mkdirs(path)
-     */
     // make all directories along the path
     bool mkdirs(const String& path)
     {
@@ -122,14 +72,6 @@ namespace XBMCAddon
       return CUtil::CreateDirectoryEx(path);
     }
 
-    /**
-     * rmdir(path) -- Remove a folder.
-     * 
-     * path        : folder
-     * 
-     * example:
-     *  - success = xbmcvfs.rmdir(path)\n
-     */
     bool rmdir(const String& path, bool force)
     {
       DelayedCallGuard dg;
@@ -137,14 +79,6 @@ namespace XBMCAddon
     }      
 
     // TODO: make this work.
-    /**
-     * listdir(path) -- lists content of a folder.
-     * 
-     * path        : folder
-     * 
-     * example:
-     *  - dirs, files = xbmcvfs.listdir(path)
-     */
     // lists content of a folder
 //    PyObject* vfs_listdir(File *self, PyObject *args, PyObject *kwds)
 //    {

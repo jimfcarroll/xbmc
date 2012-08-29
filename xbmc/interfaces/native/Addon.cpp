@@ -37,18 +37,6 @@ namespace XBMCAddon
 
     String Addon::getAddonVersion() { return languageHook == NULL ? emptyString : languageHook->getAddonVersion(); }
 
-    /**
-     * Addon class.
-     * 
-     * Addon(id) -- Creates a new Addon class.
-     * 
-     * id          : string - id of the addon.
-     * 
-     * *Note, You can use the above as a keyword.
-     * 
-     * example:
-     *  - self.Addon = xbmcaddon.Addon(id='script.recentlyadded')
-     */
     Addon::Addon(const char* cid) throw (AddonException) : AddonClass("Addon") 
     {
       String id(cid ? cid : emptyString);
@@ -98,43 +86,16 @@ namespace XBMCAddon
       CAddonMgr::Get().RemoveFromUpdateableAddons(pAddon);
     }
 
-    /**
-     * getLocalizedString(id) -- Returns an addon's localized 'unicode string'.
-     * 
-     * id             : integer - id# for string you want to localize.
-     * 
-     * example:
-     *   - locstr = self.Addon.getLocalizedString(id=6)
-     */
     String Addon::getLocalizedString(int id)
     {
       return pAddon->GetString(id);
     }
 
-    /**
-     * getSetting(id) -- Returns the value of a setting as a unicode string.
-     * 
-     * id        : string - id of the setting that the module needs to access.
-     * 
-     * example:
-     *   - apikey = self.Addon.getSetting('apikey')
-     */
     String Addon::getSetting(const char* id)
     {
       return pAddon->GetSetting(id);
     }
 
-    /**
-     * setSetting(id, value) -- Sets a script setting.
-     * 
-     * id        : string - id of the setting that the module needs to access.
-     * value     : string or unicode - value of the setting.
-     * 
-     * *Note, You can use the above as keywords for arguments.
-     * 
-     * example:
-     *   - self.Settings.setSetting(id='username', value='teamxbmc')\n
-     */
     void Addon::setSetting(const char* id, const String& value)
     {
       DelayedCallGuard dcguard(languageHook);
@@ -161,12 +122,6 @@ namespace XBMCAddon
       }
     }
 
-    /**
-     * openSettings() -- Opens this scripts settings dialog.
-     * 
-     * example:
-     *   - self.Settings.openSettings()
-     */
     void Addon::openSettings()
     {
       DelayedCallGuard dcguard(languageHook);
@@ -175,17 +130,6 @@ namespace XBMCAddon
       CGUIDialogAddonSettings::ShowAndGetInput(addon);
     }
 
-    /**
-     * getAddonInfo(id) -- Returns the value of an addon property as a string.
-     * 
-     * id        : string - id of the property that the module needs to access.
-     * 
-     * *Note, choices are (author, changelog, description, disclaimer, fanart. icon, id, name, path
-     *                     profile, stars, summary, type, version)
-     * 
-     * example:
-     *   - version = self.Addon.getAddonInfo('version')
-     */
     String Addon::getAddonInfo(const char* id) throw (AddonException)
     {
       if (strcmpi(id, "author") == 0)
