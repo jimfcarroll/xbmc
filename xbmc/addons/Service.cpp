@@ -22,11 +22,7 @@
 #include "AddonManager.h"
 #include "utils/log.h"
 #ifdef HAS_PYTHON
-#ifdef USE_SWIGADDON
 #include "interfaces/swig/python/XBPython.h"
-#else
-#include "interfaces/python/XBPython.h"
-#endif
 #endif
 
 using namespace std;

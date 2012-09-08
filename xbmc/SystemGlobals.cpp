@@ -39,11 +39,7 @@
 #include "guilib/LocalizeStrings.h"
 #include "guilib/GUIWindowManager.h"
 #ifdef HAS_PYTHON
-#ifdef USE_SWIGADDON
 #include "interfaces/swig/python/XBPython.h"
-#else
-#include "interfaces/python/XBPython.h"
-#endif
 #if defined(TARGET_WINDOWS)
 #include "input/windows/WINJoystick.h"
 #elif defined(HAS_SDL_JOYSTICK) 

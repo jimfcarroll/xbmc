@@ -26,11 +26,7 @@
 #include "PlayListPlayer.h"
 #include "Util.h"
 #ifdef HAS_PYTHON
-#ifdef USE_SWIGADDON
 #include "interfaces/swig/python/XBPython.h"
-#else
-#include "interfaces/python/XBPython.h"
-#endif
 #endif
 #include "pictures/GUIWindowSlideShow.h"
 #include "interfaces/Builtins.h"
@@ -62,12 +58,6 @@
 #include "storage/MediaManager.h"
 #include "guilib/LocalizeStrings.h"
 #include "threads/SingleLock.h"
-#ifndef USE_SWIGADDON
-#ifdef HAS_PYTHON
-#include "interfaces/python/xbmcmodule/GUIPythonWindowDialog.h"
-#include "interfaces/python/xbmcmodule/GUIPythonWindowXMLDialog.h"
-#endif
-#endif
 
 #ifdef HAS_HTTPAPI
 #include "interfaces/http-api/XBMChttp.h"
@@ -731,20 +721,10 @@ void CApplicationMessenger::ProcessMessage(ThreadMessage *pMsg)
 
     case TMSG_GUI_PYTHON_DIALOG:
       {
-#ifdef USE_SWIGADDON
         // This hack is not much better but at least I don't need to make ApplicationMessenger
         //  know about Addon (Python) specific classes.
         CAction caction(pMsg->dwParam1);
         ((CGUIWindow*)pMsg->lpVoid)->OnAction(caction);
-#else
-        if (pMsg->lpVoid)
-        { // TODO: This is ugly - really these python dialogs should just be normal XBMC dialogs
-          if (pMsg->dwParam1)
-            ((CGUIPythonWindowXMLDialog *)pMsg->lpVoid)->Show_Internal(pMsg->dwParam2 > 0);
-          else
-            ((CGUIPythonWindowDialog *)pMsg->lpVoid)->Show_Internal(pMsg->dwParam2 > 0);
-        }
-#endif
       }
       break;
 

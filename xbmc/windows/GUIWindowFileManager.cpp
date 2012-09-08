@@ -31,11 +31,7 @@
 #include "GUIPassword.h"
 #include "GUIUserMessages.h"
 #ifdef HAS_PYTHON
-#ifdef USE_SWIGADDON
 #include "interfaces/swig/python/XBPython.h"
-#else
-#include "interfaces/python/XBPython.h"
-#endif
 #endif
 #include "pictures/GUIWindowSlideShow.h"
 #include "playlists/PlayListFactory.h"

@@ -513,12 +513,6 @@ AC_ARG_ENABLE([external-ffmpeg],
   [use_external_ffmpeg=$enableval],
   [use_external_ffmpeg=$use_external_libraries])
 
-AC_ARG_ENABLE([swigaddons],
-  [AS_HELP_STRING([--enable-swigaddons],
-  [enable use of swig based addons (default is no)])],
-  [use_swigaddons=$enableval],
-  [use_swigaddons=no])
-
 ### End of external library options
 
 if test "x$host_vendor" != "xapple"; then
@@ -1580,20 +1574,12 @@ else
   AC_DEFINE([PIX_FMT_VDPAU_MPEG4_IN_AVUTIL], [1], [Whether AVUtil defines PIX_FMT_VDPAU_MPEG4.])
 fi
 
-# SWIG
-if test "$use_swigaddons" = "yes"; then
-  echo "Using SWIG"
-  AC_PATH_PROG(SWIG_EXE, swig, "none")
-  if test "$SWIG_EXE" = "none"; then
-    AC_MSG_ERROR($missing_program)
-  fi
-  final_message="$final_message\n  SWIG Addons:\tYes"
-  USE_SWIGADDON=1
-  AC_DEFINE([USE_SWIGADDON], [1], [Whether to use SWIG based addons.])
-else
-  USE_SWIGADDON=0
-  final_message="$final_message\n  SWIG Addons:\tNo"
+echo "Checking for SWIG installation"
+AC_PATH_PROG(SWIG_EXE, swig, "none")
+if test "$SWIG_EXE" = "none"; then
+  AC_MSG_ERROR($missing_program)
 fi
+final_message="$final_message\n  SWIG Available:\tYes"
 
 # VDPAU
 if test "x$use_vdpau" != "xno"; then
@@ -2320,14 +2306,8 @@ if test "$use_skin_touched" = "yes"; then
 OUTPUT_FILES="$OUTPUT_FILES addons/skin.touched/media/Makefile"
 fi
 
-if test "$use_swigaddons" = "yes"; then
-  OUTPUT_FILES="$OUTPUT_FILES \
-    xbmc/interfaces/swig/Makefile"
-else
-  OUTPUT_FILES="$OUTPUT_FILES \
-    xbmc/interfaces/python/Makefile \
-    xbmc/interfaces/python/xbmcmodule/Makefile"
-fi
+OUTPUT_FILES="$OUTPUT_FILES \
+  xbmc/interfaces/swig/Makefile"
 
 # Line below is used so we can use AM_INIT_AUTOMAKE. The corresponding
 # .dummy.am does nothing.
@@ -2347,7 +2327,6 @@ AC_SUBST(DISABLE_RSXS)
 AC_SUBST(DISABLE_PROJECTM)
 AC_SUBST(USE_SKIN_TOUCHED)
 AC_SUBST(USE_EXTERNAL_FFMPEG)
-AC_SUBST(USE_SWIGADDON)
 AC_SUBST(PYTHON_VERSION)
 AC_SUBST(OUTPUT_FILES)
 AC_SUBST(HAVE_XBMC_NONFREE)
