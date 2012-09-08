@@ -47,12 +47,12 @@ namespace XBMCAddon
       inline int getHeight() { return m_capture->GetHeight(); }
 
       /**
-       * getCaptureState() -- returns processing state of capture request.\n"
+       * getCaptureState() -- returns processing state of capture request.
        *
-       * The returned value could be compared against the following constants:\n"
-       * xbmc.CAPTURE_STATE_WORKING  : Capture request in progress.\n"
-       * xbmc.CAPTURE_STATE_DONE     : Capture request done. The image could be retrieved with getImage()\n"
-       * xbmc.CAPTURE_STATE_FAILED   : Capture request failed.\n");
+       * The returned value could be compared against the following constants:
+       * xbmc.CAPTURE_STATE_WORKING  : Capture request in progress.
+       * xbmc.CAPTURE_STATE_DONE     : Capture request done. The image could be retrieved with getImage()
+       * xbmc.CAPTURE_STATE_FAILED   : Capture request failed.
        */
       inline int getCaptureState() { return m_capture->GetUserState(); }
 

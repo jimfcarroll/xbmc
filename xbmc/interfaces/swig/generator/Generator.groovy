@@ -47,6 +47,11 @@ args.each {
 if (newargs.size() != 3)
   usage()
 
+// set the doxygen xml directory on the Helper assuming the output file will be placed
+// in the same place the doxygen subdirectory is placed
+//Helper.setDoxygenXmlDir(new File(newargs[2]).parent())
+Helper.setDoxygenXmlDir(new File('./generatedSWIGBindings/doxygenxml'))
+
 File moduleSpec = new File(newargs[0])
 assert moduleSpec.exists() && moduleSpec.isFile(), 'Cannot locate the spec file "' + moduleSpec.getCanonicalPath() + '."'
 

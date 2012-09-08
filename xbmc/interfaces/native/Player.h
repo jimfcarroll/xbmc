@@ -46,17 +46,16 @@ namespace XBMCAddon
      * Player([core]) -- Creates a new Player with as default the xbmc music playlist.
      * 
      * core     : (optional) Use a specified playcore instead of letting xbmc decide the playercore to use.
-     *          : - xbmc.PLAYER_CORE_AUTO
-     *          : - xbmc.PLAYER_CORE_DVDPLAYER
-     *          : - xbmc.PLAYER_CORE_MPLAYER
-     *          : - xbmc.PLAYER_CORE_PAPLAYER\n
+     *          - xbmc.PLAYER_CORE_AUTO
+     *          - xbmc.PLAYER_CORE_DVDPLAYER
+     *          - xbmc.PLAYER_CORE_MPLAYER
+     *          - xbmc.PLAYER_CORE_PAPLAYER
      *
      * This class is a merge of what was previously in xbmcmodule/player.h
      *  and xbmcmodule/PythonPlayer.h without the python references. The
      *  queuing and handling of asynchronous callbacks is done internal to
      *  this class.
      */
-
     class Player : public AddonCallback, public IPlayerCallback
     {
     private:
@@ -318,7 +317,7 @@ namespace XBMCAddon
        * stream           : int
        *
        * example:
-       *    - setAudioStream(1)\n");
+       *    - setAudioStream(1)
        */
       void setAudioStream(int iStream);
     protected:

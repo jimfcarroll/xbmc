@@ -99,7 +99,16 @@ void doMethod(method, MethodType methodType)
   Node classnode = Helper.findClassNode(method)
   String classNameAsVariable = clazz == null ? null : PythonTools.getClassNameAsVariable(classnode)
 
-  // TODO: Documentation
+  // do the docs
+  if (!constructor && !destructor)
+  {
+    if (Helper.hasDoc(method))
+    {
+%>
+  PyDoc_STRVAR(${PythonTools.getPyMethodName(method,methodType)}__doc__,
+               ${PythonTools.makeDocString(method.doc[0])});
+<%  }
+  }
 %>
   static <% if(methodType == MethodType.destructor) { %>void<% } else { %>PyObject*<% } %> ${module.@name}_${PythonTools.getPyMethodName(method,methodType)} (<%= ((clazz == null) ? "PyObject" : 
                    (constructor ? "PyTypeObject" : 'PyHolder')) %>* ${constructor ? 'pytype' : 'self'} <% 
@@ -253,7 +262,7 @@ void doClassMethodInfo(Node clazz, List initTypeCalls = null)
   // All of the methods on this class
   static PyMethodDef ${classNameAsVariable}_methods[] = { <%
     clazz.function.each {  %>
-    {(char*)"${it.@sym_name}", (PyCFunction)${module.@name}_${PythonTools.getPyMethodName(it,MethodType.method)}, METH_VARARGS|METH_KEYWORDS, NULL}, <% }
+    {(char*)"${it.@sym_name}", (PyCFunction)${module.@name}_${PythonTools.getPyMethodName(it,MethodType.method)}, METH_VARARGS|METH_KEYWORDS, ${Helper.hasDoc(it) ? PythonTools.getPyMethodName(it,MethodType.method) + '__doc__' : 'NULL'} }, <% }
 
     // now do all of the explcit feature:python:method's that may be in this class
     List tmpl = []
@@ -265,7 +274,6 @@ void doClassMethodInfo(Node clazz, List initTypeCalls = null)
     {(char*)"${methodName}", (PyCFunction)${module.@name}_${PythonTools.getClassNameAsVariable(clazz)}_${methodName}, METH_VARARGS|METH_KEYWORDS, NULL},
 <%
     }
-
 %>
     {NULL, NULL, 0, NULL}
   };
@@ -273,13 +281,21 @@ void doClassMethodInfo(Node clazz, List initTypeCalls = null)
   // This method initializes the above mentioned Python Type structure
   static void ${initTypeCall}()
   {
+<%
+    if (Helper.hasDoc(clazz))
+    {
+%>
+    PyDoc_STRVAR(${classNameAsVariable}__doc__,
+                 ${PythonTools.makeDocString(clazz.doc[0])}
+                );
+<%  } %>
     PyXBMCInitializeTypeObject(&Py${classNameAsVariable}_Type);
 
     Py${classNameAsVariable}_Type.tp_name = (char*)"${module.@name}.${clazz.@sym_name}";
     Py${classNameAsVariable}_Type.tp_basicsize = sizeof(PyHolder);
     Py${classNameAsVariable}_Type.tp_dealloc = (destructor)${module.@name}_${classNameAsVariable}_Dealloc;
     Py${classNameAsVariable}_Type.tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE;
-    Py${classNameAsVariable}_Type.tp_doc = NULL; // TODO: fill in the docs
+    Py${classNameAsVariable}_Type.tp_doc = ${Helper.hasDoc(clazz) ? (classNameAsVariable + '__doc__') : 'NULL' };
     Py${classNameAsVariable}_Type.tp_methods = ${classNameAsVariable}_methods; <%
     // I need to find the base type if there is a known class with it
     assert clazz.baselist.size() < 2, "${clazz} has multiple baselists - need to write code to separate out the public one."
@@ -430,7 +446,6 @@ namespace PythonBindings
 
   // types used as method parameter or return values need to be declared
   // as extern if they are unknown types.
-
   methods.each { if (it.name() != 'destructor') { doMethod(it, (it.name() == 'constructor' ? MethodType.constructor : MethodType.method)); println(); } }
   classes.each { clazz -> doMethod(clazz, MethodType.destructor) }
 
@@ -453,7 +468,7 @@ namespace PythonBindings
 
   static PyMethodDef ${module.@name}_methods[] = { <%
     module.depthFirst().findAll({ it.name() == 'function' && Helper.parents(it, { Node lnode -> lnode.name() == 'class'}).size() == 0 }).each {  %>
-    {(char*)"${it.@sym_name}", (PyCFunction)${module.@name}_${PythonTools.getPyMethodName(it,MethodType.method)}, METH_VARARGS|METH_KEYWORDS, NULL}, <% }
+    {(char*)"${it.@sym_name}", (PyCFunction)${module.@name}_${PythonTools.getPyMethodName(it,MethodType.method)}, METH_VARARGS|METH_KEYWORDS, ${Helper.hasDoc(it) ? PythonTools.getPyMethodName(it,MethodType.method) + '__doc__' : 'NULL'} }, <% }
 %>
     {NULL, NULL, 0, NULL}
   };

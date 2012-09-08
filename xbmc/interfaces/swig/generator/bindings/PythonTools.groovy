@@ -101,4 +101,21 @@ public class PythonTools
       (methodType == MethodType.destructor ? (clazz + "_Dealloc") : clazz + "_" + method.@sym_name)
       )
    }
+
+  public static String makeDocString(Node docnode)
+  { 
+    if (docnode?.name() != 'doc')
+      throw new RuntimeException("Invalid doc Node passed to PythonTools.makeDocString (" + docnode + ")")
+
+    String[] lines = (docnode.@value).split(Helper.newline)
+    def ret = ''
+    lines.eachWithIndex { val, index -> 
+      val = ((val =~ /\\n/).replaceAll('')) // remove extraneous \n's 
+      val = val.replaceAll("\\\\","\\\\\\\\") // escape backslash
+      val = ((val =~ /\"/).replaceAll("\\\\\"")) // escape quotes
+      ret += ('"' + val + '\\n"' + (index != lines.length - 1 ? Helper.newline : ''))
+    }
+
+    return ret
+  }
 }

@@ -24,19 +24,23 @@ generatedSWIGBindings/dummy: ../native/*.h
 	mkdir -p generatedSWIGBindings
 	touch generatedSWIGBindings/dummy
 
-generatedSWIGBindings/AddonModuleXbmc.xml:	AddonModuleXbmc.i generatedSWIGBindings/dummy
+generatedSWIGBindings/doxygenxml/dummy: generatedSWIGBindings/dummy ./Doxyfile ../native/*.h
+	doxygen
+	touch generatedSWIGBindings/doxygenxml/dummy
+
+generatedSWIGBindings/AddonModuleXbmc.xml:	AddonModuleXbmc.i generatedSWIGBindings/dummy generatedSWIGBindings/doxygenxml/dummy
 	swig -w401 -c++ -outdir generatedSWIGBindings -o generatedSWIGBindings/AddonModuleXbmc.xml -xml $(SWIG_INC) -xmllang python AddonModuleXbmc.i
 
-generatedSWIGBindings/AddonModuleXbmcgui.xml: AddonModuleXbmcgui.i generatedSWIGBindings/dummy
+generatedSWIGBindings/AddonModuleXbmcgui.xml: AddonModuleXbmcgui.i generatedSWIGBindings/dummy generatedSWIGBindings/doxygenxml/dummy
 	swig -w401 -c++ -outdir generatedSWIGBindings -o generatedSWIGBindings/AddonModuleXbmcgui.xml -xml $(SWIG_INC) -xmllang python AddonModuleXbmcgui.i
 
-generatedSWIGBindings/AddonModuleXbmcplugin.xml: AddonModuleXbmcplugin.i generatedSWIGBindings/dummy
+generatedSWIGBindings/AddonModuleXbmcplugin.xml: AddonModuleXbmcplugin.i generatedSWIGBindings/dummy generatedSWIGBindings/doxygenxml/dummy
 	swig -w401 -c++ -outdir generatedSWIGBindings -o generatedSWIGBindings/AddonModuleXbmcplugin.xml -xml $(SWIG_INC) -xmllang python AddonModuleXbmcplugin.i
 
-generatedSWIGBindings/AddonModuleXbmcaddon.xml: AddonModuleXbmcaddon.i generatedSWIGBindings/dummy
+generatedSWIGBindings/AddonModuleXbmcaddon.xml: AddonModuleXbmcaddon.i generatedSWIGBindings/dummy generatedSWIGBindings/doxygenxml/dummy
 	swig -w401 -c++ -outdir generatedSWIGBindings -o generatedSWIGBindings/AddonModuleXbmcaddon.xml -xml $(SWIG_INC) -xmllang python AddonModuleXbmcaddon.i
 
-generatedSWIGBindings/AddonModuleXbmcvfs.xml: AddonModuleXbmcvfs.i generatedSWIGBindings/dummy
+generatedSWIGBindings/AddonModuleXbmcvfs.xml: AddonModuleXbmcvfs.i generatedSWIGBindings/dummy generatedSWIGBindings/doxygenxml/dummy
 	swig -w401 -c++ -outdir generatedSWIGBindings -o generatedSWIGBindings/AddonModuleXbmcvfs.xml -xml $(SWIG_INC) -xmllang python AddonModuleXbmcvfs.i
 
 generatedSWIGBindings/AddonModuleXbmc.cpp: generatedSWIGBindings/AddonModuleXbmc.xml

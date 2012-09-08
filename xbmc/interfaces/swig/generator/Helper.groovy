@@ -40,6 +40,8 @@ public class Helper
    private static def defaultOutTypeConversion = null
    private static Map inTypemap = [:]
    private static def defaultInTypeConversion = null
+   private static def doxygenXmlDir = null
+   public static String newline = System.getProperty("line.separator");
 
    /**
     * In order to use any of the typemap helper features, the Helper class needs to be initialized with
@@ -64,10 +66,95 @@ public class Helper
    {
      private long cur = 0;
 
-     public long increment() { return ++cur; }
+     public long increment() { return ++cur }
    }
 
   private static ThreadLocal<Sequence> curSequence = new ThreadLocal<Sequence>();
+
+  public static void setDoxygenXmlDir(File dir) { doxygenXmlDir = dir }
+
+  private static String retrieveDocStringFromDoxygen(Node methodOrClass)
+  { 
+    if (doxygenXmlDir == null)
+      return null
+
+    Node doc = null
+    def ret = ''
+
+    // make the class name or namespave
+    String doxygenId = findFullClassName(methodOrClass,'_1_1')
+    boolean isInClass = doxygenId != null
+    if (!doxygenId)
+      doxygenId = findNamespace(methodOrClass,'_1_1',false)
+    doxygenId = (isInClass ? 'class' : 'namespace') + doxygenId
+
+    String doxygenFilename = doxygenId + '.xml'
+    File doxygenXmlFile = new File(doxygenXmlDir,doxygenFilename)
+    if (! doxygenXmlFile.exists())
+    {
+      System.out.println("WARNING: Cannot find doxygen file for ${methodOrClass.toString()} which should be \"${doxygenXmlFile}\"")
+      return null
+    }
+
+    Node docspec = (new XmlParser().parse(doxygenXmlFile))
+    if (methodOrClass.name() == 'class')
+      doc = docspec.compounddef[0].detaileddescription[0]
+    else // it's a method of some sort ... or it better be
+    {
+      Node memberdef = docspec.depthFirst().find { 
+        return ((it.name() == 'memberdef' && it.@kind == 'function' && it.@id.startsWith(doxygenId)) &&
+                (it.name != null && it.name.text().trim() == methodOrClass.@sym_name))
+      }
+
+      doc = memberdef != null ? memberdef.detaileddescription[0] : null
+    }
+
+    if (doc != null)
+    { 
+      def indent = '    '
+      def curIndent = ''
+      def prevIndent = ''
+
+      def handleDoc
+      handleDoc = { 
+        if (it instanceof String)
+          ret += it
+        else // it's a Node
+        {
+          if (it.name() == 'detaileddescription')
+            it.children().each handleDoc
+          else if (it.name() == 'para')
+          {
+            it.children().each handleDoc
+            ret += (it.parent()?.name() == 'listitem') ? newline : (newline + newline)
+          }
+          else if (it.name() == 'ref' || it.name() == "ulink")
+            ret += (it.text() + ' ')
+          else if (it.name() == 'itemizedlist')
+          {
+            ret += newline
+            prevIndent = curIndent
+            curIndent += indent
+            it.children().each handleDoc
+            curIndent = prevIndent
+          }
+          else if (it.name() == 'listitem')
+          {
+            ret += (curIndent + '- ')
+            it.children().each handleDoc
+          }
+          else if (it.name() == 'linebreak')
+            ret += newline
+          else
+            System.out.println("WARNING: Cannot parse the following as part of the doxygen processing:" + XmlUtil.serialize(it))
+        }
+      }
+
+      doc.children().each handleDoc
+    }
+
+    return ret
+  }
 
    /**
     * <p>This method uses the previously set outTypemap and defaultOutTypemap to produce the chunk of code
@@ -315,17 +402,31 @@ public class Helper
                typeentry.@basetype = value
 
                if (typenode.find({ it.@basetype == typeentry.@basetype && it.@namespace == typeentry.@namespace }) == null)
-                  typenode.append(typeentry);
+                  typenode.append(typeentry)
             }
          }
          it.parent().remove(it)
       }
       
       // now remove all non-public methods, but leave constructors
-      List allMethods = ret.depthFirst().findAll({ it.name() == 'function' || it.name() == 'destructor' })
+      List allMethods = ret.depthFirst().findAll({ it.name() == 'function' || it.name() == 'destructor' || it.name() == 'constructor'})
       allMethods.each {
-         if (it.@access != null && it.@access != 'public')
+         if (it.@access != null && it.@access != 'public' && it.name() != 'constructor')
             it.parent().remove(it)
+         else
+         {
+           def doc = retrieveDocStringFromDoxygen(it)
+           if (doc != null && doc != '' && doc.trim() != ' ')
+             new Node(it,'doc',['value' : doc])
+         }
+      }
+
+      // add the doc string to the classes
+      List allClasses = ret.depthFirst().findAll({ it.name() == 'class'})
+      allClasses.each {
+        def doc = retrieveDocStringFromDoxygen(it)
+        if (doc != null && doc != '' && doc.trim() != ' ')
+          new Node(it,'doc',['value' : doc])
       }
 
       return ret
@@ -337,6 +438,11 @@ public class Helper
    public static boolean hasDefinedConstructor(Node clazz)
    {
       return (clazz.constructor != null && clazz.constructor.size() > 0)
+   }
+
+   public static boolean hasDoc(Node methodOrClass)
+   {
+     return methodOrClass.doc != null && methodOrClass.doc[0] != null && methodOrClass.doc[0].@value != null
    }
 
    /**
@@ -366,12 +472,12 @@ public class Helper
          if (findFullClassName(it).trim() == classname.trim()) return true
             
          // now check to see if it matches the straight name considering the reference node
-         if (referenceNode != null && (findNamespace(referenceNode) + classname) == findFullClassName(it)) return true;
+         if (referenceNode != null && (findNamespace(referenceNode) + classname) == findFullClassName(it)) return true
          
          // now just see if it matches the straight name
-         if (it.@name == classname) return true;
+         if (it.@name == classname) return true
          
-         return false;
+         return false
       }
    }
    
@@ -389,7 +495,7 @@ public class Helper
     * If this node is a class node, or a child of a class name (for example, a method) then
     * the full classname, with the namespace will be returned. Otherwise, null.
     */
-   public static String findFullClassName(Node node)
+   public static String findFullClassName(Node node, String separator = '::')
    {
       String ret = null
       List rents = parents(node, { it.name() == 'class' })
@@ -398,27 +504,27 @@ public class Helper
          if (ret == null)
             ret = it.@sym_name
          else
-            ret += "::" + it.@sym_name
+            ret += separator + it.@sym_name
       }
 
-      return ret ? findNamespace(node) + ret : null
+      return ret ? findNamespace(node,separator) + ret : null
    }
 
    /**
     * Given the Node this method looks to see if it occurs within namespace and returns
     * the namespace as a String. It includes the trailing '::'
     */
-   public static String findNamespace(Node node)
+   public static String findNamespace(Node node, String separator = '::', boolean endingSeparator = true)
    {
       String ret = null
       parents(node, { it.name() == 'namespace' }).each {
          if (ret == null)
             ret = it.@name
          else
-            ret += "::" + it.@name
+            ret += separator + it.@name
       }
 
-      return ret == null ? '' : (ret + "::")
+      return ret == null ? '' : (ret + (endingSeparator ? separator : ''))
    }
 
    /**
@@ -485,7 +591,7 @@ public class Helper
       // if we're in a class then we are going to assume we have a 'self' pointer
       // that we are going to invoke this on.
       if (clazz == null)
-         return method.@name;
+         return method.@name
 
       if (method.name() == 'constructor')
          return "new ${findNamespace(method)}${method.@sym_name}"
@@ -505,7 +611,7 @@ public class Helper
     */
    public static List getInsertNodes(Node module, String section)
    {
-      return module.insert.findAll { section == it.@section || (section == 'header' && it.@section == null); }
+      return module.insert.findAll { section == it.@section || (section == 'header' && it.@section == null) }
    }
 
    public static String unescape(Node insertSection) { return unescape(insertSection.@code) }
@@ -528,7 +634,7 @@ public class Helper
    {
       for (boolean done = false; !done;)
       {
-         done = true;
+         done = true
          for (Node child : node.breadthFirst())
          {
             if (elementsToRemove.contains(child.name()))
@@ -536,8 +642,8 @@ public class Helper
                Node parent = child.parent()
                parent.remove(child)
                child.each { parent.append(it) }
-               done = false;
-               break;
+               done = false
+               break
             }
          }
       }
