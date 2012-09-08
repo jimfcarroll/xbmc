@@ -27,7 +27,7 @@ import Helper
 
 def usage()
 {
-   println "java/groovy -cp [...] " + getClass().getName() + " [-verbose] moduleSpecFile templateFile outputFile";
+   println "java/groovy -cp [...] " + getClass().getName() + " [-verbose] moduleSpecFile templateFile outputFile [doxygenoutputdir]";
    System.exit 1
 }
 
@@ -44,13 +44,13 @@ args.each {
       newargs.add(it)
 }
 
-if (newargs.size() != 3)
+if (newargs.size() != 3 && newargs.size() != 4)
   usage()
 
 // set the doxygen xml directory on the Helper assuming the output file will be placed
 // in the same place the doxygen subdirectory is placed
-//Helper.setDoxygenXmlDir(new File(newargs[2]).parent())
-Helper.setDoxygenXmlDir(new File('./generatedSWIGBindings/doxygenxml'))
+if (newargs.size() > 3)
+  Helper.setDoxygenXmlDir(new File(newargs[3]))
 
 File moduleSpec = new File(newargs[0])
 assert moduleSpec.exists() && moduleSpec.isFile(), 'Cannot locate the spec file "' + moduleSpec.getCanonicalPath() + '."'

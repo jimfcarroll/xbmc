@@ -45,7 +45,6 @@
 #include "guilib/GUIWindowManager.h"
 #include "filesystem/File.h"
 #include "filesystem/SpecialProtocol.h"
-#include "storage/IoSupport.h"
 #include "utils/Crc32.h"
 #include "FileItem.h"
 #include "LangInfo.h"
@@ -53,6 +52,8 @@
 #include "guilib/TextureManager.h"
 #include "Util.h"
 #include "URL.h"
+#include "cores/AudioEngine/AEFactory.h"
+#include "storage/MediaManager.h"
 #include "utils/FileUtils.h"
 
 #include "CallbackHandler.h"
@@ -63,6 +64,8 @@
 #include "cores/VideoRenderers/RenderCapture.h"
 
 #include "threads/SystemClock.h"
+
+
 #include <vector>
 
 namespace XBMCAddon
@@ -75,13 +78,11 @@ namespace XBMCAddon
      *****************************************************************/
     void log(const char* msg, int level)
     {
-//      TRACE;
       // check for a valid loglevel
       if (level < LOGDEBUG || level > LOGNONE)
         level = LOGNOTICE;
       CLog::Log(level, "%s", msg);
     }
-
 
     void shutdown()
     {
@@ -89,7 +90,6 @@ namespace XBMCAddon
       ThreadMessage tMsg = {TMSG_SHUTDOWN};
       CApplicationMessenger::Get().SendMessage(tMsg);
     }
-
 
     void restart()
     {
@@ -227,7 +227,7 @@ namespace XBMCAddon
     long getDVDState()
     {
       TRACE;
-      return CIoSupport::GetTrayState();
+      return g_mediaManager.GetDriveStatus();
     }
 
     long getFreeMem()
@@ -460,6 +460,16 @@ namespace XBMCAddon
       TRACE;
       DelayedCallGuard dg;
       return g_application.StartServer((CApplication::ESERVERS)iTyp, bStart != 0, bWait != 0);
+    }
+
+    void audioSuspend()
+    {  
+      CAEFactory::Suspend();
+    }
+
+    void audioResume()
+    { 
+      CAEFactory::Resume();
     }
 
     int getSERVER_WEBSERVER() { return CApplication::ES_WEBSERVER; }

@@ -24,6 +24,7 @@
 #include "filesystem/File.h"
 #include "filesystem/Directory.h"
 #include "utils/FileUtils.h"
+#include "utils/URIUtils.h"
 #include "Util.h"
 
 namespace XBMCAddon
@@ -78,50 +79,35 @@ namespace XBMCAddon
       return CFileUtils::DeleteItem(path,force);
     }      
 
-    // TODO: make this work.
-    // lists content of a folder
-//    PyObject* vfs_listdir(File *self, PyObject *args, PyObject *kwds)
-//    {
-//      PyObject *f_line;
-//      if (!PyArg_ParseTuple(
-//                            args,
-//                            (char*)"O",
-//                            &f_line))
-//      {
-//        return NULL;
-//      }
-//      CStdString strSource;
-//      CFileItemList items;
-//      if (!PyXBMCGetUnicodeString(strSource, f_line, 1))
-//        return NULL;
-//
-//      CPyThreadState pyState;
-//      CDirectory::GetDirectory(strSource, items);
-//      pyState.Restore();
-//
-//      PyObject *fileList = PyList_New(0);
-//      PyObject *folderList = PyList_New(0);
-//      for (int i=0; i < items.Size(); i++)
-//      {
-//        CStdString itemPath = items[i]->GetPath();
-//        PyObject *obj;
-//        if (URIUtils::HasSlashAtEnd(itemPath)) // folder
-//        {
-//          URIUtils::RemoveSlashAtEnd(itemPath);
-//          CStdString strFileName = URIUtils::GetFileName(itemPath);
-//          obj = Py_BuildValue((char*)"s", strFileName.c_str());
-//          PyList_Append(folderList, obj);
-//        }
-//        else // file
-//        {
-//          CStdString strFileName = URIUtils::GetFileName(itemPath);
-//          obj = Py_BuildValue((char*)"s", strFileName.c_str());
-//          PyList_Append(fileList, obj);
-//        }
-//        Py_DECREF(obj); //we have to do this as PyList_Append is known to leak
-//      }
-//      return Py_BuildValue((char*)"O,O", folderList, fileList);
-//    }
+    Tuple<std::vector<String>, std::vector<String> > listdir(const String& path)
+    {
+      CFileItemList items;
+      CStdString strSource;
+      strSource = path;
+      XFILE::CDirectory::GetDirectory(strSource, items);
 
+      Tuple<std::vector<String>, std::vector<String> > ret;
+      // initialize the Tuple to two values
+      ret.second();
+
+      for (int i=0; i < items.Size(); i++)
+      {
+        CStdString itemPath = items[i]->GetPath();
+        
+        if (URIUtils::HasSlashAtEnd(itemPath)) // folder
+        {
+          URIUtils::RemoveSlashAtEnd(itemPath);
+          CStdString strFileName = URIUtils::GetFileName(itemPath);
+          ret.first().push_back(strFileName);
+        }
+        else // file
+        {
+          CStdString strFileName = URIUtils::GetFileName(itemPath);
+          ret.second().push_back(strFileName);
+        }
+      }
+
+      return ret;
+    }
   }
 }

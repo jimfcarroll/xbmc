@@ -389,6 +389,22 @@ namespace XBMCAddon
      */
     bool startServer(int iTyp, bool bStart, bool bWait = false);
 
+    /**
+     * AudioSuspend() -- Suspend Audio engine.
+     * 
+     * example:
+     *   xbmc.AudioSuspend()
+     */
+    void audioSuspend();
+
+    /**
+     * AudioResume() -- Resume Audio engine.
+     * 
+     * example:
+     *   xbmc.AudioResume()
+     */  
+    void audioResume();
+
     SWIG_CONSTANT_FROM_GETTER(int,SERVER_WEBSERVER);
     SWIG_CONSTANT_FROM_GETTER(int,SERVER_AIRPLAYSERVER);
     SWIG_CONSTANT_FROM_GETTER(int,SERVER_UPNPSERVER);

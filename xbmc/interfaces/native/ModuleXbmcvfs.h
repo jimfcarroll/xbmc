@@ -22,6 +22,8 @@
 #pragma once
 
 #include "AddonString.h"
+#include "Tuple.h"
+#include <vector>
 
 namespace XBMCAddon
 {
@@ -105,7 +107,6 @@ namespace XBMCAddon
      */
     bool rmdir(const String& path, bool force = false);
 
-    // TODO: make this work.
     /**
      * listdir(path) -- lists content of a folder.
      * 
@@ -114,7 +115,7 @@ namespace XBMCAddon
      * example:
      *  - dirs, files = xbmcvfs.listdir(path)
      */
-    // two, values listdir(const String& path);
+    Tuple<std::vector<String>, std::vector<String> > listdir(const String& path);
   }
 }
 

@@ -131,6 +131,7 @@ namespace XBMCAddon
         ((classname = "Interceptor<") += specializedName) += ">";
         CLog::Log(LOGDEBUG, "NEWADDON LIFECYCLE constructing %s 0x%lx", classname.c_str(), (long)(((void*)this)));
         window = _window; 
+        P::SetLoadType(CGUIWindow::LOAD_ON_GUI_INIT);
       }
                     
       Interceptor(const char* specializedName,
@@ -140,6 +141,7 @@ namespace XBMCAddon
         ((classname = "Interceptor<") += specializedName) += ">";
         CLog::Log(LOGDEBUG, "NEWADDON LIFECYCLE constructing %s 0x%lx", classname.c_str(), (long)(((void*)this)));
         window = _window;
+        P::SetLoadType(CGUIWindow::LOAD_ON_GUI_INIT);
       }
 
       virtual ~Interceptor()

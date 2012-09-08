@@ -492,7 +492,7 @@ namespace XBMCAddon
       if (xmlDoc.Error())
         return false;
 
-      return interceptor->Load(xmlDoc);
+      return interceptor->Load(xmlDoc.RootElement());
     }
 
     unsigned int WindowXML::LoadScriptStrings()
@@ -531,9 +531,7 @@ namespace XBMCAddon
                                      const String& defaultRes) throw(WindowException) :
       WindowXML("WindowXMLDialog",xmlFilename, scriptPath, defaultSkin, defaultRes),
       WindowDialogMixin(this)
-    {
-      interceptor->m_loadOnDemand = false;
-    }
+    { }
 
     WindowXMLDialog::~WindowXMLDialog() { deallocating(); }
 

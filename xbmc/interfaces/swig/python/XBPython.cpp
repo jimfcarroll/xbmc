@@ -63,6 +63,8 @@ XBPython::XBPython()
   m_mainThreadState   = NULL;
   m_ThreadId          = CThread::GetCurrentThreadId();
   m_iDllScriptCounter = 0;
+  m_endtime           = 0;
+  m_pDll              = NULL;
   m_vecPlayerCallbackList.clear();
   m_vecMonitorCallbackList.clear();
 
@@ -629,7 +631,6 @@ void XBPython::Finalize()
     // The implementation for osx can never unload the python dylib.
     DllLoaderContainer::ReleaseModule(m_pDll);
 #endif
-    m_hModule         = NULL;
     m_mainThreadState = NULL;
     m_bInitialized    = false;
   }
