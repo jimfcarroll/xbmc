@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug (DirectX)|Win32">
@@ -726,7 +726,6 @@
     <ClCompile Include="..\..\xbmc\interfaces\native\CallbackHandler.cpp" />
     <ClCompile Include="..\..\xbmc\interfaces\native\Control.cpp" />
     <ClCompile Include="..\..\xbmc\interfaces\native\Dialog.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\native\Exception.cpp" />
     <ClCompile Include="..\..\xbmc\interfaces\native\File.cpp" />
     <ClCompile Include="..\..\xbmc\interfaces\native\InfoTagMusic.cpp" />
     <ClCompile Include="..\..\xbmc\interfaces\native\InfoTagVideo.cpp" />
@@ -742,6 +741,7 @@
     <ClCompile Include="..\..\xbmc\interfaces\native\String.cpp" />
     <ClCompile Include="..\..\xbmc\interfaces\native\Window.cpp" />
     <ClCompile Include="..\..\xbmc\interfaces\native\WindowDialog.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\native\WindowDialogMixin.cpp" />
     <ClCompile Include="..\..\xbmc\interfaces\native\WindowXML.cpp" />
     <ClCompile Include="..\..\xbmc\interfaces\swig\python\CallbackHandler.cpp" />
     <ClCompile Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmc.cpp" />
@@ -1052,6 +1052,7 @@
     <ClInclude Include="..\..\xbmc\interfaces\native\Tuple.h" />
     <ClInclude Include="..\..\xbmc\interfaces\native\Window.h" />
     <ClInclude Include="..\..\xbmc\interfaces\native\WindowDialog.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\native\WindowDialogMixin.h" />
     <ClInclude Include="..\..\xbmc\interfaces\native\WindowException.h" />
     <ClInclude Include="..\..\xbmc\interfaces\native\WindowInterceptor.h" />
     <ClInclude Include="..\..\xbmc\interfaces\native\WindowXML.h" />

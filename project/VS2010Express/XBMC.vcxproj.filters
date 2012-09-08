@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="win32">
@@ -1945,9 +1945,6 @@
     <ClCompile Include="..\..\xbmc\pvr\PVRManager.cpp">
       <Filter>pvr</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\python\xbmcmodule\xbmcvfsmodule.cpp">
-      <Filter>interfaces\python\xbmcmodule</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\xbmc\cores\VideoRenderers\RenderCapture.cpp">
       <Filter>cores\VideoRenderers</Filter>
     </ClCompile>
@@ -2897,9 +2894,6 @@
     <ClCompile Include="..\..\xbmc\interfaces\native\Dialog.cpp">
       <Filter>interfaces\native</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\native\Exception.cpp">
-      <Filter>interfaces\native</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\xbmc\interfaces\native\File.cpp">
       <Filter>interfaces\native</Filter>
     </ClCompile>
@@ -2962,6 +2956,9 @@
     </ClCompile>
     <ClCompile Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmcvfs.cpp">
       <Filter>interfaces\swig\python\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\interfaces\native\WindowDialogMixin.cpp">
+      <Filter>interfaces\native</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -5804,6 +5801,9 @@
       <Filter>interfaces\native</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xbmc\interfaces\native\WindowXML.h">
+      <Filter>interfaces\native</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\interfaces\native\WindowDialogMixin.h">
       <Filter>interfaces\native</Filter>
     </ClInclude>
   </ItemGroup>
