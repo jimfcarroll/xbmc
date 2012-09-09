@@ -718,41 +718,42 @@
     <ClCompile Include="..\..\xbmc\interfaces\json-rpc\SystemOperations.cpp" />
     <ClCompile Include="..\..\xbmc\interfaces\json-rpc\VideoLibrary.cpp" />
     <ClCompile Include="..\..\xbmc\interfaces\json-rpc\XBMCOperations.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\native\Addon.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\native\AddonCallback.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\native\AddonClass.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\native\AddonUtils.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\native\CallbackFunction.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\native\CallbackHandler.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\native\Control.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\native\Dialog.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\native\File.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\native\InfoTagMusic.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\native\InfoTagVideo.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\native\Keyboard.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\native\LanguageHook.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\native\ListItem.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\native\ModuleXbmc.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\native\ModuleXbmcgui.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\native\ModuleXbmcplugin.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\native\ModuleXbmcvfs.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\native\Player.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\native\PlayList.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\native\String.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\native\Window.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\native\WindowDialog.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\native\WindowDialogMixin.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\native\WindowXML.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\swig\python\CallbackHandler.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmc.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmcaddon.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmcgui.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmcplugin.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmcvfs.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\swig\python\LanguageHook.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\swig\python\swig.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\swig\python\XBPython.cpp" />
-    <ClCompile Include="..\..\xbmc\interfaces\swig\python\XBPyThread.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\Addon.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\AddonCallback.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\AddonClass.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\AddonUtils.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\CallbackFunction.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\CallbackHandler.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\Control.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\Dialog.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\File.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\InfoTagMusic.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\InfoTagVideo.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\Keyboard.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\LanguageHook.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\ListItem.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\ModuleXbmc.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\ModuleXbmcgui.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\ModuleXbmcplugin.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\ModuleXbmcvfs.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\Monitor.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\Player.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\PlayList.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\String.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\Window.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\WindowDialog.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\WindowDialogMixin.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\WindowXML.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\python\CallbackHandler.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\python\generated\AddonModuleXbmc.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\python\generated\AddonModuleXbmcaddon.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\python\generated\AddonModuleXbmcgui.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\python\generated\AddonModuleXbmcplugin.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\python\generated\AddonModuleXbmcvfs.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\python\LanguageHook.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\python\swig.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\python\XBPython.cpp" />
+    <ClCompile Include="..\..\xbmc\interfaces\python\XBPyThread.cpp" />
     <ClCompile Include="..\..\xbmc\LangInfo.cpp" />
     <ClCompile Include="..\..\xbmc\MediaSource.cpp" />
     <ClCompile Include="..\..\xbmc\music\Album.cpp" />
@@ -1022,47 +1023,49 @@
     <ClInclude Include="..\..\xbmc\guilib\GUIKeyboard.h" />
     <ClInclude Include="..\..\xbmc\guilib\GUIKeyboardFactory.h" />
     <ClInclude Include="..\..\xbmc\input\windows\WINJoystick.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\Addon.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\AddonCallback.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\AddonClass.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\AddonString.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\AddonUtils.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\aojsonrpc.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\CallbackFunction.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\CallbackHandler.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\Control.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\Dialog.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\Dictionary.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\Exception.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\File.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\InfoTagMusic.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\InfoTagVideo.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\Keyboard.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\LanguageHook.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\List.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\ListItem.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\ModuleXbmc.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\ModuleXbmcgui.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\ModuleXbmcplugin.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\ModuleXbmcvfs.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\Player.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\PlayList.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\RenderCapture.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\swighelper.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\Tuple.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\Window.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\WindowDialog.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\WindowDialogMixin.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\WindowException.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\WindowInterceptor.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\native\WindowXML.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\swig\python\CallbackHandler.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\swig\python\LanguageHook.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\swig\python\preamble.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\swig\python\pythreadstate.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\swig\python\swig.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\swig\python\XBPython.h" />
-    <ClInclude Include="..\..\xbmc\interfaces\swig\python\XBPyThread.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\Addon.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\AddonCallback.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\AddonClass.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\AddonString.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\AddonUtils.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\Alternative.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\aojsonrpc.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\CallbackFunction.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\CallbackHandler.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\Control.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\Dialog.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\Dictionary.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\Exception.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\File.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\InfoTagMusic.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\InfoTagVideo.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\Keyboard.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\LanguageHook.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\List.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\ListItem.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\ModuleXbmc.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\ModuleXbmcgui.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\ModuleXbmcplugin.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\ModuleXbmcvfs.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\Monitor.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\Player.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\PlayList.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\RenderCapture.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\swighelper.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\Tuple.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\Window.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\WindowDialog.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\WindowDialogMixin.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\WindowException.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\WindowInterceptor.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\WindowXML.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\python\CallbackHandler.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\python\LanguageHook.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\python\preamble.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\python\pythreadstate.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\python\swig.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\python\XBPython.h" />
+    <ClInclude Include="..\..\xbmc\interfaces\python\XBPyThread.h" />
     <ClInclude Include="..\..\xbmc\music\MusicDbUrl.h" />
     <ClInclude Include="..\..\xbmc\network\httprequesthandler\HTTPImageHandler.h" />
     <ClInclude Include="..\..\xbmc\network\AirTunesServer.h" />
@@ -2815,9 +2818,9 @@
   <ItemGroup>
     <CustomBuild Include="..\..\xbmc\interfaces\swig\AddonModuleXbmc.i">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">CALL $(SolutionDir)..\BuildDependencies\GenerateSWIGBindings.bat %(RelativeDir) %(Filename)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">CALL $(SolutionDir)..\..\tools\codegenerator\GenerateSWIGBindings.bat %(RelativeDir) %(Filename)</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">Generating SWIG bindings</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">%(RelativeDir)..\python\generated\%(Filename).cpp</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">Generating SWIG bindings</Message>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">Generating SWIG bindings</Message>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">Generating SWIG bindings</Message>
@@ -2833,9 +2836,9 @@
     </CustomBuild>
     <CustomBuild Include="..\..\xbmc\interfaces\swig\AddonModuleXbmcaddon.i">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">CALL $(SolutionDir)..\BuildDependencies\GenerateSWIGBindings.bat %(RelativeDir) %(Filename)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">CALL $(SolutionDir)..\..\tools\codegenerator\GenerateSWIGBindings.bat %(RelativeDir) %(Filename)</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">Generating SWIG bindings</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">%(RelativeDir)..\python\generated\%(Filename).cpp</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">Generating SWIG bindings</Message>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">Generating SWIG bindings</Message>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">Generating SWIG bindings</Message>
@@ -2851,9 +2854,9 @@
     </CustomBuild>
     <CustomBuild Include="..\..\xbmc\interfaces\swig\AddonModuleXbmcgui.i">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">CALL $(SolutionDir)..\BuildDependencies\GenerateSWIGBindings.bat %(RelativeDir) %(Filename)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">CALL $(SolutionDir)..\..\tools\codegenerator\GenerateSWIGBindings.bat %(RelativeDir) %(Filename)</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">Generating SWIG bindings</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">%(RelativeDir)..\python\generated\%(Filename).cpp</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">Generating SWIG bindings</Message>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">Generating SWIG bindings</Message>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">Generating SWIG bindings</Message>
@@ -2869,9 +2872,9 @@
     </CustomBuild>
     <CustomBuild Include="..\..\xbmc\interfaces\swig\AddonModuleXbmcplugin.i">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">CALL $(SolutionDir)..\BuildDependencies\GenerateSWIGBindings.bat %(RelativeDir) %(Filename)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">CALL $(SolutionDir)..\..\tools\codegenerator\GenerateSWIGBindings.bat %(RelativeDir) %(Filename)</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">Generating SWIG bindings</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">%(RelativeDir)..\python\generated\%(Filename).cpp</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">Generating SWIG bindings</Message>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">Generating SWIG bindings</Message>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">Generating SWIG bindings</Message>
@@ -2887,9 +2890,9 @@
     </CustomBuild>
     <CustomBuild Include="..\..\xbmc\interfaces\swig\AddonModuleXbmcvfs.i">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">CALL $(SolutionDir)..\BuildDependencies\GenerateSWIGBindings.bat %(RelativeDir) %(Filename)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">CALL $(SolutionDir)..\..\tools\codegenerator\GenerateSWIGBindings.bat %(RelativeDir) %(Filename)</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">Generating SWIG bindings</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">%(RelativeDir)..\python\generated\%(Filename).cpp</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">Generating SWIG bindings</Message>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">Generating SWIG bindings</Message>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">Generating SWIG bindings</Message>
@@ -2903,35 +2906,22 @@
       <Message Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">Generating SWIG bindings</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">%(RelativeDir)python\generated\%(Filename).cpp</Outputs>
     </CustomBuild>
-    <None Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmc.xml">
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\xbmc\interfaces\python\generated\AddonModuleXbmc.xml">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">true</ExcludedFromBuild>
     </None>
-    <None Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmcaddon.xml">
+    <None Include="..\..\xbmc\interfaces\python\generated\AddonModuleXbmcaddon.xml">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">true</ExcludedFromBuild>
     </None>
-    <None Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmcgui.xml">
+    <None Include="..\..\xbmc\interfaces\python\generated\AddonModuleXbmcgui.xml">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">true</ExcludedFromBuild>
     </None>
-    <None Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmcplugin.xml">
+    <None Include="..\..\xbmc\interfaces\python\generated\AddonModuleXbmcplugin.xml">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">true</ExcludedFromBuild>
     </None>
-    <None Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmcvfs.xml">
+    <None Include="..\..\xbmc\interfaces\python\generated\AddonModuleXbmcvfs.xml">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (DirectX)|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug (OpenGL)|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (DirectX)|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release (OpenGL)|Win32'">true</ExcludedFromBuild>
     </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

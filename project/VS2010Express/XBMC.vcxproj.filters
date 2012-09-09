@@ -268,17 +268,17 @@
     <Filter Include="network\upnp">
       <UniqueIdentifier>{89c1ccdb-5d9b-447c-91e9-7c61e5cee042}</UniqueIdentifier>
     </Filter>
-    <Filter Include="interfaces\native">
-      <UniqueIdentifier>{9e178535-1590-42cd-a325-302f6bd8c28a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="interfaces\swig">
       <UniqueIdentifier>{3447ad7c-23a6-4586-856a-62fc75c2f3aa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="interfaces\swig\python">
-      <UniqueIdentifier>{d466b3ef-a70e-4ee2-abea-13b918b286b2}</UniqueIdentifier>
+    <Filter Include="interfaces\legacy">
+      <UniqueIdentifier>{9e178535-1590-42cd-a325-302f6bd8c28a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="interfaces\swig\python\generated">
-      <UniqueIdentifier>{6ad79eba-3fc3-40c6-af96-4d0bca0d181f}</UniqueIdentifier>
+    <Filter Include="interfaces\python">
+      <UniqueIdentifier>{4d489407-c145-44ce-ab0a-a8da78067533}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="interfaces\python\generated">
+      <UniqueIdentifier>{4cc89394-6b5b-44db-86a2-8b71b65e85a8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -2855,110 +2855,113 @@
     <ClCompile Include="..\..\xbmc\network\upnp\UPnPServer.cpp">
       <Filter>network\upnp</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\swig\python\CallbackHandler.cpp">
-      <Filter>interfaces\swig\python</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\Addon.cpp">
+      <Filter>interfaces\legacy</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\swig\python\LanguageHook.cpp">
-      <Filter>interfaces\swig\python</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\AddonCallback.cpp">
+      <Filter>interfaces\legacy</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\swig\python\swig.cpp">
-      <Filter>interfaces\swig\python</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\AddonClass.cpp">
+      <Filter>interfaces\legacy</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\swig\python\XBPython.cpp">
-      <Filter>interfaces\swig\python</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\AddonUtils.cpp">
+      <Filter>interfaces\legacy</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\swig\python\XBPyThread.cpp">
-      <Filter>interfaces\swig\python</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\CallbackFunction.cpp">
+      <Filter>interfaces\legacy</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\native\Addon.cpp">
-      <Filter>interfaces\native</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\CallbackHandler.cpp">
+      <Filter>interfaces\legacy</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\native\AddonCallback.cpp">
-      <Filter>interfaces\native</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\Control.cpp">
+      <Filter>interfaces\legacy</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\native\AddonClass.cpp">
-      <Filter>interfaces\native</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\Dialog.cpp">
+      <Filter>interfaces\legacy</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\native\AddonUtils.cpp">
-      <Filter>interfaces\native</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\File.cpp">
+      <Filter>interfaces\legacy</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\native\CallbackFunction.cpp">
-      <Filter>interfaces\native</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\InfoTagMusic.cpp">
+      <Filter>interfaces\legacy</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\native\CallbackHandler.cpp">
-      <Filter>interfaces\native</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\InfoTagVideo.cpp">
+      <Filter>interfaces\legacy</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\native\Control.cpp">
-      <Filter>interfaces\native</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\Keyboard.cpp">
+      <Filter>interfaces\legacy</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\native\Dialog.cpp">
-      <Filter>interfaces\native</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\LanguageHook.cpp">
+      <Filter>interfaces\legacy</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\native\File.cpp">
-      <Filter>interfaces\native</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\ListItem.cpp">
+      <Filter>interfaces\legacy</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\native\InfoTagMusic.cpp">
-      <Filter>interfaces\native</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\ModuleXbmc.cpp">
+      <Filter>interfaces\legacy</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\native\InfoTagVideo.cpp">
-      <Filter>interfaces\native</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\ModuleXbmcgui.cpp">
+      <Filter>interfaces\legacy</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\native\Keyboard.cpp">
-      <Filter>interfaces\native</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\ModuleXbmcplugin.cpp">
+      <Filter>interfaces\legacy</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\native\LanguageHook.cpp">
-      <Filter>interfaces\native</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\ModuleXbmcvfs.cpp">
+      <Filter>interfaces\legacy</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\native\ListItem.cpp">
-      <Filter>interfaces\native</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\Monitor.cpp">
+      <Filter>interfaces\legacy</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\native\ModuleXbmc.cpp">
-      <Filter>interfaces\native</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\Player.cpp">
+      <Filter>interfaces\legacy</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\native\ModuleXbmcgui.cpp">
-      <Filter>interfaces\native</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\PlayList.cpp">
+      <Filter>interfaces\legacy</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\native\ModuleXbmcplugin.cpp">
-      <Filter>interfaces\native</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\String.cpp">
+      <Filter>interfaces\legacy</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\native\ModuleXbmcvfs.cpp">
-      <Filter>interfaces\native</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\Window.cpp">
+      <Filter>interfaces\legacy</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\native\Player.cpp">
-      <Filter>interfaces\native</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\WindowDialog.cpp">
+      <Filter>interfaces\legacy</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\native\PlayList.cpp">
-      <Filter>interfaces\native</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\WindowDialogMixin.cpp">
+      <Filter>interfaces\legacy</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\native\String.cpp">
-      <Filter>interfaces\native</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\legacy\WindowXML.cpp">
+      <Filter>interfaces\legacy</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\native\Window.cpp">
-      <Filter>interfaces\native</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\python\CallbackHandler.cpp">
+      <Filter>interfaces\python</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\native\WindowDialog.cpp">
-      <Filter>interfaces\native</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\python\LanguageHook.cpp">
+      <Filter>interfaces\python</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\native\WindowXML.cpp">
-      <Filter>interfaces\native</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\python\swig.cpp">
+      <Filter>interfaces\python</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmc.cpp">
-      <Filter>interfaces\swig\python\generated</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\python\XBPython.cpp">
+      <Filter>interfaces\python</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmcaddon.cpp">
-      <Filter>interfaces\swig\python\generated</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\python\XBPyThread.cpp">
+      <Filter>interfaces\python</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmcgui.cpp">
-      <Filter>interfaces\swig\python\generated</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\python\generated\AddonModuleXbmc.cpp">
+      <Filter>interfaces\python\generated</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmcplugin.cpp">
-      <Filter>interfaces\swig\python\generated</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\python\generated\AddonModuleXbmcaddon.cpp">
+      <Filter>interfaces\python\generated</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmcvfs.cpp">
-      <Filter>interfaces\swig\python\generated</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\python\generated\AddonModuleXbmcgui.cpp">
+      <Filter>interfaces\python\generated</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\xbmc\interfaces\native\WindowDialogMixin.cpp">
-      <Filter>interfaces\native</Filter>
+    <ClCompile Include="..\..\xbmc\interfaces\python\generated\AddonModuleXbmcplugin.cpp">
+      <Filter>interfaces\python\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\xbmc\interfaces\python\generated\AddonModuleXbmcvfs.cpp">
+      <Filter>interfaces\python\generated</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -5683,128 +5686,134 @@
     <ClInclude Include="..\..\xbmc\network\upnp\UPnPServer.h">
       <Filter>network\upnp</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\swig\python\CallbackHandler.h">
-      <Filter>interfaces\swig\python</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\Addon.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\swig\python\LanguageHook.h">
-      <Filter>interfaces\swig\python</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\AddonCallback.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\swig\python\preamble.h">
-      <Filter>interfaces\swig\python</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\AddonClass.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\swig\python\pythreadstate.h">
-      <Filter>interfaces\swig\python</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\AddonString.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\swig\python\swig.h">
-      <Filter>interfaces\swig\python</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\AddonUtils.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\swig\python\XBPython.h">
-      <Filter>interfaces\swig\python</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\Alternative.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\swig\python\XBPyThread.h">
-      <Filter>interfaces\swig\python</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\aojsonrpc.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\Addon.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\CallbackFunction.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\AddonCallback.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\CallbackHandler.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\AddonClass.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\Control.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\AddonString.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\Dialog.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\AddonUtils.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\Dictionary.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\aojsonrpc.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\Exception.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\CallbackFunction.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\File.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\CallbackHandler.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\InfoTagMusic.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\Control.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\InfoTagVideo.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\Dialog.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\Keyboard.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\Dictionary.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\LanguageHook.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\Exception.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\List.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\File.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\ListItem.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\InfoTagMusic.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\ModuleXbmc.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\InfoTagVideo.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\ModuleXbmcgui.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\Keyboard.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\ModuleXbmcplugin.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\LanguageHook.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\ModuleXbmcvfs.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\List.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\Monitor.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\ListItem.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\Player.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\ModuleXbmc.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\PlayList.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\ModuleXbmcgui.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\RenderCapture.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\ModuleXbmcplugin.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\swighelper.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\ModuleXbmcvfs.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\Tuple.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\Player.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\Window.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\PlayList.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\WindowDialog.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\RenderCapture.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\WindowDialogMixin.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\swighelper.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\WindowException.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\Tuple.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\WindowInterceptor.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\Window.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\legacy\WindowXML.h">
+      <Filter>interfaces\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\WindowDialog.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\python\CallbackHandler.h">
+      <Filter>interfaces\python</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\WindowException.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\python\LanguageHook.h">
+      <Filter>interfaces\python</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\WindowInterceptor.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\python\preamble.h">
+      <Filter>interfaces\python</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\WindowXML.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\python\pythreadstate.h">
+      <Filter>interfaces\python</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xbmc\interfaces\native\WindowDialogMixin.h">
-      <Filter>interfaces\native</Filter>
+    <ClInclude Include="..\..\xbmc\interfaces\python\swig.h">
+      <Filter>interfaces\python</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\interfaces\python\XBPython.h">
+      <Filter>interfaces\python</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xbmc\interfaces\python\XBPyThread.h">
+      <Filter>interfaces\python</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -5833,20 +5842,20 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmc.xml">
-      <Filter>interfaces\swig\python\generated</Filter>
+    <None Include="..\..\xbmc\interfaces\python\generated\AddonModuleXbmc.xml">
+      <Filter>interfaces\python\generated</Filter>
     </None>
-    <None Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmcaddon.xml">
-      <Filter>interfaces\swig\python\generated</Filter>
+    <None Include="..\..\xbmc\interfaces\python\generated\AddonModuleXbmcaddon.xml">
+      <Filter>interfaces\python\generated</Filter>
     </None>
-    <None Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmcgui.xml">
-      <Filter>interfaces\swig\python\generated</Filter>
+    <None Include="..\..\xbmc\interfaces\python\generated\AddonModuleXbmcgui.xml">
+      <Filter>interfaces\python\generated</Filter>
     </None>
-    <None Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmcplugin.xml">
-      <Filter>interfaces\swig\python\generated</Filter>
+    <None Include="..\..\xbmc\interfaces\python\generated\AddonModuleXbmcplugin.xml">
+      <Filter>interfaces\python\generated</Filter>
     </None>
-    <None Include="..\..\xbmc\interfaces\swig\python\generated\AddonModuleXbmcvfs.xml">
-      <Filter>interfaces\swig\python\generated</Filter>
+    <None Include="..\..\xbmc\interfaces\python\generated\AddonModuleXbmcvfs.xml">
+      <Filter>interfaces\python\generated</Filter>
     </None>
   </ItemGroup>
 </Project>
