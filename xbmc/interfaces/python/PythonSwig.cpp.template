@@ -144,7 +144,7 @@ void doMethod(method, MethodType methodType)
 
 <%  }
     // now actually invoke the method
-    if (returns != "void") { %>    ${SwigTypeParser.SwigType_str(returns)} apiResult;<%   }
+    if (returns != "void") { %>    ${SwigTypeParser.SwigType_lstr(returns)} apiResult;<%   }
 %>
     try
     {
@@ -164,7 +164,7 @@ void doMethod(method, MethodType methodType)
     if (!destructor) {
     if (constructor || !clazz) {  %>      XBMCAddon::SetLanguageHookGuard slhg(XBMCAddon::Python::LanguageHook::getInstance());<% println() }
 %>      <%
-    if (returns != "void") { %>apiResult = <% }
+    if (returns != "void") { %>apiResult = (${SwigTypeParser.SwigType_lstr(returns)})<% }
     if (clazz && !constructor) {
       %>((${clazz}*)retrieveApiInstance((PyObject*)self,&Py${classNameAsVariable}_Type,"${Helper.callingName(method)}","${clazz}"))-> <%
     }

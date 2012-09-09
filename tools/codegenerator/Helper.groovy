@@ -171,7 +171,7 @@ public class Helper
     * @param method - is the node from the module xml that contains the method description
     * @return the code chunk as a string ready to be placed into the generated code.
     */
-   public static String getOutConversion(String apiType, String apiName, Node method, Map overrideBindings = null)
+   public static String getOutConversion(String apiType, String apiName, Node method, Map overrideBindings = null, boolean recurse = true)
    {
       def convertTemplate = outTypemap[apiType]
 
@@ -193,7 +193,12 @@ public class Helper
       }
 
       if (!convertTemplate)
-        throw new RuntimeException("WARNING: Cannot convert the return value of swig type ${apiType} for the call ${Helper.findFullClassName(method) + '::' + Helper.callingName(method)}")
+      {
+        if (recurse)
+          return getOutConversion(SwigTypeParser.SwigType_ltype(apiType),apiName,method,overrideBindings,false)
+        else
+          throw new RuntimeException("WARNING: Cannot convert the return value of swig type ${apiType} for the call ${Helper.findFullClassName(method) + '::' + Helper.callingName(method)}")
+      }
 
       boolean seqSetHere = false
       Sequence seq = curSequence.get()
@@ -268,6 +273,7 @@ public class Helper
       def convertTemplate = inTypemap[apiType]
 
       String apiLType = SwigTypeParser.convertTypeToLTypeForParam(apiType)
+
       if (convertTemplate == null) convertTemplate = inTypemap[apiLType]
 
       // is the returns a pointer to a known class

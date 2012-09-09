@@ -26,7 +26,7 @@
 #include "interfaces/legacy/RenderCapture.h"
 #include "interfaces/legacy/Keyboard.h"
 #include "interfaces/legacy/ModuleXbmc.h"
-//#include "interfaces/legacy/Monitor.h"
+#include "interfaces/legacy/Monitor.h"
 
 using namespace XBMCAddon;
 using namespace xbmc;
@@ -129,10 +129,10 @@ using namespace xbmc;
 %include "interfaces/legacy/Keyboard.h"
 %include "interfaces/legacy/PlayList.h"
 
-//%feature("director") Monitor;
-//%feature("ref") Monitor "${ths}->Acquire();"
-//%feature("unref") Monitor "${ths}->Release();"
-//
-//%include "interfaces/legacy/Monitor.h"
+%feature("director") Monitor;
+%feature("ref") Monitor "${ths}->Acquire();"
+%feature("unref") Monitor "${ths}->Release();"
+
+%include "interfaces/legacy/Monitor.h"
 
 

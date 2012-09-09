@@ -42,6 +42,8 @@
 #include "addons/Addon.h"
 #include "interfaces/AnnouncementManager.h"
 
+#include "interfaces/legacy/Monitor.h"
+
 using namespace ANNOUNCEMENT;
 
 namespace PythonBindings {
@@ -67,19 +69,12 @@ XBPython::XBPython()
   m_vecPlayerCallbackList.clear();
   m_vecMonitorCallbackList.clear();
 
-  // Please see the comment in the header file
-  // on the announcerAdded flag.
-//  CAnnouncementManager::AddAnnouncer(this);
-  announcerAdded = false;
+  CAnnouncementManager::AddAnnouncer(this);
 }
 
 XBPython::~XBPython()
 {
-   // Please see the comment on the announcerAdded flag in the header.
-   // We cannot actually remove this announcer in the destructor for the
-   // same reason we cannot add it in the constructor.
-//   if (announcerAdded)
-//      CAnnouncementManager::RemoveAnnouncer(this);
+  CAnnouncementManager::RemoveAnnouncer(this);
 }
 
 // message all registered callbacks that xbmc stopped playing
@@ -257,13 +252,13 @@ void XBPython::UnregisterPythonPlayerCallBack(IPlayerCallback* pCallback)
   }
 }
 
-void XBPython::RegisterPythonMonitorCallBack(CPythonMonitor* pCallback)
+void XBPython::RegisterPythonMonitorCallBack(XBMCAddon::xbmc::Monitor* pCallback)
 {
   CSingleLock lock(m_critSection);
   m_vecMonitorCallbackList.push_back(pCallback);
 }
 
-void XBPython::UnregisterPythonMonitorCallBack(CPythonMonitor* pCallback)
+void XBPython::UnregisterPythonMonitorCallBack(XBMCAddon::xbmc::Monitor* pCallback)
 {
   CSingleLock lock(m_critSection);
   MonitorCallbackList::iterator it = m_vecMonitorCallbackList.begin();
@@ -284,8 +279,8 @@ void XBPython::OnSettingsChanged(const CStdString &ID)
     MonitorCallbackList::iterator it = m_vecMonitorCallbackList.begin();
     while (it != m_vecMonitorCallbackList.end())
     { 
-//      if (((CPythonMonitor*)(*it))->Id == ID)  
-//        ((CPythonMonitor*)(*it))->OnSettingsChanged();
+      if (((XBMCAddon::xbmc::Monitor*)(*it))->GetId() == ID)  
+        ((XBMCAddon::xbmc::Monitor*)(*it))->OnSettingsChanged();
       it++;
     }
   }  
@@ -299,7 +294,7 @@ void XBPython::OnScreensaverActivated()
     MonitorCallbackList::iterator it = m_vecMonitorCallbackList.begin();
     while (it != m_vecMonitorCallbackList.end())
     {
-//      ((CPythonMonitor*)(*it))->OnScreensaverActivated();
+      ((XBMCAddon::xbmc::Monitor*)(*it))->OnScreensaverActivated();
       it++;
     }
   }  
@@ -313,7 +308,7 @@ void XBPython::OnScreensaverDeactivated()
     MonitorCallbackList::iterator it = m_vecMonitorCallbackList.begin();
     while (it != m_vecMonitorCallbackList.end())
     {
-//      ((CPythonMonitor*)(*it))->OnScreensaverDeactivated();
+      ((XBMCAddon::xbmc::Monitor*)(*it))->OnScreensaverDeactivated();
       it++;
     }
   }  
@@ -327,7 +322,7 @@ void XBPython::OnDatabaseUpdated(const std::string &database)
   MonitorCallbackList::iterator it = m_vecMonitorCallbackList.begin();
   while (it != m_vecMonitorCallbackList.end())
   {
-//   ((CPythonMonitor*)(*it))->OnDatabaseUpdated(database);
+   ((XBMCAddon::xbmc::Monitor*)(*it))->OnDatabaseUpdated(database);
    it++;
   }
  }  
@@ -343,12 +338,12 @@ void XBPython::OnAbortRequested(const CStdString &ID)
     {
       if (ID.IsEmpty())
       {    
-//        ((CPythonMonitor*)(*it))->OnAbortRequested();
+        ((XBMCAddon::xbmc::Monitor*)(*it))->OnAbortRequested();
       }
       else
       {
-//        if (((CPythonMonitor*)(*it))->Id == ID)
-//          ((CPythonMonitor*)(*it))->OnAbortRequested();
+        if (((XBMCAddon::xbmc::Monitor*)(*it))->GetId() == ID)
+          ((XBMCAddon::xbmc::Monitor*)(*it))->OnAbortRequested();
       }
       it++;
     }
@@ -495,12 +490,6 @@ void XBPython::DeInitializeInterpreter()
 */
 void XBPython::Initialize()
 {
-  if (!announcerAdded)
-  {
-     announcerAdded = true;
-     CAnnouncementManager::AddAnnouncer(this);
-  }
-
   CLog::Log(LOGINFO, "initializing python engine. ");
   CSingleLock lock(m_critSection);
   m_iDllScriptCounter++;

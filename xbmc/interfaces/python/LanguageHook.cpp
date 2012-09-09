@@ -168,6 +168,8 @@ namespace XBMCAddon
 
     void LanguageHook::registerPlayerCallback(IPlayerCallback* player) { g_pythonParser.RegisterPythonPlayerCallBack(player); }
     void LanguageHook::unregisterPlayerCallback(IPlayerCallback* player) { g_pythonParser.UnregisterPythonPlayerCallBack(player); }
+    void LanguageHook::registerMonitorCallback(XBMCAddon::xbmc::Monitor* monitor) { g_pythonParser.RegisterPythonMonitorCallBack(monitor); }
+    void LanguageHook::unregisterMonitorCallback(XBMCAddon::xbmc::Monitor* monitor) { g_pythonParser.UnregisterPythonMonitorCallBack(monitor); }
     void LanguageHook::waitForEvent(CEvent& hEvent) { g_pythonParser.WaitForEvent(hEvent); }
 
 //    void LanguageHook::constructing(AddonClass* beingConstructed)

@@ -35,6 +35,11 @@ class IPlayerCallback;
 
 namespace XBMCAddon
 {
+  namespace xbmc
+  {
+    class Monitor;
+  }
+
   class LanguageHook : public AddonClass
   {
   protected:
@@ -108,6 +113,8 @@ namespace XBMCAddon
 
     virtual void registerPlayerCallback(IPlayerCallback* player) = 0;
     virtual void unregisterPlayerCallback(IPlayerCallback* player) = 0;
+    virtual void registerMonitorCallback(XBMCAddon::xbmc::Monitor* player) = 0;
+    virtual void unregisterMonitorCallback(XBMCAddon::xbmc::Monitor* player) = 0;
     virtual void waitForEvent(CEvent& hEvent) = 0;
 
     static void setLanguageHook(LanguageHook* languageHook);

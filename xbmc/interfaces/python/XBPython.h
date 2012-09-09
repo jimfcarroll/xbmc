@@ -37,11 +37,18 @@ typedef struct {
 }PyElem;
 
 class LibraryLoader;
-class CPythonMonitor;
+
+namespace XBMCAddon
+{
+  namespace xbmc
+  {
+    class Monitor;
+  }
+}
 
 typedef std::vector<PyElem> PyList;
 typedef std::vector<PVOID> PlayerCallbackList;
-typedef std::vector<PVOID> MonitorCallbackList;
+typedef std::vector<XBMCAddon::xbmc::Monitor*> MonitorCallbackList;
 typedef std::vector<LibraryLoader*> PythonExtensionLibraries;
 
 class XBPython : 
@@ -64,8 +71,8 @@ public:
   virtual void Announce(ANNOUNCEMENT::AnnouncementFlag flag, const char *sender, const char *message, const CVariant &data);
   void RegisterPythonPlayerCallBack(IPlayerCallback* pCallback);
   void UnregisterPythonPlayerCallBack(IPlayerCallback* pCallback);
-  void RegisterPythonMonitorCallBack(CPythonMonitor* pCallback);
-  void UnregisterPythonMonitorCallBack(CPythonMonitor* pCallback);
+  void RegisterPythonMonitorCallBack(XBMCAddon::xbmc::Monitor* pCallback);
+  void UnregisterPythonMonitorCallBack(XBMCAddon::xbmc::Monitor* pCallback);
   void OnSettingsChanged(const CStdString &strings);
   void OnScreensaverActivated();
   void OnScreensaverDeactivated();
@@ -142,18 +149,6 @@ private:
   // in order to finalize and unload the python library, need to save all the extension libraries that are
   // loaded by it and unload them first (not done by finalize)
   PythonExtensionLibraries m_extensions;
-
-  // This is a hack to delay the use of the Announcer until after the
-  // constructor is called. The XBPython compilation unit seems to now be 
-  // initialized later than the Announcement code and therefore the static
-  // call to CAnnounementManager::AddAnnouncer originally called from the 
-  // constructor of XBPython (which is called when the XBPython.o compilation
-  // unit initializes due to the global g_pythonParser) is executed prior to the
-  // static elements of AnnouncementManager.o (one of which is a std::vector) 
-  // have been constructed.
-  //
-  // The should be fixed using Dependency Injection.
-  bool announcerAdded;
 };
 
 extern XBPython g_pythonParser;
