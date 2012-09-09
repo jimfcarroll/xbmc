@@ -295,7 +295,9 @@ public class Helper
         convertTemplate = inTypemap.find({ key, value -> (key instanceof Pattern && key.matcher(apiLType).matches()) })?.value
 
       if (!convertTemplate){
-         System.out.println("WARNING: Unknown parameter type: ${apiType} (or ${apiLType}) for the call ${Helper.findFullClassName(method) + '::' + Helper.callingName(method)}")
+         // it's ok if this is a known type
+         if (!isKnownApiType(apiType,method) && !isKnownApiType(apiLType,method))
+           System.out.println("WARNING: Unknown parameter type: ${apiType} (or ${apiLType}) for the call ${Helper.findFullClassName(method) + '::' + Helper.callingName(method)}")
          convertTemplate = defaultInTypeConversion
       }
 
@@ -446,6 +448,9 @@ public class Helper
       return (clazz.constructor != null && clazz.constructor.size() > 0)
    }
 
+   /**
+    * @return true id this Node has a docstring associated with it.
+    */
    public static boolean hasDoc(Node methodOrClass)
    {
      return methodOrClass.doc != null && methodOrClass.doc[0] != null && methodOrClass.doc[0].@value != null
@@ -634,6 +639,38 @@ public class Helper
      if (method.name() == 'constructor')
        return false
      return method.@storage && method.@storage == 'virtual'
+   }
+
+   /**
+    * This method will search from the 'searchFrom' Node up to the root
+    *  looking for a %feature("knownbasetypes") declaration that the given 'type' is 
+    *  known for 'searchFrom' Node.
+    */
+   public static boolean isKnownBaseType(String type, Node searchFrom) 
+   {
+     return hasFeatureSetting(type,searchFrom,'feature_knownbasetypes',{ it.split(',').find({ it == type }) != null })
+   }
+
+   /**
+    * This method will search from the 'searchFrom' Node up to the root
+    *  looking for a %feature("knownapitypes") declaration that the given 'type' is 
+    *  known for 'searchFrom' Node.
+    */
+   public static boolean isKnownApiType(String type, Node searchFrom) 
+   {
+     String rootType = SwigTypeParser.getBaseType(type)
+     return hasFeatureSetting(type,searchFrom,'feature_knownapitypes',{ it.split(',').find({ it == rootType }) != null })
+   }
+
+   private static boolean hasFeatureSetting(String type, Node searchFrom, String feature, Closure test)
+   {
+     if (!searchFrom)
+       return false
+
+     if (searchFrom.attribute(feature) && test.call(searchFrom.attribute(feature)))
+       return true
+
+     return hasFeatureSetting(type,searchFrom.parent(),feature,test)
    }
 
    private static void flatten(Node node, List elementsToRemove)

@@ -47,7 +47,7 @@ $(GENDIR)/dummy: ../legacy/*.h
 
 $(GENDIR)/doxygenxml/dummy: $(GENDIR)/dummy ./Doxyfile
 ifeq (@USE_DOXYGEN@,1)
-	@DOXYGEN_EXE@
+	(@DOXYGEN_EXE@ > /dev/null) 2>&1 | grep -v " warning: "
 else
 	echo "Warning: No doxygen installed. The Api will not have any docstrings."
 	mkdir -p $(GENDIR)/doxygenxml

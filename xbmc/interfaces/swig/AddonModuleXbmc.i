@@ -36,6 +36,11 @@ using namespace xbmc;
 #endif
 %}
 
+// This is all about warning suppression. It's OK that these base classes are 
+// not part of what swig parses.
+%feature("knownbasetypes") XBMCAddon::xbmc "AddonClass,IPlayerCallback,AddonCallback"
+%feature("knownapitypes") XBMCAddon::xbmc "XBMCAddon::xbmcgui::ListItem,XBMCAddon::xbmc::PlayListItem"
+
 %include "interfaces/legacy/swighelper.h"
 
 %feature("python:coerceToUnicode") XBMCAddon::xbmc::getLocalizedString "true"

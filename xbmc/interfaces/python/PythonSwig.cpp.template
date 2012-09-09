@@ -306,7 +306,8 @@ void doClassMethodInfo(Node clazz, List initTypeCalls = null)
       if (clazz.baselist[0].base) clazz.baselist[0].base.each {
           Node baseclassnode = Helper.findClassNodeByName(module,it.@name,clazz)
           if (baseclassnode) knownbases.add(baseclassnode)
-          else System.out.println("WARNING: the base class ${it.@name} for ${fullClassName} is unrecognized within ${module.@name}.")
+          else if (!Helper.isKnownBaseType(it.@name,clazz))
+            System.out.println("WARNING: the base class ${it.@name} for ${fullClassName} is unrecognized within ${module.@name}.")
         }
     }
     assert knownbases.size() < 2, 
@@ -370,8 +371,6 @@ Helper.getInsertNodes(module, 'begin').each { %>${Helper.unescape(it)}<% }
 #include <string>
 #include "interfaces/python/LanguageHook.h"
 #include "interfaces/python/swig.h"
-#include "interfaces/legacy/Exception.h"
-#include "interfaces/legacy/LanguageHook.h"
 
 <%
 Helper.getInsertNodes(module, 'header').each { %>${Helper.unescape(it)}<% }
