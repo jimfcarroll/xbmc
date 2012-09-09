@@ -23,7 +23,7 @@
 #include "LanguageHook.h"
 #include "XBPython.h"
 
-#include "interfaces/native/AddonUtils.h"
+#include "interfaces/legacy/AddonUtils.h"
 #include "utils/GlobalsHandling.h"
 
 namespace XBMCAddon

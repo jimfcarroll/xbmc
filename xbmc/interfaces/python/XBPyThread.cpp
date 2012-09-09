@@ -43,10 +43,10 @@
 #include "XBPyThread.h"
 #include "XBPython.h"
 
-#include "interfaces/native/Exception.h"
-#include "interfaces/native/CallbackHandler.h"
-#include "interfaces/native/AddonUtils.h"
-#include "interfaces/native/ModuleXbmc.h"
+#include "interfaces/legacy/Exception.h"
+#include "interfaces/legacy/CallbackHandler.h"
+#include "interfaces/legacy/AddonUtils.h"
+#include "interfaces/legacy/ModuleXbmc.h"
 
 #include "interfaces/python/pythreadstate.h"
 #include "interfaces/python/swig.h"

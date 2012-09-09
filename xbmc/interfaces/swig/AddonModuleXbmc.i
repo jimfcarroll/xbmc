@@ -22,11 +22,11 @@
 %module(directors="1") xbmc
 
 %{
-#include "interfaces/native/Player.h"
-#include "interfaces/native/RenderCapture.h"
-#include "interfaces/native/Keyboard.h"
-#include "interfaces/native/ModuleXbmc.h"
-//#include "interfaces/native/Monitor.h"
+#include "interfaces/legacy/Player.h"
+#include "interfaces/legacy/RenderCapture.h"
+#include "interfaces/legacy/Keyboard.h"
+#include "interfaces/legacy/ModuleXbmc.h"
+//#include "interfaces/legacy/Monitor.h"
 
 using namespace XBMCAddon;
 using namespace xbmc;
@@ -36,11 +36,11 @@ using namespace xbmc;
 #endif
 %}
 
-%include "interfaces/native/swighelper.h"
+%include "interfaces/legacy/swighelper.h"
 
 %feature("python:coerceToUnicode") XBMCAddon::xbmc::getLocalizedString "true"
 
-%include "interfaces/native/ModuleXbmc.h"
+%include "interfaces/legacy/ModuleXbmc.h"
 
 %feature("director") Player;
 %feature("ref") Player "${ths}->Acquire();"
@@ -104,7 +104,7 @@ using namespace xbmc;
     return Py_None;
   }
 
-%include "interfaces/native/Player.h"
+%include "interfaces/legacy/Player.h"
 
  // TODO: This needs to be done with a class that holds the Image
  // data. A memory buffer type. Then a typemap needs to be defined
@@ -122,17 +122,17 @@ using namespace xbmc;
   return PyByteArray_FromStringAndSize((const char *)rc->GetPixels(), size);
 }
 
-%include "interfaces/native/RenderCapture.h"
+%include "interfaces/legacy/RenderCapture.h"
 
-%include "interfaces/native/InfoTagMusic.h"
-%include "interfaces/native/InfoTagVideo.h"
-%include "interfaces/native/Keyboard.h"
-%include "interfaces/native/PlayList.h"
+%include "interfaces/legacy/InfoTagMusic.h"
+%include "interfaces/legacy/InfoTagVideo.h"
+%include "interfaces/legacy/Keyboard.h"
+%include "interfaces/legacy/PlayList.h"
 
 //%feature("director") Monitor;
 //%feature("ref") Monitor "${ths}->Acquire();"
 //%feature("unref") Monitor "${ths}->Release();"
 //
-//%include "interfaces/native/Monitor.h"
+//%include "interfaces/legacy/Monitor.h"
 
 

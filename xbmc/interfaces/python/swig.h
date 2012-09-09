@@ -24,7 +24,7 @@
 #include <stdint.h>
 
 #include "utils/StdString.h"
-#include "interfaces/native/Exception.h"
+#include "interfaces/legacy/Exception.h"
 #include "threads/ThreadLocal.h"
 
 namespace PythonBindings

@@ -95,7 +95,7 @@ ifeq (@USE_WEB_SERVER@,1)
 DIRECTORY_ARCHIVES += xbmc/network/httprequesthandler/httprequesthandlers.a
 endif
 
-DIRECTORY_ARCHIVES += xbmc/interfaces/native/native.a
+DIRECTORY_ARCHIVES += xbmc/interfaces/legacy/legacy.a
 DIRECTORY_ARCHIVES += xbmc/interfaces/python/python_binding.a
 
 ifeq (@USE_OPENGL@,1)
@@ -394,7 +394,7 @@ libs: libhdhomerun libid3tag imagelib libexif system/libcpluff-@ARCH@.so $(CMYTH
 
 externals: codecs libs visualizations screensavers libaddon
 
-ADDON_BINDINGS = xbmc/interfaces/native/native.a
+ADDON_BINDINGS = xbmc/interfaces/legacy/legacy.a
 ADDON_BINDINGS += xbmc/interfaces/python/python_binding.a
 
 xcode_depends: \

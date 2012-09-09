@@ -23,7 +23,7 @@
 
 #include "cores/VideoRenderers/RenderManager.h"
 #include "cores/VideoRenderers/RenderCapture.h"
-#include "interfaces/native/AddonClass.h"
+#include "AddonClass.h"
 
 namespace XBMCAddon
 {

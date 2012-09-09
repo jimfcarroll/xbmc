@@ -27,7 +27,7 @@
 
 #include <Python.h>
 
-#include "interfaces/native/LanguageHook.h"
+#include "interfaces/legacy/LanguageHook.h"
 #include "interfaces/python/CallbackHandler.h"
 #include "threads/ThreadLocal.h"
 #include "threads/Event.h"

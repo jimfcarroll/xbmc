@@ -41,7 +41,7 @@ CXXFLAGS+= -DSWIGRUNTIME_DEBUG -DSTATIC_LINKED
 include ../../../Makefile.include
 -include $(patsubst %.cpp,%.P,$(patsubst %.c,%.P,$(SRCS)))
 
-$(GENDIR)/dummy: ../native/*.h
+$(GENDIR)/dummy: ../legacy/*.h
 	mkdir -p $(GENDIR)
 	touch $(GENDIR)/dummy
 

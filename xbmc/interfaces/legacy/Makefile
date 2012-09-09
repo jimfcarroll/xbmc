@@ -26,7 +26,7 @@ SRCS=	\
 	WindowDialogMixin.cpp \
 	WindowXML.cpp \
 
-LIB=native.a
+LIB=legacy.a
 
 CXXFLAGS+= -DSWIGRUNTIME_DEBUG -DSTATIC_LINKED
 

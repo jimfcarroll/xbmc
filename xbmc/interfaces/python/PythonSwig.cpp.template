@@ -370,8 +370,8 @@ Helper.getInsertNodes(module, 'begin').each { %>${Helper.unescape(it)}<% }
 #include <string>
 #include "interfaces/python/LanguageHook.h"
 #include "interfaces/python/swig.h"
-#include "interfaces/native/Exception.h"
-#include "interfaces/native/LanguageHook.h"
+#include "interfaces/legacy/Exception.h"
+#include "interfaces/legacy/LanguageHook.h"
 
 <%
 Helper.getInsertNodes(module, 'header').each { %>${Helper.unescape(it)}<% }

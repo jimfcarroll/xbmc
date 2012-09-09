@@ -22,13 +22,13 @@
 %module(directors="1") xbmcgui
 
 %{
-#include "interfaces/native/Dialog.h"
-#include "interfaces/native/ModuleXbmcgui.h"
-#include "interfaces/native/Control.h"
-#include "interfaces/native/Window.h"
-#include "interfaces/native/WindowDialog.h"
-#include "interfaces/native/Dialog.h"
-#include "interfaces/native/WindowXML.h"
+#include "interfaces/legacy/Dialog.h"
+#include "interfaces/legacy/ModuleXbmcgui.h"
+#include "interfaces/legacy/Control.h"
+#include "interfaces/legacy/Window.h"
+#include "interfaces/legacy/WindowDialog.h"
+#include "interfaces/legacy/Dialog.h"
+#include "interfaces/legacy/WindowXML.h"
 
 using namespace XBMCAddon;
 using namespace xbmcgui;
@@ -39,16 +39,16 @@ using namespace xbmcgui;
 
 %}
 
-%include "interfaces/native/swighelper.h"
+%include "interfaces/legacy/swighelper.h"
 
-%include "interfaces/native/ModuleXbmcgui.h"
+%include "interfaces/legacy/ModuleXbmcgui.h"
 
 %feature("ref") ListItem "${ths}->Acquire();"
 %feature("unref") ListItem "${ths}->Release();"
 
-%include "interfaces/native/Exception.h"
+%include "interfaces/legacy/Exception.h"
 
-%include "interfaces/native/ListItem.h"
+%include "interfaces/legacy/ListItem.h"
 
 
 %feature("python:method:addItem") ControlList
@@ -115,9 +115,9 @@ using namespace xbmcgui;
 
 %feature("python:coerceToUnicode") XBMCAddon::xbmcgui::ControlButton::getLabel "true"
 %feature("python:coerceToUnicode") XBMCAddon::xbmcgui::ControlButton::getLabel2 "true"
-%include "interfaces/native/Control.h"
+%include "interfaces/legacy/Control.h"
 
-%include "interfaces/native/Dialog.h"
+%include "interfaces/legacy/Dialog.h"
 
 %feature("director") Window;
 %feature("ref") Window "${ths}->Acquire();"
@@ -126,8 +126,8 @@ using namespace xbmcgui;
 %feature("director") WindowXML;
 %feature("director") WindowXMLDialog;
 
-%include "interfaces/native/Window.h"
-%include "interfaces/native/WindowDialog.h"
-%include "interfaces/native/Dialog.h"
-%include "interfaces/native/WindowXML.h"
+%include "interfaces/legacy/Window.h"
+%include "interfaces/legacy/WindowDialog.h"
+%include "interfaces/legacy/Dialog.h"
+%include "interfaces/legacy/WindowXML.h"
 
