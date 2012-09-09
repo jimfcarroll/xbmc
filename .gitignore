@@ -1153,13 +1153,7 @@ lib/cmyth/Makefile
 # /xbmc/interfaces/
 /xbmc/interfaces/Makefile
 /xbmc/interfaces/python/Makefile
-/xbmc/interfaces/python/xbmcmodule/Makefile
-/xbmc/interfaces/python/linux/Makefile
-/xbmc/interfaces/python/linux/wrapper_python.def
-/xbmc/interfaces/python/module/generatedSWIGBindings/
-/xbmc/interfaces/swig/Makefile
-/xbmc/interfaces/swig/generatedSWIGBindings
-/xbmc/interfaces/swig/python/generated
+/xbmc/interfaces/python/generated/
 
 # /xbmc/network/
 /xbmc/network/Makefile
