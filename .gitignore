@@ -381,6 +381,7 @@ lib/cmyth/Makefile
 /project/BuildDependencies/msys
 /project/BuildDependencies/scripts/tmp
 /project/BuildDependencies/bin/swig
+/project/BuildDependencies/bin/doxygen
 
 # /project/VS2008Express
 /project/VS2008Express/Debug
