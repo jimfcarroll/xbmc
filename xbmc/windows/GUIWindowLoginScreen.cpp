@@ -28,7 +28,7 @@
 #include "settings/GUIDialogProfileSettings.h"
 #include "GUIPassword.h"
 #ifdef HAS_PYTHON
-#include "interfaces/swig/python/XBPython.h"
+#include "interfaces/python/XBPython.h"
 #endif
 #ifdef HAS_JSONRPC
 #include "interfaces/json-rpc/JSONRPC.h"

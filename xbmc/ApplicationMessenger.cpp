@@ -26,7 +26,7 @@
 #include "PlayListPlayer.h"
 #include "Util.h"
 #ifdef HAS_PYTHON
-#include "interfaces/swig/python/XBPython.h"
+#include "interfaces/python/XBPython.h"
 #endif
 #include "pictures/GUIWindowSlideShow.h"
 #include "interfaces/Builtins.h"

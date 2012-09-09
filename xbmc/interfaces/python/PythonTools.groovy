@@ -19,8 +19,6 @@
  *
  */
 
-package bindings
-
 import Helper
 import SwigTypeParser
 

@@ -29,7 +29,7 @@
 #include "guilib/GUIWindowManager.h"
 #include "utils/URIUtils.h"
 #ifdef HAS_PYTHON
-#include "interfaces/swig/python/XBPython.h"
+#include "interfaces/python/XBPython.h"
 #endif
 #include "LangInfo.h"
 #include "utils/log.h"

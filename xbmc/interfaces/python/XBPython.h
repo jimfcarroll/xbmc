@@ -1,7 +1,7 @@
 #pragma once
 
 /*
- *      Copyright (C) 2005-2008 Team XBMC
+ *      Copyright (C) 2005-2012 Team XBMC
  *      http://www.xbmc.org
  *
  *  This Program is free software; you can redistribute it and/or modify
@@ -142,6 +142,18 @@ private:
   // in order to finalize and unload the python library, need to save all the extension libraries that are
   // loaded by it and unload them first (not done by finalize)
   PythonExtensionLibraries m_extensions;
+
+  // This is a hack to delay the use of the Announcer until after the
+  // constructor is called. The XBPython compilation unit seems to now be 
+  // initialized later than the Announcement code and therefore the static
+  // call to CAnnounementManager::AddAnnouncer originally called from the 
+  // constructor of XBPython (which is called when the XBPython.o compilation
+  // unit initializes due to the global g_pythonParser) is executed prior to the
+  // static elements of AnnouncementManager.o (one of which is a std::vector) 
+  // have been constructed.
+  //
+  // The should be fixed using Dependency Injection.
+  bool announcerAdded;
 };
 
 extern XBPython g_pythonParser;

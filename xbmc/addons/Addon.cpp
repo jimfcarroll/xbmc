@@ -25,7 +25,7 @@
 #include "settings/GUISettings.h"
 #include "filesystem/Directory.h"
 #include "filesystem/File.h"
-#include "interfaces/swig/python/XBPython.h"
+#include "interfaces/python/XBPython.h"
 #if defined(TARGET_DARWIN)
 #include "../osx/OSXGNUReplacements.h"
 #endif

@@ -1,5 +1,5 @@
 /*
- *      Copyright (C) 2005-2008 Team XBMC
+ *      Copyright (C) 2005-2012 Team XBMC
  *      http://www.xbmc.org
  *
  *  This Program is free software; you can redistribute it and/or modify
@@ -29,43 +29,30 @@
 #include "system.h"
 #include "cores/DllLoader/DllLoaderContainer.h"
 #include "GUIPassword.h"
-
 #include "XBPython.h"
 #include "settings/Settings.h"
 #include "filesystem/File.h"
 #include "filesystem/SpecialProtocol.h"
 #include "utils/log.h"
-#include "threads/SingleLock.h"
+#include "pythreadstate.h"
 #include "utils/TimeUtils.h"
 #include "Util.h"
 
 #include "threads/SystemClock.h"
 #include "addons/Addon.h"
 #include "interfaces/AnnouncementManager.h"
-#include "interfaces/python/xbmcmodule/PythonMonitor.h"
 
 using namespace ANNOUNCEMENT;
 
-extern "C" HMODULE __stdcall dllLoadLibraryA(LPCSTR file);
-extern "C" BOOL __stdcall dllFreeLibrary(HINSTANCE hLibModule);
-
-extern "C" {
-  void InitXBMCModule(void);
-  void InitXBMCTypes(void);
-  void DeinitXBMCModule(void);
-  void InitPluginModule(void);
-  void InitPluginTypes(void);
-  void DeinitPluginModule(void);
-  void InitGUIModule(void);
-  void InitGUITypes(void);
-  void DeinitGUIModule(void);
-  void InitAddonModule(void);
-  void InitAddonTypes(void);
-  void DeinitAddonModule(void);
-  void InitVFSModule(void);
-  void InitVFSTypes(void);
-  void DeinitVFSModule(void);
+namespace PythonBindings {
+  void initModule_xbmcgui(void);
+  void initModule_xbmc(void);
+  void initModule_xbmcplugin(void);
+  void initModule_xbmcaddon(void);
+  void initModule_xbmcvfs(void);
 }
+
+using namespace PythonBindings;
 
 XBPython::XBPython()
 {
@@ -79,12 +66,20 @@ XBPython::XBPython()
   m_pDll              = NULL;
   m_vecPlayerCallbackList.clear();
   m_vecMonitorCallbackList.clear();
-  CAnnouncementManager::AddAnnouncer(this);
+
+  // Please see the comment in the header file
+  // on the announcerAdded flag.
+//  CAnnouncementManager::AddAnnouncer(this);
+  announcerAdded = false;
 }
 
 XBPython::~XBPython()
 {
-  CAnnouncementManager::RemoveAnnouncer(this);
+   // Please see the comment on the announcerAdded flag in the header.
+   // We cannot actually remove this announcer in the destructor for the
+   // same reason we cannot add it in the constructor.
+//   if (announcerAdded)
+//      CAnnouncementManager::RemoveAnnouncer(this);
 }
 
 // message all registered callbacks that xbmc stopped playing
@@ -289,8 +284,8 @@ void XBPython::OnSettingsChanged(const CStdString &ID)
     MonitorCallbackList::iterator it = m_vecMonitorCallbackList.begin();
     while (it != m_vecMonitorCallbackList.end())
     { 
-      if (((CPythonMonitor*)(*it))->Id == ID)  
-        ((CPythonMonitor*)(*it))->OnSettingsChanged();
+//      if (((CPythonMonitor*)(*it))->Id == ID)  
+//        ((CPythonMonitor*)(*it))->OnSettingsChanged();
       it++;
     }
   }  
@@ -304,7 +299,7 @@ void XBPython::OnScreensaverActivated()
     MonitorCallbackList::iterator it = m_vecMonitorCallbackList.begin();
     while (it != m_vecMonitorCallbackList.end())
     {
-      ((CPythonMonitor*)(*it))->OnScreensaverActivated();
+//      ((CPythonMonitor*)(*it))->OnScreensaverActivated();
       it++;
     }
   }  
@@ -318,7 +313,7 @@ void XBPython::OnScreensaverDeactivated()
     MonitorCallbackList::iterator it = m_vecMonitorCallbackList.begin();
     while (it != m_vecMonitorCallbackList.end())
     {
-      ((CPythonMonitor*)(*it))->OnScreensaverDeactivated();
+//      ((CPythonMonitor*)(*it))->OnScreensaverDeactivated();
       it++;
     }
   }  
@@ -332,7 +327,7 @@ void XBPython::OnDatabaseUpdated(const std::string &database)
   MonitorCallbackList::iterator it = m_vecMonitorCallbackList.begin();
   while (it != m_vecMonitorCallbackList.end())
   {
-   ((CPythonMonitor*)(*it))->OnDatabaseUpdated(database);
+//   ((CPythonMonitor*)(*it))->OnDatabaseUpdated(database);
    it++;
   }
  }  
@@ -348,12 +343,12 @@ void XBPython::OnAbortRequested(const CStdString &ID)
     {
       if (ID.IsEmpty())
       {    
-        ((CPythonMonitor*)(*it))->OnAbortRequested();
+//        ((CPythonMonitor*)(*it))->OnAbortRequested();
       }
       else
       {
-        if (((CPythonMonitor*)(*it))->Id == ID)
-          ((CPythonMonitor*)(*it))->OnAbortRequested();
+//        if (((CPythonMonitor*)(*it))->Id == ID)
+//          ((CPythonMonitor*)(*it))->OnAbortRequested();
       }
       it++;
     }
@@ -419,21 +414,24 @@ void XBPython::UnloadExtensionLibs()
   m_extensions.clear();
 }
 
+#define MODULE "xbmc"
+
 #define RUNSCRIPT_PRAMBLE \
         "" \
-        "import xbmc\n" \
+        "import " MODULE "\n" \
+        "xbmc.abortRequested = False\n" \
         "class xbmcout:\n" \
-        "\tdef __init__(self, loglevel=xbmc.LOGNOTICE):\n" \
+        "\tdef __init__(self, loglevel=" MODULE ".LOGNOTICE):\n" \
         "\t\tself.ll=loglevel\n" \
         "\tdef write(self, data):\n" \
-        "\t\txbmc.log(data,self.ll)\n" \
+        "\t\t" MODULE ".log(data,self.ll)\n" \
         "\tdef close(self):\n" \
-        "\t\txbmc.log('.')\n" \
+        "\t\t" MODULE ".log('.')\n" \
         "\tdef flush(self):\n" \
-        "\t\txbmc.log('.')\n" \
+        "\t\t" MODULE ".log('.')\n" \
         "import sys\n" \
         "sys.stdout = xbmcout()\n" \
-        "sys.stderr = xbmcout(xbmc.LOGERROR)\n"
+        "sys.stderr = xbmcout(" MODULE ".LOGERROR)\n"
 
 #define RUNSCRIPT_OVERRIDE_HACK \
         "" \
@@ -468,12 +466,14 @@ void XBPython::UnloadExtensionLibs()
 
 void XBPython::InitializeInterpreter(ADDON::AddonPtr addon)
 {
-  InitXBMCModule(); // init xbmc modules
-  InitPluginModule(); // init xbmcplugin modules
-  InitGUIModule(); // init xbmcgui modules
-  InitAddonModule(); // init xbmcaddon modules
-  InitVFSModule(); // init xbmcvfs modules
-  InitVFSTypes();
+  {
+    GilSafeSingleLock lock(m_critSection);
+    initModule_xbmcgui();
+    initModule_xbmc();
+    initModule_xbmcplugin();
+    initModule_xbmcaddon();
+    initModule_xbmcvfs();
+  }
 
   CStdString addonVer = ADDON::GetXbmcApiVersionDependency(addon);
   bool bwcompatMode = (addon.get() == NULL || (ADDON::AddonVersion(addonVer) <= ADDON::AddonVersion("1.0")));
@@ -488,11 +488,6 @@ void XBPython::InitializeInterpreter(ADDON::AddonPtr addon)
 
 void XBPython::DeInitializeInterpreter()
 {
-  DeinitXBMCModule();
-  DeinitPluginModule();
-  DeinitGUIModule();
-  DeinitAddonModule();
-  DeinitVFSModule();
 }
 
 /**
@@ -500,6 +495,12 @@ void XBPython::DeInitializeInterpreter()
 */
 void XBPython::Initialize()
 {
+  if (!announcerAdded)
+  {
+     announcerAdded = true;
+     CAnnouncementManager::AddAnnouncer(this);
+  }
+
   CLog::Log(LOGINFO, "initializing python engine. ");
   CSingleLock lock(m_critSection);
   m_iDllScriptCounter++;
@@ -578,12 +579,6 @@ void XBPython::Initialize()
       PyEval_AcquireLock();
       char* python_argv[1] = { (char*)"" } ;
       PySys_SetArgv(1, python_argv);
-
-      InitXBMCTypes();
-      InitGUITypes();
-      InitPluginTypes();
-      InitAddonTypes();
-      InitVFSTypes();
 
       if (!(m_mainThreadState = PyThreadState_Get()))
         CLog::Log(LOGERROR, "Python threadstate is NULL.");
@@ -683,7 +678,10 @@ void XBPython::Process()
       //delete scripts which are done
       if (it->bDone)
       {
-        delete it->pyThread;
+        {
+          CSingleExit exit(m_critSection);
+          delete it->pyThread;
+        }
         it = m_vecPyList.erase(it);
         FinalizeScript();
       }

@@ -2325,7 +2325,7 @@ OUTPUT_FILES="$OUTPUT_FILES addons/skin.touched/media/Makefile"
 fi
 
 OUTPUT_FILES="$OUTPUT_FILES \
-  xbmc/interfaces/swig/Makefile"
+  xbmc/interfaces/python/Makefile"
 
 # Line below is used so we can use AM_INIT_AUTOMAKE. The corresponding
 # .dummy.am does nothing.

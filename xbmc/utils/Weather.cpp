@@ -41,7 +41,7 @@
 #include "URIUtils.h"
 #include "log.h"
 #include "addons/AddonManager.h"
-#include "interfaces/swig/python/XBPython.h"
+#include "interfaces/python/XBPython.h"
 
 using namespace std;
 using namespace ADDON;
