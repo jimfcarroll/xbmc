@@ -1810,6 +1810,73 @@
 		C8EC5D0D1369519D00CCC10D /* XBMC_keytable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBMC_keytable.h; sourceTree = "<group>"; };
 		DF0DF15913A3ADA7008ED511 /* NFSDirectory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFSDirectory.cpp; sourceTree = "<group>"; };
 		DF0DF15A13A3ADA7008ED511 /* NFSDirectory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFSDirectory.h; sourceTree = "<group>"; };
+		DF1ACFD115FCE50700E10810 /* AddonModuleXbmc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AddonModuleXbmc.cpp; sourceTree = "<group>"; };
+		DF1ACFD515FCE50700E10810 /* AddonModuleXbmcaddon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AddonModuleXbmcaddon.cpp; sourceTree = "<group>"; };
+		DF1ACFD915FCE50700E10810 /* AddonModuleXbmcgui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AddonModuleXbmcgui.cpp; sourceTree = "<group>"; };
+		DF1ACFDD15FCE50700E10810 /* AddonModuleXbmcplugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AddonModuleXbmcplugin.cpp; sourceTree = "<group>"; };
+		DF1ACFE115FCE50700E10810 /* AddonModuleXbmcvfs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AddonModuleXbmcvfs.cpp; sourceTree = "<group>"; };
+		DF1AD17C15FCE77900E10810 /* Addon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Addon.cpp; sourceTree = "<group>"; };
+		DF1AD17D15FCE77900E10810 /* Addon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Addon.h; sourceTree = "<group>"; };
+		DF1AD18015FCE77900E10810 /* AddonCallback.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AddonCallback.cpp; sourceTree = "<group>"; };
+		DF1AD18115FCE77900E10810 /* AddonCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddonCallback.h; sourceTree = "<group>"; };
+		DF1AD18415FCE77900E10810 /* AddonClass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AddonClass.cpp; sourceTree = "<group>"; };
+		DF1AD18515FCE77900E10810 /* AddonClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddonClass.h; sourceTree = "<group>"; };
+		DF1AD18815FCE77900E10810 /* AddonString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddonString.h; sourceTree = "<group>"; };
+		DF1AD18915FCE77900E10810 /* AddonUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AddonUtils.cpp; sourceTree = "<group>"; };
+		DF1AD18A15FCE77900E10810 /* AddonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddonUtils.h; sourceTree = "<group>"; };
+		DF1AD18D15FCE77900E10810 /* Alternative.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Alternative.h; sourceTree = "<group>"; };
+		DF1AD18E15FCE77900E10810 /* aojsonrpc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aojsonrpc.h; sourceTree = "<group>"; };
+		DF1AD18F15FCE77900E10810 /* CallbackFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CallbackFunction.cpp; sourceTree = "<group>"; };
+		DF1AD19015FCE77900E10810 /* CallbackFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallbackFunction.h; sourceTree = "<group>"; };
+		DF1AD19315FCE77900E10810 /* CallbackHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CallbackHandler.cpp; sourceTree = "<group>"; };
+		DF1AD19415FCE77900E10810 /* CallbackHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallbackHandler.h; sourceTree = "<group>"; };
+		DF1AD19715FCE77900E10810 /* Control.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Control.cpp; sourceTree = "<group>"; };
+		DF1AD19815FCE77900E10810 /* Control.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Control.h; sourceTree = "<group>"; };
+		DF1AD19B15FCE77900E10810 /* Dialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Dialog.cpp; sourceTree = "<group>"; };
+		DF1AD19C15FCE77900E10810 /* Dialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dialog.h; sourceTree = "<group>"; };
+		DF1AD19F15FCE77900E10810 /* Dictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dictionary.h; sourceTree = "<group>"; };
+		DF1AD1A015FCE77900E10810 /* Exception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Exception.h; sourceTree = "<group>"; };
+		DF1AD1A115FCE77900E10810 /* File.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = File.cpp; sourceTree = "<group>"; };
+		DF1AD1A215FCE77900E10810 /* File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = File.h; sourceTree = "<group>"; };
+		DF1AD1A515FCE77900E10810 /* InfoTagMusic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InfoTagMusic.cpp; sourceTree = "<group>"; };
+		DF1AD1A615FCE77900E10810 /* InfoTagMusic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoTagMusic.h; sourceTree = "<group>"; };
+		DF1AD1A915FCE77900E10810 /* InfoTagVideo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InfoTagVideo.cpp; sourceTree = "<group>"; };
+		DF1AD1AA15FCE77900E10810 /* InfoTagVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoTagVideo.h; sourceTree = "<group>"; };
+		DF1AD1AD15FCE77900E10810 /* Keyboard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Keyboard.cpp; sourceTree = "<group>"; };
+		DF1AD1AE15FCE77900E10810 /* Keyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Keyboard.h; sourceTree = "<group>"; };
+		DF1AD1B115FCE77900E10810 /* LanguageHook.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LanguageHook.cpp; sourceTree = "<group>"; };
+		DF1AD1B215FCE77900E10810 /* LanguageHook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LanguageHook.h; sourceTree = "<group>"; };
+		DF1AD1B615FCE77900E10810 /* List.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = List.h; sourceTree = "<group>"; };
+		DF1AD1B715FCE77900E10810 /* ListItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ListItem.cpp; sourceTree = "<group>"; };
+		DF1AD1B815FCE77900E10810 /* ListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListItem.h; sourceTree = "<group>"; };
+		DF1AD1BC15FCE77900E10810 /* ModuleXbmc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModuleXbmc.cpp; sourceTree = "<group>"; };
+		DF1AD1BD15FCE77900E10810 /* ModuleXbmc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleXbmc.h; sourceTree = "<group>"; };
+		DF1AD1C015FCE77900E10810 /* ModuleXbmcgui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModuleXbmcgui.cpp; sourceTree = "<group>"; };
+		DF1AD1C115FCE77900E10810 /* ModuleXbmcgui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleXbmcgui.h; sourceTree = "<group>"; };
+		DF1AD1C415FCE77900E10810 /* ModuleXbmcplugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModuleXbmcplugin.cpp; sourceTree = "<group>"; };
+		DF1AD1C515FCE77900E10810 /* ModuleXbmcplugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleXbmcplugin.h; sourceTree = "<group>"; };
+		DF1AD1C815FCE77900E10810 /* ModuleXbmcvfs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModuleXbmcvfs.cpp; sourceTree = "<group>"; };
+		DF1AD1C915FCE77900E10810 /* ModuleXbmcvfs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleXbmcvfs.h; sourceTree = "<group>"; };
+		DF1AD1CC15FCE77900E10810 /* Monitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Monitor.cpp; sourceTree = "<group>"; };
+		DF1AD1CD15FCE77900E10810 /* Monitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Monitor.h; sourceTree = "<group>"; };
+		DF1AD1D015FCE77900E10810 /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
+		DF1AD1D115FCE77900E10810 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		DF1AD1D415FCE77900E10810 /* PlayList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayList.cpp; sourceTree = "<group>"; };
+		DF1AD1D515FCE77900E10810 /* PlayList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayList.h; sourceTree = "<group>"; };
+		DF1AD1D815FCE77900E10810 /* RenderCapture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderCapture.h; sourceTree = "<group>"; };
+		DF1AD1D915FCE77900E10810 /* String.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = String.cpp; sourceTree = "<group>"; };
+		DF1AD1DC15FCE77900E10810 /* swighelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = swighelper.h; sourceTree = "<group>"; };
+		DF1AD1DD15FCE77900E10810 /* Tuple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tuple.h; sourceTree = "<group>"; };
+		DF1AD1DE15FCE77900E10810 /* Window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
+		DF1AD1DF15FCE77900E10810 /* Window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Window.h; sourceTree = "<group>"; };
+		DF1AD1E215FCE77900E10810 /* WindowDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WindowDialog.cpp; sourceTree = "<group>"; };
+		DF1AD1E315FCE77900E10810 /* WindowDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowDialog.h; sourceTree = "<group>"; };
+		DF1AD1E615FCE77900E10810 /* WindowDialogMixin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WindowDialogMixin.cpp; sourceTree = "<group>"; };
+		DF1AD1E715FCE77900E10810 /* WindowDialogMixin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowDialogMixin.h; sourceTree = "<group>"; };
+		DF1AD1EA15FCE77900E10810 /* WindowException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowException.h; sourceTree = "<group>"; };
+		DF1AD1EB15FCE77900E10810 /* WindowInterceptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowInterceptor.h; sourceTree = "<group>"; };
+		DF1AD1EC15FCE77900E10810 /* WindowXML.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WindowXML.cpp; sourceTree = "<group>"; };
+		DF1AD1ED15FCE77900E10810 /* WindowXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowXML.h; sourceTree = "<group>"; };
 		DF2345D915FA639500A934F6 /* UPnP.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UPnP.cpp; sourceTree = "<group>"; };
 		DF2345DA15FA639500A934F6 /* UPnP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UPnP.h; sourceTree = "<group>"; };
 		DF2345DB15FA639500A934F6 /* UPnPInternal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UPnPInternal.cpp; sourceTree = "<group>"; };
@@ -3990,6 +4057,8 @@
 				F5AE406E13415D8C0004BD79 /* http-api */,
 				7C89674213C03B21003631FE /* info */,
 				F5AE407F13415D9E0004BD79 /* json-rpc */,
+				DF1AD17B15FCE77900E10810 /* legacy */,
+				DF1ACFE815FCE53900E10810 /* python */,
 				F5A7A700112893E50059D6AA /* AnnouncementManager.cpp */,
 				F5A7A701112893E50059D6AA /* AnnouncementManager.h */,
 				7CCF7F1B1069F3AE00992676 /* Builtins.cpp */,
@@ -4384,6 +4453,96 @@
 				C84828F3156CFD5E005A996F /* GUIEPGGridContainer.h */,
 			);
 			path = epg;
+			sourceTree = "<group>";
+		};
+		DF1ACFD015FCE50700E10810 /* generated */ = {
+			isa = PBXGroup;
+			children = (
+				DF1ACFD115FCE50700E10810 /* AddonModuleXbmc.cpp */,
+				DF1ACFD515FCE50700E10810 /* AddonModuleXbmcaddon.cpp */,
+				DF1ACFD915FCE50700E10810 /* AddonModuleXbmcgui.cpp */,
+				DF1ACFDD15FCE50700E10810 /* AddonModuleXbmcplugin.cpp */,
+				DF1ACFE115FCE50700E10810 /* AddonModuleXbmcvfs.cpp */,
+			);
+			name = generated;
+			path = python/generated;
+			sourceTree = "<group>";
+		};
+		DF1ACFE815FCE53900E10810 /* python */ = {
+			isa = PBXGroup;
+			children = (
+				DF1ACFD015FCE50700E10810 /* generated */,
+			);
+			name = python;
+			sourceTree = "<group>";
+		};
+		DF1AD17B15FCE77900E10810 /* legacy */ = {
+			isa = PBXGroup;
+			children = (
+				DF1AD17C15FCE77900E10810 /* Addon.cpp */,
+				DF1AD17D15FCE77900E10810 /* Addon.h */,
+				DF1AD18015FCE77900E10810 /* AddonCallback.cpp */,
+				DF1AD18115FCE77900E10810 /* AddonCallback.h */,
+				DF1AD18415FCE77900E10810 /* AddonClass.cpp */,
+				DF1AD18515FCE77900E10810 /* AddonClass.h */,
+				DF1AD18815FCE77900E10810 /* AddonString.h */,
+				DF1AD18915FCE77900E10810 /* AddonUtils.cpp */,
+				DF1AD18A15FCE77900E10810 /* AddonUtils.h */,
+				DF1AD18D15FCE77900E10810 /* Alternative.h */,
+				DF1AD18E15FCE77900E10810 /* aojsonrpc.h */,
+				DF1AD18F15FCE77900E10810 /* CallbackFunction.cpp */,
+				DF1AD19015FCE77900E10810 /* CallbackFunction.h */,
+				DF1AD19315FCE77900E10810 /* CallbackHandler.cpp */,
+				DF1AD19415FCE77900E10810 /* CallbackHandler.h */,
+				DF1AD19715FCE77900E10810 /* Control.cpp */,
+				DF1AD19815FCE77900E10810 /* Control.h */,
+				DF1AD19B15FCE77900E10810 /* Dialog.cpp */,
+				DF1AD19C15FCE77900E10810 /* Dialog.h */,
+				DF1AD19F15FCE77900E10810 /* Dictionary.h */,
+				DF1AD1A015FCE77900E10810 /* Exception.h */,
+				DF1AD1A115FCE77900E10810 /* File.cpp */,
+				DF1AD1A215FCE77900E10810 /* File.h */,
+				DF1AD1A515FCE77900E10810 /* InfoTagMusic.cpp */,
+				DF1AD1A615FCE77900E10810 /* InfoTagMusic.h */,
+				DF1AD1A915FCE77900E10810 /* InfoTagVideo.cpp */,
+				DF1AD1AA15FCE77900E10810 /* InfoTagVideo.h */,
+				DF1AD1AD15FCE77900E10810 /* Keyboard.cpp */,
+				DF1AD1AE15FCE77900E10810 /* Keyboard.h */,
+				DF1AD1B115FCE77900E10810 /* LanguageHook.cpp */,
+				DF1AD1B215FCE77900E10810 /* LanguageHook.h */,
+				DF1AD1B615FCE77900E10810 /* List.h */,
+				DF1AD1B715FCE77900E10810 /* ListItem.cpp */,
+				DF1AD1B815FCE77900E10810 /* ListItem.h */,
+				DF1AD1BC15FCE77900E10810 /* ModuleXbmc.cpp */,
+				DF1AD1BD15FCE77900E10810 /* ModuleXbmc.h */,
+				DF1AD1C015FCE77900E10810 /* ModuleXbmcgui.cpp */,
+				DF1AD1C115FCE77900E10810 /* ModuleXbmcgui.h */,
+				DF1AD1C415FCE77900E10810 /* ModuleXbmcplugin.cpp */,
+				DF1AD1C515FCE77900E10810 /* ModuleXbmcplugin.h */,
+				DF1AD1C815FCE77900E10810 /* ModuleXbmcvfs.cpp */,
+				DF1AD1C915FCE77900E10810 /* ModuleXbmcvfs.h */,
+				DF1AD1CC15FCE77900E10810 /* Monitor.cpp */,
+				DF1AD1CD15FCE77900E10810 /* Monitor.h */,
+				DF1AD1D015FCE77900E10810 /* Player.cpp */,
+				DF1AD1D115FCE77900E10810 /* Player.h */,
+				DF1AD1D415FCE77900E10810 /* PlayList.cpp */,
+				DF1AD1D515FCE77900E10810 /* PlayList.h */,
+				DF1AD1D815FCE77900E10810 /* RenderCapture.h */,
+				DF1AD1D915FCE77900E10810 /* String.cpp */,
+				DF1AD1DC15FCE77900E10810 /* swighelper.h */,
+				DF1AD1DD15FCE77900E10810 /* Tuple.h */,
+				DF1AD1DE15FCE77900E10810 /* Window.cpp */,
+				DF1AD1DF15FCE77900E10810 /* Window.h */,
+				DF1AD1E215FCE77900E10810 /* WindowDialog.cpp */,
+				DF1AD1E315FCE77900E10810 /* WindowDialog.h */,
+				DF1AD1E615FCE77900E10810 /* WindowDialogMixin.cpp */,
+				DF1AD1E715FCE77900E10810 /* WindowDialogMixin.h */,
+				DF1AD1EA15FCE77900E10810 /* WindowException.h */,
+				DF1AD1EB15FCE77900E10810 /* WindowInterceptor.h */,
+				DF1AD1EC15FCE77900E10810 /* WindowXML.cpp */,
+				DF1AD1ED15FCE77900E10810 /* WindowXML.h */,
+			);
+			path = legacy;
 			sourceTree = "<group>";
 		};
 		DF2345D715FA639500A934F6 /* upnp */ = {
