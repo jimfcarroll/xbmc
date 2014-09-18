@@ -129,6 +129,7 @@ FILE *__wrap_popen(const char *command, const char *mode)
   return dll_popen(command, mode);
 }
 
+#if 0
 void* __wrap_calloc( size_t num, size_t size )
 {
   return dllcalloc(num, size);
@@ -148,6 +149,7 @@ void __wrap_free( void* pPtr )
 {
   dllfree(pPtr);
 }
+#endif
 
 int __wrap_open(const char *file, int oflag, ...)
 {
