@@ -59,38 +59,30 @@ namespace XbmcThreads
   public:
     inline CountingLockable() : count(0) {}
 
-    // boost::thread Lockable concept
+    // STL Lockable concept
     inline void lock() { mutex.lock(); count++; }
     inline bool try_lock() { return mutex.try_lock() ? count++, true : false; }
     inline void unlock() { count--; mutex.unlock(); }
 
     /**
      * This implements the "exitable" behavior mentioned above.
-     *
-     * This can be used to ALMOST exit, but not quite, by passing
-     *  the number of locks to leave. This is used in the windows
-     *  ConditionVariable which requires that the lock be entered
-     *  only once, and so it backs out ALMOST all the way, but
-     *  leaves one still there.
      */
-    inline unsigned int exit(unsigned int leave = 0) 
+    inline unsigned int exit()
     { 
       // it's possible we don't actually own the lock
       // so we will try it.
       unsigned int ret = 0;
       if (try_lock())
       {
-        if (leave < (count - 1))
-        {
-          ret = count - 1 - leave;  // The -1 is because we don't want 
-                                    //  to count the try_lock increment.
-          // We must NOT compare "count" in this loop since 
-          // as soon as the last unlock is called another thread
-          // can modify it.
-          for (unsigned int i = 0; i < ret; i++)
-            unlock();
-        }
-        unlock(); // undo the try_lock before returning
+        ret = count - 1;    // The -1 is because we don't want
+                            //  to count the try_lock increment.
+
+        // We must NOT compare "count" in this loop since
+        // as soon as the last unlock is called another thread
+        // can modify it.
+        const unsigned int t_count = count;
+        for (unsigned int i = 0; i < t_count; i++)
+          unlock();
       }
 
       return ret; 
