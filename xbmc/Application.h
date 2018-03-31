@@ -464,7 +464,7 @@ protected:
   CFileItemPtr m_itemCurrentFile;
 
   std::string m_prevMedia;
-  ThreadIdentifier m_threadID;       // application thread ID.  Used in applicationMessenger to know where we are firing a thread with delay from.
+  std::thread::id m_threadID;       // application thread ID.  Used in applicationMessenger to know where we are firing a thread with delay from.
   bool m_bInitializing;
   bool m_bPlatformDirectories;
 

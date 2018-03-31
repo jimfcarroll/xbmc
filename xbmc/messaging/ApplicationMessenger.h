@@ -406,7 +406,7 @@ public:
    * CApplication to determine if marshaling is required
    * \param thread The UI thread ID
    */
-  void SetGUIThread(ThreadIdentifier thread) { m_guiThreadId = thread; }
+  void SetGUIThread(const std::thread::id thread) { m_guiThreadId = thread; }
 
   /*
    * \brief Signals the shutdown of the application and message processing
@@ -427,7 +427,7 @@ private:
   std::queue<ThreadMessage*> m_vecWindowMessages; /*!< queue for UI messages */
   std::map<int, IMessageTarget*> m_mapTargets; /*!< a map of registered receivers indexed on the message mask*/
   CCriticalSection m_critSection;
-  ThreadIdentifier m_guiThreadId{0};
+  std::thread::id m_guiThreadId{0};
   bool m_bStop{ false };
 };
 }
