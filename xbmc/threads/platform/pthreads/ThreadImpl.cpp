@@ -39,7 +39,7 @@ namespace XbmcThreads
   // ==========================================================
   static pthread_mutexattr_t recursiveAttr;
 
-  static bool setRecursiveAttr()
+  static bool SetRecursiveAttr()
   {
     static bool alreadyCalled = false; // initialized to 0 in the data segment prior to startup init code running
     if (!alreadyCalled)
@@ -54,12 +54,12 @@ namespace XbmcThreads
     return true; // note, we never call destroy.
   }
 
-  static bool recursiveAttrSet = setRecursiveAttr();
+  static bool recursiveAttrSet = SetRecursiveAttr();
 
   pthread_mutexattr_t* CRecursiveMutex::getRecursiveAttr()
   {
     if (!recursiveAttrSet) // this is only possible in the single threaded startup code
-      recursiveAttrSet = setRecursiveAttr();
+      recursiveAttrSet = SetRecursiveAttr();
     return &recursiveAttr;
   }
   // ==========================================================
@@ -95,7 +95,7 @@ static bool SetPrioritySched_RR(int iPriority)
 #endif
 }
 
-static pid_t getCurrentThreadPid()
+static pid_t GetCurrentThreadPid()
 {
 #ifdef TARGET_FREEBSD
 #if __FreeBSD_version < 900031
@@ -113,7 +113,7 @@ static pid_t getCurrentThreadPid()
 }
 
 #ifdef RLIMIT_NICE
-static int getUserMaxPriority(int maxPriority) {
+static int GetUserMaxPriority(int maxPriority) {
   // get user max prio
   struct rlimit limit;
   int userMaxPrio;
@@ -135,21 +135,15 @@ static int getUserMaxPriority(int maxPriority) {
 void CThread::SetThreadInfo()
 {
 
-#if defined(HAVE_PTHREAD_SETNAME_NP)
-#ifdef TARGET_DARWIN
-#if(__MAC_OS_X_VERSION_MIN_REQUIRED >= 1060 || __IPHONE_OS_VERSION_MIN_REQUIRED >= 30200)
+#if defined(TARGET_DARWIN)
   pthread_setname_np(m_ThreadName.c_str());
-#endif
-#else
-  pthread_setname_np(m_ThreadId, m_ThreadName.c_str());
-#endif
-#elif defined(HAVE_PTHREAD_SET_NAME_NP)
-  pthread_set_name_np(m_ThreadId, m_ThreadName.c_str());
+#elif defined(TARGET_LINUX) && defined(__GLIBC__)
+  pthread_setname_np(GetCurrentThreadNativeHandle(), m_ThreadName.c_str());
 #endif
 
 #ifdef RLIMIT_NICE
   // get user max prio
-  int userMaxPrio = getUserMaxPriority(GetMaxPriority());
+  int userMaxPrio = GetUserMaxPriority(GetMaxPriority());
 
   // if the user does not have an entry in limits.conf the following
   // call will fail
@@ -157,7 +151,7 @@ void CThread::SetThreadInfo()
   {
     // start thread with nice level of application
     int appNice = getpriority(PRIO_PROCESS, getpid());
-    if (setpriority(PRIO_PROCESS, getCurrentThreadPid(), appNice) != 0)
+    if (setpriority(PRIO_PROCESS, GetCurrentThreadPid(), appNice) != 0)
       CLog::Log(LOGERROR, "%s: error %s", __FUNCTION__, strerror(errno));
   }
 #endif
@@ -198,7 +192,7 @@ bool CThread::SetPriority(const int iPriority)
   else
   {
     // get user max prio
-    int userMaxPrio = getUserMaxPriority(GetMaxPriority());
+    int userMaxPrio = GetUserMaxPriority(GetMaxPriority());
 
     // keep priority in bounds
     int prio = iPriority;
@@ -212,7 +206,7 @@ bool CThread::SetPriority(const int iPriority)
     if (prio)
       prio = prio > 0 ? appNice-1 : appNice+1;
 
-    if (setpriority(PRIO_PROCESS,getCurrentThreadPid(), prio) == 0)
+    if (setpriority(PRIO_PROCESS,GetCurrentThreadPid(), prio) == 0)
       bReturn = true;
     else
       CLog::Log(LOGERROR, "%s: error %s", __FUNCTION__, strerror(errno));
@@ -227,7 +221,7 @@ int CThread::GetPriority()
   int iReturn;
 
   int appNice = getpriority(PRIO_PROCESS, getpid());
-  int prio = getpriority(PRIO_PROCESS, getCurrentThreadPid());
+  int prio = getpriority(PRIO_PROCESS, GetCurrentThreadPid());
   iReturn = appNice - prio;
 
   return iReturn;

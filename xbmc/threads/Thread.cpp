@@ -34,6 +34,7 @@ static thread_local CThread* currentThread;
 
 #include "threads/platform/ThreadImpl.cpp"
 #include <iostream>
+#include <atomic>
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -103,7 +104,28 @@ void CThread::Create(bool bAutoDelete)
 
   std::promise<bool> prom;
   m_future = prom.get_future();
+
+  // The std::thread internals must be set prior to the lambda doing
+  //   any work. This will cause the lambda to wait until m_thread
+  //   is fully initialized. Interestingly, using a std::atomic doesn't
+  //   have the appropriate memory barrier behavior to accomplish the
+  //   same thing so a full system mutex needs to be used.
+  CSingleLock blockLambdaTillDone(m_CriticalSection);
   m_thread = new std::thread([](CThread* pThread, std::promise<bool> promise) {
+
+    {
+      // Wait for the pThread->m_thread internals to be set. Otherwise we could
+      // get to a place where where we're reading, say, the thread id inside this
+      // lambda's call stack prior to the thread that kicked off this lambda
+      // having it set. Once this lock is released, the CThread::Create function
+      // that kicked this off is done so everything should be set.
+      CSingleLock waitForThreadInternalsToBeSet(pThread->m_CriticalSection);
+    }
+
+    // This is used in various helper methods like GetCurrentThread so it needs
+    // to be set before anything else is done.
+    currentThread = pThread;
+
     std::string name;
     bool autodelete;
 
@@ -125,7 +147,6 @@ void CThread::Create(bool bAutoDelete)
 
     CLog::Log(LOGDEBUG,"Thread %s start, auto delete: %s", name.c_str(), (autodelete ? "true" : "false"));
 
-    currentThread = pThread;
     pThread->m_StartEvent.Set();
 
     pThread->Action();
