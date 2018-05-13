@@ -39,7 +39,8 @@ bool CVideoSyncPi::Setup(PUPDATECLOCK func)
 void CVideoSyncPi::Run(CEvent& stopEvent)
 {
   CThread thread = CThread::GetCurrentThread();
-  if (thread != nullptr) {
+  if (thread != nullptr)
+  {
     /* This shouldn't be very busy and timing is important so increase priority */
     thread->SetPriority(thread->GetPriority()+1);
   }

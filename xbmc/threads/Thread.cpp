@@ -185,7 +185,7 @@ void CThread::Create(bool bAutoDelete)
 
 bool CThread::IsRunning() const
 {
-  return m_thread != nullptr ? true : false;
+  return m_thread != nullptr;
 }
 
 bool CThread::IsAutoDelete() const
@@ -242,7 +242,8 @@ bool CThread::Join(unsigned int milliseconds)
 {
   CSingleLock l(m_CriticalSection);
   std::thread* lthread = m_thread;
-  if (lthread != nullptr) {
+  if (lthread != nullptr)
+  {
     if (IsCurrentThread())
       return false;
 
@@ -306,7 +307,7 @@ float CThread::GetRelativeUsage()
   int64_t iUsage = GetAbsoluteUsage();
 
   if (m_iLastUsage > 0 && m_iLastTime > 0)
-    m_fLastUsage = (float)( iUsage - m_iLastUsage ) / (float)( iTime - m_iLastTime );
+    m_fLastUsage = static_cast<float>( iUsage - m_iLastUsage ) / static_cast<float>( iTime - m_iLastTime );
 
   m_iLastUsage = iUsage;
   m_iLastTime = iTime;
