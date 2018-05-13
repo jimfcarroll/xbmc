@@ -175,14 +175,14 @@ bool CThread::SetPriority(const int iPriority)
 
   CSingleLock lockIt(m_CriticalSection);
 
-  pthread_t tid = static_cast<pthread_t>(m_lwpId);
+  pid_t tid = static_cast<pid_t>(m_lwpId);
 
   if (!tid)
     bReturn = false;
 #ifdef RLIMIT_NICE
   else
   {
-    // get user max prio
+    // get user max prio given max prio (will take the min)
     int userMaxPrio = GetUserMaxPriority(GetMaxPriority());
 
     // keep priority in bounds
