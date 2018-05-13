@@ -41,33 +41,15 @@ static thread_local CThread* currentThread;
 //////////////////////////////////////////////////////////////////////
 
 CThread::CThread(const char* ThreadName)
-: m_StopEvent(true,true), m_StartEvent(true), m_thread(nullptr), m_lwpId(0)
+: m_bStop(false), m_StopEvent(true,true), m_StartEvent(true), m_pRunnable(nullptr)
 {
-  m_bStop = false;
-
-  m_bAutoDelete = false;
-  m_iLastTime = 0;
-  m_iLastUsage = 0;
-  m_fLastUsage = 0.0f;
-
-  m_pRunnable=NULL;
-
   if (ThreadName)
     m_ThreadName = ThreadName;
 }
 
 CThread::CThread(IRunnable* pRunnable, const char* ThreadName)
-: m_StopEvent(true,true), m_StartEvent(true), m_thread(nullptr), m_lwpId(0)
+: m_bStop(false), m_StopEvent(true,true), m_StartEvent(true), m_pRunnable(pRunnable)
 {
-  m_bStop = false;
-
-  m_bAutoDelete = false;
-  m_iLastTime = 0;
-  m_iLastUsage = 0;
-  m_fLastUsage = 0.0f;
-
-  m_pRunnable=pRunnable;
-
   if (ThreadName)
     m_ThreadName = ThreadName;
 }

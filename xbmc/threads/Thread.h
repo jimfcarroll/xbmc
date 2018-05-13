@@ -120,19 +120,20 @@ private:
   void SetSignalHandlers();
   // -----------------------------------------------------------------------------------
 
-  bool m_bAutoDelete;
+  bool m_bAutoDelete = false;
   CEvent m_StopEvent;
   CEvent m_StartEvent;
   CCriticalSection m_CriticalSection;
   IRunnable* m_pRunnable;
-  uint64_t m_iLastUsage;
-  uint64_t m_iLastTime;
-  float m_fLastUsage;
+
+  uint64_t m_iLastUsage = 0;
+  uint64_t m_iLastTime = 0;
+  float m_fLastUsage = 0.0f;
 
   std::string m_ThreadName;
-  std::thread* m_thread;
+  std::thread* m_thread = nullptr;
   std::future<bool> m_future;
 
   // Platform specific hangers-on
-  ThreadLwpId m_lwpId;
+  ThreadLwpId m_lwpId = 0;
 };
