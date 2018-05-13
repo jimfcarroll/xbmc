@@ -27,6 +27,8 @@ void CThread::SetThreadInfo()
 {
   const unsigned int MS_VC_EXCEPTION = 0x406d1388;
 
+  m_lwpId = m_thread->native_handle();
+
 #pragma pack(push,8)
   struct THREADNAME_INFO
   {
@@ -39,7 +41,7 @@ void CThread::SetThreadInfo()
 
   info.dwType = 0x1000;
   info.szName = m_ThreadName.c_str();
-  info.dwThreadID = m_ThreadId;
+  info.dwThreadID = m_lwpId;
   info.dwFlags = 0;
 
   __try
@@ -51,7 +53,6 @@ void CThread::SetThreadInfo()
   }
 
   CWIN32Util::SetThreadLocalLocale(true); // avoid crashing with setlocale(), see https://connect.microsoft.com/VisualStudio/feedback/details/794122
-  m_lwpId = m_thread->native_handle();
 }
 
 std::thread::native_handle_type CThread::GetCurrentThreadNativeHandle()
