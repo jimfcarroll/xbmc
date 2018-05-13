@@ -28,6 +28,7 @@
 #include <string>
 #include <stdint.h>
 #include "Event.h"
+#include "threads/platform/ThreadImpl.h"
 
 #ifdef TARGET_DARWIN
 #include <mach/mach.h>
@@ -43,8 +44,6 @@ public:
   virtual void Cancel() {};
   virtual ~IRunnable() = default;
 };
-
-namespace XbmcThreads { class ThreadSettings; }
 
 class CThread
 {
@@ -65,16 +64,7 @@ public:
 
   inline static const std::thread::id GetCurrentThreadId()
   {
-    CThread* cur = GetCurrentThread();
-    return cur == nullptr ? std::thread::id(0) :
-        (cur->m_thread == nullptr ? std::thread::id(0) : cur->m_thread->get_id());
-  }
-
-  inline static const std::thread::native_handle_type GetCurrentThreadNativeHandle()
-  {
-    CThread* cur = GetCurrentThread();
-    return cur == nullptr ? 0 :
-        (cur->m_thread == nullptr ? 0 : cur->m_thread->native_handle());
+    return std::this_thread::get_id();
   }
 
   // -----------------------------------------------------------------------------------
@@ -83,10 +73,11 @@ public:
   static int GetMinPriority(void);
   static int GetMaxPriority(void);
   static int GetNormalPriority(void);
+  static std::thread::native_handle_type GetCurrentThreadNativeHandle();
 
-  // Get and set the CURRENT thread priority
-  static int GetPriority(void);
-  static bool SetPriority(const int iPriority);
+  // Get and set the thread's priority
+  int GetPriority(void);
+  bool SetPriority(const int iPriority);
 
   float GetRelativeUsage();  // returns the relative cpu usage of this thread since last call
   int64_t GetAbsoluteUsage();
@@ -96,7 +87,6 @@ public:
 
   virtual void OnException(){} // signal termination handler
 
-  static const std::thread::id nullThreadId;
 protected:
   virtual void OnStartup(){};
   virtual void OnExit(){};
@@ -125,10 +115,9 @@ private:
   // -----------------------------------------------------------------------------------
   // These are platform specific and can be found in ./platform/[platform]/ThreadImpl.cpp
   // -----------------------------------------------------------------------------------
-  void SetThreadInfo();
+  void SetThreadInfo(); // called from the spawned thread
   void TermHandler();
   void SetSignalHandlers();
-  void SpawnThread(unsigned stacksize);
   // -----------------------------------------------------------------------------------
 
   bool m_bAutoDelete;
@@ -143,4 +132,7 @@ private:
   std::string m_ThreadName;
   std::thread* m_thread;
   std::future<bool> m_future;
+
+  // Platform specific hangers-on
+  ThreadLwpId m_lwpId;
 };

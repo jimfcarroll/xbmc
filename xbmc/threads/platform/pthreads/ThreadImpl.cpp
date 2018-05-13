@@ -65,37 +65,7 @@ namespace XbmcThreads
   // ==========================================================
 }
 
-// -----------------------------------------------------------------------------------
-// These are platform specific and can be found in ./platform/[platform]/ThreadSchedImpl.cpp
-// -----------------------------------------------------------------------------------
-static bool SetPrioritySched_RR(int iPriority)
-{
-#if defined(TARGET_DARWIN_IOS)
-  // Changing to SCHED_RR is safe under OSX, you don't need elevated privileges and the
-  // OSX scheduler will monitor SCHED_RR threads and drop to SCHED_OTHER if it detects
-  // the thread running away. OSX automatically does this with the CoreAudio audio
-  // device handler thread.
-  int32_t result;
-  thread_extended_policy_data_t theFixedPolicy;
-
-  // make thread fixed, set to 'true' for a non-fixed thread
-  theFixedPolicy.timeshare = false;
-  result = thread_policy_set(pthread_mach_thread_np(ThreadId()), THREAD_EXTENDED_POLICY,
-    (thread_policy_t)&theFixedPolicy, THREAD_EXTENDED_POLICY_COUNT);
-
-  int policy;
-  struct sched_param param;
-  result = pthread_getschedparam(ThreadId(), &policy, &param );
-  // change from default SCHED_OTHER to SCHED_RR
-  policy = SCHED_RR;
-  result = pthread_setschedparam(ThreadId(), policy, &param );
-  return result == 0;
-#else
-  return false;
-#endif
-}
-
-static pid_t GetCurrentThreadPid()
+static pid_t GetCurrentThreadPid_()
 {
 #ifdef TARGET_FREEBSD
 #if __FreeBSD_version < 900031
@@ -113,32 +83,51 @@ static pid_t GetCurrentThreadPid()
 }
 
 #ifdef RLIMIT_NICE
+// We need to return what the best number than can be passed
+// to SetPriority is. It will basically be relative to the
+// the main thread's nice level, inverted (since "higher" priority
+// nice levels are actually lower numbers).
 static int GetUserMaxPriority(int maxPriority) {
+  // if we're root, then we can do anything. So we'll allow
+  // max priority.
+  if (geteuid() == 0)
+    return maxPriority;
+
   // get user max prio
   struct rlimit limit;
-  int userMaxPrio;
   if (getrlimit(RLIMIT_NICE, &limit) == 0)
   {
-    userMaxPrio = limit.rlim_cur - 20;
-    if (userMaxPrio < 0)
-      userMaxPrio = 0;
-  }
-  else
-    userMaxPrio = 0;
+    const int appNice = getpriority(PRIO_PROCESS, getpid());
+    const int rlimVal = limit.rlim_cur;
 
-  if (geteuid() == 0)
-    userMaxPrio = maxPriority;
-  return userMaxPrio;
+    // according to the docs, limit.rlim_cur shouldn't be zero, yet, here we are.
+    // if a user has no entry in limits.conf rlim_cur is zero. In this case the best
+    //   nice value we can hope to achieve is '0' as a regular user
+    const int userBestNiceValue = (rlimVal == 0) ? 0 : (20 - rlimVal);
+
+    //          running the app with nice -n 10 ->
+    // e.g.         +10                 10    -     0   // default non-root user.
+    // e.g.         +30                 10    -     -20 // if root with rlimits set.
+    //          running the app default ->
+    // e.g.          0                  0    -     0   // default non-root user.
+    // e.g.         +20                 0    -     -20 // if root with rlimits set.
+    const int bestUserSetPriority = appNice - userBestNiceValue; // nice is inverted from prio.
+    return std::min(maxPriority, bestUserSetPriority); //
+  }
+  else // If we fail getting the limit for nice we just assume we can't raise the priority
+    return 0;
 }
 #endif
 
 void CThread::SetThreadInfo()
 {
+  m_lwpId = GetCurrentThreadPid_();
 
 #if defined(TARGET_DARWIN)
   pthread_setname_np(m_ThreadName.c_str());
 #elif defined(TARGET_LINUX) && defined(__GLIBC__)
-  pthread_setname_np(GetCurrentThreadNativeHandle(), m_ThreadName.c_str());
+  // mthread must be set by here.
+  pthread_setname_np(m_thread->native_handle(), m_ThreadName.c_str());
 #endif
 
 #ifdef RLIMIT_NICE
@@ -151,10 +140,15 @@ void CThread::SetThreadInfo()
   {
     // start thread with nice level of application
     int appNice = getpriority(PRIO_PROCESS, getpid());
-    if (setpriority(PRIO_PROCESS, GetCurrentThreadPid(), appNice) != 0)
+    if (setpriority(PRIO_PROCESS, m_lwpId, appNice) != 0)
       CLog::Log(LOGERROR, "%s: error %s", __FUNCTION__, strerror(errno));
   }
 #endif
+}
+
+std::thread::native_handle_type CThread::GetCurrentThreadNativeHandle()
+{
+  return pthread_self();
 }
 
 int CThread::GetMinPriority(void)
@@ -179,15 +173,12 @@ bool CThread::SetPriority(const int iPriority)
 {
   bool bReturn = false;
 
-  // get min prio for SCHED_RR
-  int minRR = GetMaxPriority() + 1;
+  CSingleLock lockIt(m_CriticalSection);
 
-  pthread_t tid = static_cast<pthread_t>(GetCurrentThreadNativeHandle());
+  pthread_t tid = static_cast<pthread_t>(m_lwpId);
 
   if (!tid)
     bReturn = false;
-  else if (iPriority >= minRR)
-    bReturn = SetPrioritySched_RR(iPriority);
 #ifdef RLIMIT_NICE
   else
   {
@@ -197,16 +188,15 @@ bool CThread::SetPriority(const int iPriority)
     // keep priority in bounds
     int prio = iPriority;
     if (prio >= GetMaxPriority())
-      prio = std::min(GetMaxPriority(), userMaxPrio);
+      prio = userMaxPrio; // this is already the min of GetMaxPriority and what the user can set.
     if (prio < GetMinPriority())
       prio = GetMinPriority();
 
     // nice level of application
-    int appNice = getpriority(PRIO_PROCESS, getpid());
-    if (prio)
-      prio = prio > 0 ? appNice-1 : appNice+1;
+    const int appNice = getpriority(PRIO_PROCESS, getpid());
+    const int newNice = appNice - prio;
 
-    if (setpriority(PRIO_PROCESS,GetCurrentThreadPid(), prio) == 0)
+    if (setpriority(PRIO_PROCESS,m_lwpId, newNice) == 0)
       bReturn = true;
     else
       CLog::Log(LOGERROR, "%s: error %s", __FUNCTION__, strerror(errno));
@@ -221,7 +211,7 @@ int CThread::GetPriority()
   int iReturn;
 
   int appNice = getpriority(PRIO_PROCESS, getpid());
-  int prio = getpriority(PRIO_PROCESS, GetCurrentThreadPid());
+  int prio = getpriority(PRIO_PROCESS, m_lwpId);
   iReturn = appNice - prio;
 
   return iReturn;

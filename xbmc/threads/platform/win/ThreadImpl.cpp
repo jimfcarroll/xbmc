@@ -23,15 +23,6 @@
 #include "platform/win32/WIN32Util.h"
 #include "utils/log.h"
 
-static HANDLE getCurrentThreadHANDLE()
-{
-  HANDLE tid = 0;
-  CThread* cur = CThread::GetCurrentThread();
-  if (cur != nullptr && cur->m_thread != nullptr)
-    tid = cur->m_thread->native_handle();
-  return tid;
-}
-
 void CThread::SetThreadInfo()
 {
   const unsigned int MS_VC_EXCEPTION = 0x406d1388;
@@ -60,6 +51,12 @@ void CThread::SetThreadInfo()
   }
 
   CWIN32Util::SetThreadLocalLocale(true); // avoid crashing with setlocale(), see https://connect.microsoft.com/VisualStudio/feedback/details/794122
+  m_lwpId = m_thread->native_handle();
+}
+
+std::thread::native_handle_type CThread::GetCurrentThreadNativeHandle()
+{
+  return ::GetCurrentThreadId();
 }
 
 int CThread::GetMinPriority(void)
@@ -86,22 +83,20 @@ bool CThread::SetPriority(const int iPriority)
 {
   bool bReturn = false;
 
-  HANDLE tid = getCurrentThreadHANDLE();
-  if (tid)
-    bReturn = SetThreadPriority(tid, iPriority) == TRUE;
+  CSingleLock lock(m_CriticalSection);
+  if (m_thread)
+    bReturn = SetThreadPriority(m_lwpId, iPriority) == TRUE;
 
   return bReturn;
 }
 
 int CThread::GetPriority()
 {
+  CSingleLock lock(m_CriticalSection);
+
   int iReturn = THREAD_PRIORITY_NORMAL;
-
-  HANDLE tid = getCurrentThreadHANDLE();
-
-  if (tid)
-    iReturn = GetThreadPriority(tid);
-
+  if (m_thread)
+    iReturn = GetThreadPriority(m_lwpId);
   return iReturn;
 }
 
@@ -116,7 +111,7 @@ int64_t CThread::GetAbsoluteUsage()
   if (m_thread == nullptr)
     return 0;
 
-  HANDLE tid = static_cast<HANDLE>(m_thread->native_handle());
+  HANDLE tid = static_cast<HANDLE>(m_lwpId);
 
   if (!tid)
     return 0;

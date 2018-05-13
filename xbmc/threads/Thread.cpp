@@ -40,10 +40,8 @@ static thread_local CThread* currentThread;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-const std::thread::id CThread::nullThreadId(0);
-
 CThread::CThread(const char* ThreadName)
-: m_StopEvent(true,true), m_StartEvent(true), m_thread(nullptr)
+: m_StopEvent(true,true), m_StartEvent(true), m_thread(nullptr), m_lwpId(0)
 {
   m_bStop = false;
 
@@ -59,7 +57,7 @@ CThread::CThread(const char* ThreadName)
 }
 
 CThread::CThread(IRunnable* pRunnable, const char* ThreadName)
-: m_StopEvent(true,true), m_StartEvent(true), m_thread(nullptr)
+: m_StopEvent(true,true), m_StartEvent(true), m_thread(nullptr), m_lwpId(0)
 {
   m_bStop = false;
 
@@ -105,70 +103,84 @@ void CThread::Create(bool bAutoDelete)
   std::promise<bool> prom;
   m_future = prom.get_future();
 
-  // The std::thread internals must be set prior to the lambda doing
-  //   any work. This will cause the lambda to wait until m_thread
-  //   is fully initialized. Interestingly, using a std::atomic doesn't
-  //   have the appropriate memory barrier behavior to accomplish the
-  //   same thing so a full system mutex needs to be used.
-  CSingleLock blockLambdaTillDone(m_CriticalSection);
-  m_thread = new std::thread([](CThread* pThread, std::promise<bool> promise) {
+  {
+    // The std::thread internals must be set prior to the lambda doing
+    //   any work. This will cause the lambda to wait until m_thread
+    //   is fully initialized. Interestingly, using a std::atomic doesn't
+    //   have the appropriate memory barrier behavior to accomplish the
+    //   same thing so a full system mutex needs to be used.
+    CSingleLock blockLambdaTillDone(m_CriticalSection);
+    m_thread = new std::thread([](CThread* pThread, std::promise<bool> promise) {
+      try
+      {
 
-    {
-      // Wait for the pThread->m_thread internals to be set. Otherwise we could
-      // get to a place where where we're reading, say, the thread id inside this
-      // lambda's call stack prior to the thread that kicked off this lambda
-      // having it set. Once this lock is released, the CThread::Create function
-      // that kicked this off is done so everything should be set.
-      CSingleLock waitForThreadInternalsToBeSet(pThread->m_CriticalSection);
-    }
+        {
+          // Wait for the pThread->m_thread internals to be set. Otherwise we could
+          // get to a place where we're reading, say, the thread id inside this
+          // lambda's call stack prior to the thread that kicked off this lambda
+          // having it set. Once this lock is released, the CThread::Create function
+          // that kicked this off is done so everything should be set.
+          CSingleLock waitForThreadInternalsToBeSet(pThread->m_CriticalSection);
+        }
 
-    // This is used in various helper methods like GetCurrentThread so it needs
-    // to be set before anything else is done.
-    currentThread = pThread;
+        // This is used in various helper methods like GetCurrentThread so it needs
+        // to be set before anything else is done.
+        currentThread = pThread;
 
-    std::string name;
-    bool autodelete;
+        std::string name;
+        bool autodelete;
 
-    if (pThread == nullptr)
-    {
-      CLog::Log(LOGERROR,"%s, sanity failed. thread is NULL.",__FUNCTION__);
-      promise.set_value(false);
-      return;
-    }
+        if (pThread == nullptr)
+        {
+          CLog::Log(LOGERROR,"%s, sanity failed. thread is NULL.",__FUNCTION__);
+          promise.set_value(false);
+          return;
+        }
 
-    name = pThread->m_ThreadName;
+        name = pThread->m_ThreadName;
 
-    std::stringstream ss;
-    ss << std::this_thread::get_id();
-    std::string id = ss.str();
-    autodelete = pThread->m_bAutoDelete;
+        std::stringstream ss;
+        ss << std::this_thread::get_id();
+        std::string id = ss.str();
+        autodelete = pThread->m_bAutoDelete;
 
-    pThread->SetThreadInfo();
+        pThread->SetThreadInfo();
 
-    CLog::Log(LOGDEBUG,"Thread %s start, auto delete: %s", name.c_str(), (autodelete ? "true" : "false"));
+        CLog::Log(LOGDEBUG,"Thread %s start, auto delete: %s", name.c_str(), (autodelete ? "true" : "false"));
 
-    pThread->m_StartEvent.Set();
+        pThread->m_StartEvent.Set();
 
-    pThread->Action();
+        pThread->Action();
 
-    // lock during termination
-    {
-      CSingleLock lock(pThread->m_CriticalSection);
-      pThread->TermHandler();
-    }
+        // lock during termination
+        {
+          CSingleLock lock(pThread->m_CriticalSection);
+          pThread->TermHandler();
+        }
 
-    if (autodelete)
-    {
-      CLog::Log(LOGDEBUG,"Thread %s %s terminating (autodelete)", name.c_str(), id.c_str());
-      delete pThread;
-      pThread = NULL;
-    }
-    else
-      CLog::Log(LOGDEBUG,"Thread %s %s terminating", name.c_str(), id.c_str());
+        if (autodelete)
+        {
+          CLog::Log(LOGDEBUG,"Thread %s %s terminating (autodelete)", name.c_str(), id.c_str());
+          delete pThread;
+          pThread = NULL;
+        }
+        else
+          CLog::Log(LOGDEBUG,"Thread %s %s terminating", name.c_str(), id.c_str());
 
-    promise.set_value(true);
-    return;
-  }, this, std::move(prom));
+        promise.set_value(true);
+      }
+      catch (const std::exception& e)
+      {
+        CLog::Log(LOGDEBUG,"Thread Terminating with Exception: %s", e.what());
+      }
+      catch (...)
+      {
+        CLog::Log(LOGDEBUG,"Thread Terminating with Exception");
+      }
+    }, this, std::move(prom));
+  } // let the lambda proceed
+
+  m_StartEvent.Wait(); // wait for the thread just spawned to set its internals
 }
 
 bool CThread::IsRunning() const
@@ -204,8 +216,9 @@ void CThread::Process()
 
 bool CThread::IsCurrentThread() const
 {
-  if (m_thread != nullptr)
-    return std::this_thread::get_id() == m_thread->get_id();
+  CThread* pThread = currentThread;
+  if (pThread != nullptr)
+    return pThread == this;
   else
     return false;
 }

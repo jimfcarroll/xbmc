@@ -14,6 +14,7 @@ set(HEADERS Atomics.h
             SingleLock.h
             SystemClock.h
             Thread.h
-            Timer.h)
+            Timer.h
+            platform/ThreadImpl.h)
 
 core_add_library(threads)
