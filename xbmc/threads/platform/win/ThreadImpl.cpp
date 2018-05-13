@@ -41,7 +41,7 @@ void CThread::SetThreadInfo()
 
   info.dwType = 0x1000;
   info.szName = m_ThreadName.c_str();
-  info.dwThreadID = m_lwpId;
+  info.dwThreadID = reinterpret_cast<std::uintptr_t>(m_lwpId);
   info.dwFlags = 0;
 
   __try
@@ -57,7 +57,7 @@ void CThread::SetThreadInfo()
 
 std::thread::native_handle_type CThread::GetCurrentThreadNativeHandle()
 {
-  return ::GetCurrentThreadId();
+  return ::GetCurrentThread();
 }
 
 int CThread::GetMinPriority(void)
@@ -73,11 +73,6 @@ int CThread::GetMaxPriority(void)
 int CThread::GetNormalPriority(void)
 {
   return(THREAD_PRIORITY_NORMAL);
-}
-
-int CThread::GetSchedRRPriority(void)
-{
-  return GetNormalPriority();
 }
 
 bool CThread::SetPriority(const int iPriority)

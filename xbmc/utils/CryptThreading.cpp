@@ -45,7 +45,7 @@ void lock_callback(int mode, int type, const char* file, int line)
 
 unsigned long thread_id()
 {
-  return (unsigned long)( static_cast<pthread_t>(CThread::GetCurrentThreadNativeHandle()) );
+  return reinterpret_cast<std::uintptr_t>(CThread::GetCurrentThreadNativeHandle());
 }
 
 }
