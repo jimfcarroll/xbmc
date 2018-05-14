@@ -73,7 +73,7 @@ public:
   static int GetMinPriority(void);
   static int GetMaxPriority(void);
   static int GetNormalPriority(void);
-  static std::thread::native_handle_type GetCurrentThreadNativeHandle();
+  static std::uintptr_t GetCurrentThreadNativeHandle();
 
   // Get and set the thread's priority
   int GetPriority(void);

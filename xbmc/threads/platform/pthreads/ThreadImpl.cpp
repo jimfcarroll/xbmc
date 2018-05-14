@@ -146,9 +146,13 @@ void CThread::SetThreadInfo()
 #endif
 }
 
-std::thread::native_handle_type CThread::GetCurrentThreadNativeHandle()
+std::uintptr_t CThread::GetCurrentThreadNativeHandle()
 {
+#if defined(TARGET_DARWIN)
+  return reinterpret_cast<std::uintptr_t>(pthread_self());
+#else
   return pthread_self();
+#endif
 }
 
 int CThread::GetMinPriority(void)
