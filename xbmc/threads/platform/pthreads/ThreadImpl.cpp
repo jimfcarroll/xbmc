@@ -148,7 +148,7 @@ void CThread::SetThreadInfo()
 
 std::uintptr_t CThread::GetCurrentThreadNativeHandle()
 {
-#if defined(TARGET_DARWIN)
+#if defined(TARGET_DARWIN) || defined(TARGET_FREEBSD)
   return reinterpret_cast<std::uintptr_t>(pthread_self());
 #else
   return pthread_self();
