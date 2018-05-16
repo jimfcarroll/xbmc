@@ -68,13 +68,7 @@ namespace XbmcThreads
 static pid_t GetCurrentThreadPid_()
 {
 #ifdef TARGET_FREEBSD
-#if __FreeBSD_version < 900031
-  long lwpid;
-  thr_self(&lwpid);
-  return lwpid;
-#else
   return pthread_getthreadid_np();
-#endif
 #elif defined(TARGET_ANDROID)
   return gettid();
 #else
