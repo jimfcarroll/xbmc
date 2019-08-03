@@ -1,4 +1,6 @@
-set(SOURCES TestEvent.cpp
+set(SOURCES TestConcurrencyMechanisms.cpp
+            TestEvent.cpp
+            TestExecutor.cpp
             TestSharedSection.cpp)
 
 set(HEADERS TestHelpers.h)
