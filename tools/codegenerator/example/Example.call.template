@@ -2,8 +2,9 @@
 import SwigTypeParser
 import Helper
 
-Helper.setup(null,
-        [ 'void': 'Py_INCREF(Py_None); ${result} = Py_None;' ],
+Helper.setup(this,null ,
+        [ 'void': 'Py_INCREF(Py_None); ${result} = Py_None;',
+          'int':  'Fuck you'],
         null,
         [ 'p.q(const).char':'${api} = convertSlString(${slarg});',
           'int':'${api} = convertSlInt(${slarg});'],
@@ -40,6 +41,7 @@ module.function.each { functionNode ->
     code to handle return value {
       // This is an example of how Python handles return values
       Py_Object* result;
+      // Helper.getReturnSwigType(functionNode) = ${Helper.getReturnSwigType(functionNode)}
       ${Helper.getOutConversion(Helper.getReturnSwigType(functionNode),'result',functionNode)}
       return result;
     }

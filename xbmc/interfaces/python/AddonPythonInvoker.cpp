@@ -64,6 +64,7 @@
 #endif
 
 namespace PythonBindings {
+  void initModule_something(void);
   void initModule_xbmcdrm(void);
   void initModule_xbmcgui(void);
   void initModule_xbmc(void);
@@ -82,6 +83,7 @@ typedef struct
 
 static PythonModule PythonModules[] =
   {
+    { "something",  initModule_something  },
     { "xbmcdrm",    initModule_xbmcdrm    },
     { "xbmcgui",    initModule_xbmcgui    },
     { "xbmc",       initModule_xbmc       },

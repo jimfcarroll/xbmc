@@ -32,6 +32,7 @@ set(INPUTS AddonModuleXbmcaddon.i
            AddonModuleXbmcdrm.i
            AddonModuleXbmcgui.i
            AddonModuleXbmc.i
+           AddonModuleExample.i
            AddonModuleXbmcplugin.i
            AddonModuleXbmcvfs.i
            AddonModuleXbmcwsgi.i)

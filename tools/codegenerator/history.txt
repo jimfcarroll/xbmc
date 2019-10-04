@@ -1,0 +1,50 @@
+ 1752  find . -name "*.groovy"
+ 1753  git blame ./tools/codegenerator/Generator.groovy 
+ 1754  git blame ./tools/codegenerator/Helper.groovy 
+ 1755  find . -name "*.groovy"
+ 1756  git blame ./tools/codegenerator/SwigTypeParser.groovy
+ 1759  git blame PythonTools.groovy 
+ 1848  groovy
+ 1849  apt install groovy
+ 1850  sudo apt install groovy
+ 1851  sudo snap install groovy
+ 1852  sudo apt install groovy
+ 1854  groovy Generator.groovy 
+ 1855  ls groovy
+ 1856  groovy -cp ./groovy/commons-lang-2.6.jar Generator.groovy 
+ 1857  groovy -cp ./groovy/commons-lang-2.6.jar Generator.groovy -verbose example/AddonModuleXbmc.i example/Example.call.template junk.cpp
+ 1858  swig
+ 1859  swig -w401 -c++ -o junk.xml -xml -I./example/native -xmllang python ./example/AddonModuleXbmc.i 
+ 1861  groovy -cp ./groovy/commons-lang-2.6.jar Generator.groovy -verbose ./junk.xml example/Example.call.template junk.cpp
+ 1863  groovy -cp ./:./groovy/commons-lang-2.6.jar Generator.groovy -verbose ./junk.xml example/Example.call.template junk.cpp
+ 1864  groovy -cp ./groovy/commons-lang-2.6.jar Generator.groovy -verbose ./junk.xml example/Example.call.template junk.cpp
+ 1866  groovy -cp ./groovy/commons-lang-2.6.jar Generator.groovy -verbose ./junk.xml example/Example.call.template junk.call.txt
+ 1868  groovy -cp ./groovy/commons-lang-2.6.jar Generator.groovy -verbose ./junk.xml example/Example.call.template junk.call.txt
+ 1869  swig -w401 -c++ -o junk.xml -xml -I./example/native -xmllang python ./example/AddonModuleXbmc.i
+ 1870  groovy -cp ./groovy/commons-lang-2.6.jar Generator.groovy -verbose ./junk.xml example/Example.call.template junk.call.txt
+ 1872  groovy -cp ./groovy/commons-lang-2.6.jar Generator.groovy -verbose ./junk.xml example/Example.call.template junk.call.txt
+ 1874  swig -w401 -c++ -o junk.xml -xml -I./example/native -xmllang python ./example/AddonModuleXbmc.i
+ 1875  groovy -cp ./groovy/commons-lang-2.6.jar Generator.groovy -verbose ./junk.xml example/Example.call.template junk.call.txt
+ 1881  swig -w401 -c++ -o junk.xml -xml -I./example/native -xmllang python ./example/AddonModuleXbmc.i
+ 1882  groovy -cp ./groovy/commons-lang-2.6.jar Generator.groovy -verbose ./junk.xml example/Example.call.template junk.call.txt
+ 1884  ls groovy
+ 1885  swig -w401 -c++ -o junk.xml -xml -I./example/native -xmllang python ./example/AddonModuleXbmc.i
+ 1887  groovy -cp ./groovy/commons-lang-2.6.jar Generator.groovy -verbose ./junk.xml example/Example.call.template junk.call.txt
+ 1888  swig -w401 -c++ -o junk.xml -xml -I./example/native -xmllang python ./example/AddonModuleXbmc.i
+ 1889  groovy -cp ./groovy/commons-lang-2.6.jar Generator.groovy -verbose ./junk.xml example/Example.call.template junk.call.txt
+ 1890  swig -w401 -c++ -o junk.xml -xml -I./example/native -xmllang python ./example/AddonModuleXbmc.i
+ 1891  groovy -cp ./groovy/commons-lang-2.6.jar Generator.groovy -verbose ./junk.xml example/Example.call.template junk.call.txt
+ 1892  swig -w401 -c++ -o junk.xml -xml -I./example/native -xmllang python ./example/AddonModuleXbmc.i
+ 1893  groovy -cp ./groovy/commons-lang-2.6.jar Generator.groovy -verbose ./junk.xml example/Example.call.template junk.call.txt
+ 1965  cd build/swig/
+ 2080  history | grep groovy
+ 2085  groovy -cp ./groovy/commons-lang-2.6.jar Generator.groovy -verbose ../../build/build/swig/AddonModuleExample.i.xml ../../xbmc/interfaces/python/PythonSwig.cpp.template junk.call.txt
+ 2087  groovy -cp ./groovy/commons-lang-2.6.jar Generator.groovy -verbose ../../build/build/swig/AddonModuleExample.i.xml ./example/Example. junk.call.txt
+ 2088  groovy -cp ./groovy/commons-lang-2.6.jar Generator.groovy -verbose ../../build/build/swig/AddonModuleExample.i.xml ./example/Example.call.template junk.call.txt
+ 2092  history | grep groovy 
+ 2093  history | grep groovy > history.txt
+ 2100  history | grep "groovy || swig"
+ 2101  history | grep groovy || swig
+ 2102  history grep 'groovy\|swig'
+ 2103  history |  grep 'groovy\|swig'
+ 2114  history |  grep 'groovy\|swig' > ./tools/codegenerator/history.txt 

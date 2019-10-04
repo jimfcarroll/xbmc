@@ -222,7 +222,9 @@ public class Helper
       if (!convertTemplate)
       {
         // check the typedef resolution
+        System.out.println("apiType:" + apiType);
         String apiTypeResolved = SwigTypeParser.SwigType_resolve_all_typedefs(apiType)
+        System.out.println("apiTypeResolved:" + apiTypeResolved);
         if (!apiTypeResolved.equals(apiType))
           return getOutConversion(apiTypeResolved, apiName, method, overrideBindings, recurse)
 

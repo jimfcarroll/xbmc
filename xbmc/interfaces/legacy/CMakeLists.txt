@@ -49,6 +49,7 @@ set(HEADERS Addon.h
             LanguageHook.h
             List.h
             ListItem.h
+            ModuleExample.h
             ModuleXbmc.h
             ModuleXbmcgui.h
             ModuleXbmcplugin.h
