@@ -10,17 +10,17 @@
 
 namespace Something {
 
-   inline void test() {
-     CLog::Log(LOGNOTICE, "Hello, I'm in a new module.");
-   }
-
-  class Example : public XBMCAddon::AddonClass {
+  class Example : public XBMCAddon::AddonCallback {
     const char* m_message;
   public:
     Example(const char* p_message) : m_message(p_message) {}
 
-    inline void logMe() {
-      CLog::Log(LOGNOTICE, m_message);
+    inline virtual void funcToCall(const char* message) {
+      CLog::Log(LOGNOTICE, "DEFAULT - %s", message);
+    }
+
+    inline void callFunc() {
+      funcToCall(m_message);
     }
   };
 }
