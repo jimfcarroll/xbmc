@@ -1,0 +1,22 @@
+Module Name: ${module.@name}
+<%
+module.function.each { 
+%>
+  function: ${it.@name}
+<%
+}
+%>
+
+<%
+module.depthFirst().findAll { it.name() == 'class' }.each { 
+%>
+  class: ${it.@name}
+<%
+  it.function.each { func ->
+%>
+     function: ${func.@name}
+<%
+  }     
+}
+%>
+<%
