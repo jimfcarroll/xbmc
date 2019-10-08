@@ -1,0 +1,57 @@
+<%
+import SwigTypeParser
+import Helper
+
+Helper.setup(
+             this,
+             module.depthFirst().findAll { it.name() == 'class' },
+             [ 'void' :
+'''
+                 ${result} = convertApiToSl(${api})
+                 ---------------------------------
+                 result:${result}
+                 type:${type}
+                 api:${api}
+                 method:${method} 
+'''
+             ],
+             null /* default return type only works for known API types */,
+             null,
+'''
+                 ${api} = convertSlToApi(${slarg})
+                 ---------------------------------
+                 param:${param}
+                 type:${type}
+                 ctype:${swigTypeParser.SwigType_str(type)}
+                 ltype:${ltype}
+                 cltype:${swigTypeParser.SwigType_str(ltype)}
+                 slarg:${slarg}
+                 api:${api}
+                 method:${method} 
+
+''')
+%>
+Module Name: ${module.@name}
+<%
+module.depthFirst().findAll { it.name() == 'class' }.each {
+%>
+  class: ${it.@name}
+<%
+  it.function.each { func ->
+%>
+     function: ${func.@name}
+<%
+     func.parm.eachWithIndex { param, index ->
+%>
+         parameter ${index}: name:${param.@name}, type:${param.@type}
+         typemap ${index} {
+${Helper.getInConversion(param.@type,'p_' + param.@name,'sl_' + param.@name, func)}
+          }
+<%
+      }
+%>
+${Helper.getOutConversion(Helper.getReturnSwigType(func),'result',func)}
+<%
+  }
+                                                     }
+%>

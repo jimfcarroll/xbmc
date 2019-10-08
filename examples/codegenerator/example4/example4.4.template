@@ -1,0 +1,34 @@
+<%
+import Helper
+%>
+
+Module Name: ${module.@name}
+<%
+module.function.each { 
+%>
+  function: ${it.@name}
+<%
+}
+%>
+
+<%
+module.depthFirst().findAll { it.name() == 'class' }.each { 
+%>
+  class: ${it.@name}
+<%
+  it.function.each { func ->
+%>
+     function: ${func.@name}
+<%
+     func.parm.eachWithIndex { param, index ->
+%>
+         param ${index}: name:${param.@name}, type:${param.@type}
+<%
+     }
+
+%>
+         returns: type: ${Helper.getReturnSwigType(func)}
+<%
+
+  }     
+}
